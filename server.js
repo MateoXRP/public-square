@@ -7,6 +7,7 @@ const app = express();
 app.use(express.json({ extended: false }));
 
 // Routes
+app.use('/api/posts', require('./routes/api/posts'));
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
@@ -23,7 +24,7 @@ if (process.env.NODE_ENV === 'production') {
 const PORT = process.env.PORT || 5000;
 
 // Start server
-app.listen(PORT, (error) => {
+app.listen(PORT, error => {
   if (error) throw error;
   console.log(`Listening on port ${PORT}`);
 });
