@@ -3,11 +3,11 @@ import axios from 'axios';
 import { useQuery, useQueryClient } from 'react-query';
 
 const PostFeed = () => {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
   function usePosts() {
     return useQuery('posts', async () => {
-      const { data } = await axios.get('/api/posts/test');
+      const { data } = await axios.get('/api/posts');
       return data;
     });
   }
@@ -28,7 +28,7 @@ const PostFeed = () => {
         ) : (
           <>
             <div>
-              <pre>{data.data}</pre>
+              <pre>{data.transactions}</pre>
             </div>
             <div>{isFetching ? 'Background Updating...' : ''}</div>
           </>
