@@ -1,13 +1,46 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: Segoe UI Historic, Segoe UI, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  font-size: 16px;
+  background-color: var(--main-bg-color);
+  font-family: 'PT Sans', sans-serif;
+  height: 100%;
+  color: var(--text-color);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+:root {
+  --main-bg-color: #f0f2f5;
+  --main-titles-bg-color: #f6f7f8;
+  --main-border-color: #dfdfdf;
+  --main-title-color: initial;
+  --topbar-bg: #fff;
+  --topbar-shadow: 0 0 7px 0 rgb(180 180 180 / 75%);
+  --topbar-icons-hover: #e3e3e3;
+  --btn-color-bg: #1877f2;
+  --bg-image-container: #fbfbfb;
+  --bg-inner-containers: #fff;
+  --bg-input-bg: #f0f2f5;
+  --bg-message-box: #fff;
+  --bg-sidebar-icons: #d3d5d9;
+  --bg-topbar-icons: #e4e6eb;
+  --text-color: #4b4b4b;
+  --link-color: #0f3b4a;
+  --comment-input-border: #ccd0d5;
+  --comment-list-bg: #fbfbfb;
+  --comment-item-bg: #ebedf0;
+  --main-border-color-bit: #eee;
+  --sidebar-hover-menu: #e4e6e9;
+  --sidebar-hover-menu-border: #e4e6e9;
+  --scroll-bg: #eaeaea;
+  --scroll-thumb: #ccc;
+  --scroll-thumb-hover: #aaa;
+  --link-hover-color: #1767ce;
+  --input-disabled: #dbdbdb;
+}
+
+.container {
+  background-color: var(--main-bg-color);
 }
