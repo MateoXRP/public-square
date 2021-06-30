@@ -20,27 +20,6 @@ function hex2String(hex) {
   return result;
 }
 
-// get post transactions from account transactions
-function allPostsFilter(records) {
-  const postTx = records.filter(
-    record =>
-      (record.tx.TransactionType === 'Payment') &
-      (record.tx.DestinationTag === undefined) &
-      (record.tx.Memos !== undefined) &
-      (record.tx.hash !==
-        'C5BA9EE5A16D990E9A5FC7017267A19496C6605471B456AC1C67E1DE1BB26C3A')
-  );
-
-  return postTx;
-}
-
-// find post tx by id from account transactions
-function postByIdFilter(records, id) {
-  const postTx = records.filter(record => record.tx.hash === id);
-
-  return postTx;
-}
-
 // parse memos field and get memo data
 function parseMemoData(txMemos) {
   const memoData = txMemos[0].Memo.MemoData;
@@ -97,11 +76,133 @@ async function getPostData({ Account, Amount, date, hash, Memos }) {
   }
 }
 
+// get post transactions from account transactions
+function allPostsFilter(records) {
+  const postTx = records.filter(
+    record =>
+      (record.tx.TransactionType === 'Payment') &
+      (record.tx.DestinationTag === undefined) &
+      (record.tx.Memos !== undefined) &
+      (record.tx.hash !==
+        'C5BA9EE5A16D990E9A5FC7017267A19496C6605471B456AC1C67E1DE1BB26C3A')
+  );
+
+  return postTx;
+}
+
+// find post tx by id from account transactions
+function postByIdFilter(records, id) {
+  const postTx = records.filter(record => record.tx.hash === id);
+
+  return postTx[0];
+}
+
+// find comments on post from account transactions
+function commentsByPostIdFilter(records, id) {
+  const commentTx = records.filter(record => {
+    if (record.tx.DestinationTag !== 100 || !record.tx.Memos) return false;
+
+    // Parse memo data
+    const memoData = parseMemoData(record.tx.Memos);
+
+    // filter out defective comments w/o post ID
+    if (memoData.length < 64) return false;
+
+    // Get post ID
+    const postId = memoData.substring(0, 64);
+    // console.log('postId: ', postId);
+    // Compare
+    return postId === id;
+  });
+
+  return commentTx;
+}
+
+// find likes on post from account transactions
+function likesByPostIdFilter(records, id) {
+  const likeTx = records.filter(record => {
+    if (record.tx.DestinationTag !== 101 || !record.tx.Memos) return false;
+
+    // Parse memo data
+    const memoData = parseMemoData(record.tx.Memos);
+
+    // Get post ID
+    const postId = memoData.substring(0, 64);
+
+    // Compare
+    return postId === id;
+  });
+
+  return likeTx;
+}
+
+async function getPosts(records) {
+  const postTx = allPostsFilter(records);
+
+  // get posts data
+  const postsData = await postTx.map(async record => {
+    const data = await getPostData(record.tx);
+    // console.log('data: ', data);
+    return data;
+  });
+
+  return Promise.all(postsData).then(posts => {
+    // console.log('posts: ', posts);
+    return posts;
+  });
+}
+
+async function getPost(records, id) {
+  const postTx = await postByIdFilter(records, id);
+
+  // get post data
+  const post = await getPostData(postTx.tx);
+
+  return post;
+}
+
+async function getPostComments(records, id) {
+  const commentTx = await commentsByPostIdFilter(records, id);
+  const commentsData = await commentTx.map(async record => {
+    const data = await getPostData(record.tx);
+
+    // remove post ids from memoData
+    const commentText = data.memoData.substring(65);
+    data.memoData = commentText;
+    return data;
+  });
+
+  return Promise.all(commentsData).then(comments => {
+    // console.log('comments: ', comments);
+    return comments;
+  });
+}
+
+async function getPostLikes(records, id) {
+  const likeTx = await likesByPostIdFilter(records, id);
+  const likesData = await likeTx.map(async record => {
+    const data = await getPostData(record.tx);
+
+    return data;
+  });
+
+  return Promise.all(likesData).then(likes => {
+    // console.log('likes: ', likes);
+    return likes;
+  });
+}
+
 module.exports = {
   hex2String,
-  allPostsFilter,
-  postByIdFilter,
   parseMemoData,
   getTimestamp,
-  getPostData
+  getPostData,
+  allPostsFilter,
+  postByIdFilter,
+  commentsByPostIdFilter,
+  likesByPostIdFilter,
+  getPosts,
+  getPost,
+  getPostComments,
+  getPostLikes
 };
