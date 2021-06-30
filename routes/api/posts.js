@@ -1,7 +1,14 @@
 const express = require('express');
-const { XrplClient } = require('xrpl-client');
 
-const client = new XrplClient('wss://fh.xrpl.ws');
+const { getAccountTx } = require('../../services/xrpl-client');
+const {
+  allPostsFilter,
+  getPostData,
+  getPosts,
+  getPost,
+  getPostComments,
+  getPostLikes
+} = require('../../util/tx-data');
 
 const router = express.Router();
 
@@ -22,17 +29,47 @@ router.get('/test', (req, res) => {
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const serverInfo = await client.send({ command: 'server_info' });
-    console.log({ serverInfo });
+    const { transactions } = await getAccountTx();
 
-    const postTransactions = await client.send({
-      command: 'account_tx',
-      account: 'r9pRgEJnRvYsTg3hxGScPx4WTapj2KYLRp'
-    });
-    console.log(postTransactions);
-    res.send({ postTransactions });
+    const posts = await getPosts(transactions);
+    // console.log('posts: ', posts);
+
+    const data = { posts };
+    res.send({ data });
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    res.send({ error });
+  }
+});
+
+// @route   GET api/posts/:id
+// @desc    Fetch post data
+// @access  Public
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  // console.log('post ID: ', id);
+  try {
+    const { transactions } = await getAccountTx();
+
+    // get post
+    const post = await getPost(transactions, id);
+
+    // get comments
+    const comments = await getPostComments(transactions, id);
+
+    // get likes
+    const likes = await getPostLikes(transactions, id);
+
+    const data = {
+      post,
+      comments,
+      likes
+    };
+
+    // console.log('data: ', data);
+    res.send({ data });
+  } catch (error) {
+    console.error(error);
     res.send({ error });
   }
 });
