@@ -1,10 +1,10 @@
 import React from 'react';
 import axios from 'axios';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
+
+import PostItem from '../PostItem';
 
 const PostFeed = () => {
-  // const queryClient = useQueryClient();
-
   function usePosts() {
     return useQuery('posts', async () => {
       const { data } = await axios.get('/api/posts');
@@ -13,24 +13,44 @@ const PostFeed = () => {
   }
 
   const { status, data, error, isFetching } = usePosts();
-  console.log('data: ', data);
+
   return (
-    <div className='container'>
+    <div className='container bg-gray-700'>
       <header className='App-header'>
-        <h1>Public Square</h1>
+        <h2 className='display-6 text-light'>Posts</h2>
       </header>
 
       <div>
         {status === 'loading' ? (
-          'Loading...'
+          <div className='spinner-grow text-dark' role='status'>
+            <span className='visually-hidden'>Loading...</span>
+          </div>
         ) : status === 'error' ? (
           <span>Error: {error.message}</span>
         ) : (
           <>
-            <div>
-              <pre>{data.transactions}</pre>
+            <div className='container-fluid'>
+              {data.posts.map(post => {
+                // console.log('post: ', post);
+                return (
+                  <PostItem
+                    key={post.hash.substring(post.hash.length - 8)}
+                    data={post}
+                  />
+                );
+              })}
+              {/* <pre>{JSON.stringify(posts, null, '\t')}</pre> */}
             </div>
-            <div>{isFetching ? 'Background Updating...' : ''}</div>
+
+            <div>
+              {isFetching ? (
+                <div className='spinner-grow text-dark' role='status'>
+                  <span className='visually-hidden'>Loading...</span>
+                </div>
+              ) : (
+                ''
+              )}
+            </div>
           </>
         )}
       </div>
