@@ -1,5 +1,6 @@
+const md5 = require('@xn-02f/md5');
 const getBithompUsername = require('../services/bithomp').getBithompUsername;
-const getEmailHash = require('../services/xrpscan').getEmailHash;
+const getXRPEmailHash = require('../services/xrpscan').getXRPEmailHash;
 
 // Convert memo data hex to string
 function hex2String(hex) {
@@ -45,12 +46,11 @@ async function getPostData({ Account, Amount, date, hash, Memos }) {
     const username = await getBithompUsername(Account);
 
     // generate Gravatar URL
-    const emailHash = await getEmailHash(Account);
-    // console.log('email hash: ', emailHash);
+    const xrpEmailHash = await getXRPEmailHash(Account);
 
-    const gravatarURL = `https://www.gravatar.com/avatar/${
-      emailHash ? emailHash : Account
-    }?d=retro`;
+    const emailHash = xrpEmailHash ? xrpEmailHash.toLowerCase() : md5(Account);
+
+    const gravatarURL = `https://www.gravatar.com/avatar/${emailHash}?s=40&d=retro`;
     // console.log('gravatar: ', gravatarURL);
 
     // determine display amount
