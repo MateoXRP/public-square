@@ -2,8 +2,6 @@ const express = require('express');
 
 const { getAccountTx } = require('../../services/xrpl-client');
 const {
-  allPostsFilter,
-  getPostData,
   getPosts,
   getPost,
   getPostComments,
@@ -34,8 +32,8 @@ router.get('/', async (req, res) => {
     const posts = await getPosts(transactions);
     // console.log('posts: ', posts);
 
-    const data = { posts };
-    res.send({ data });
+    // const data = { posts };
+    res.send({ posts });
   } catch (error) {
     console.error(error);
     res.send({ error });
