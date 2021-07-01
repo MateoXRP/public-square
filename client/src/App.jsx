@@ -11,7 +11,7 @@ function App() {
       <Router>
         <Topnav />
         <Switch>
-          <Route exact path='/:id' component={Post} />
+          <Route exact path='/p/:id' component={Post} />
           <Route exact path='/' component={PostFeed} />
         </Switch>
       </Router>
