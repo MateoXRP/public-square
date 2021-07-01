@@ -13,7 +13,7 @@ const baseURL = `https://api.xrpscan.com/api/v1/account/`;
  * @param {string} account XRP account/address
  * @return {promise} email hash associated with account or ''
  */
-async function getEmailHash(account) {
+async function getXRPEmailHash(account) {
   try {
     const { data } = await axios.get(`${baseURL}${account}`, config);
 
@@ -28,4 +28,4 @@ async function getEmailHash(account) {
   }
 }
 
-module.exports = { getEmailHash };
+module.exports = { getXRPEmailHash };
