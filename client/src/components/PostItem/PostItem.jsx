@@ -18,42 +18,43 @@ const PostItem = ({ data }) => {
   return (
     <div className='card my-3'>
       <div className='card-body'>
-        <div className='mb-2'>
-          <img src={gravatarURL} className='rounded' alt='' />
-          {username ? (
-            <span className='ms-3'>
-              <span className='card-title'>{username}</span>
-              <span className='ms-3 text-muted'>{account}</span>
-            </span>
-          ) : (
-            <span className='ms-3'>{account}</span>
-          )}
+        <div className='d-flex align-items-center mb-2'>
+          <img src={gravatarURL} className='rounded-circle' alt='' />
+          <div className='ms-3'>
+            {username ? (
+              <span className=''>
+                <span className='card-title'>{username}</span>
+                <span className='ms-3 text-muted'>{account}</span>
+              </span>
+            ) : (
+              <span className=''>{account}</span>
+            )}
+
+            <div
+              className='text-muted fs-smaller'
+              title={parsedDate}
+            >{`${timeToNow} ago`}</div>
+          </div>
         </div>
         <div className='my-3' dangerouslySetInnerHTML={createMarkup()} />
       </div>
 
-      <ul className='list-group list-group-flush'>
-        <li className='list-group-item'>
-          <div className='fs-6'>
-            Trans#
-            <a
-              href={`https://xrpscan.com/tx/${hash}`}
-              target='blank'
-              className='text-decoration-none ms-3 link-secondary'
-              title='View on XRPSCAN'
-            >
-              {hash}
-            </a>
-          </div>
-        </li>
-        <li className='list-group-item'>Amount: {amount}</li>
-      </ul>
+      <div className='card-body fs-smaller'>
+        <div>
+          Trans#
+          <a
+            href={`https://xrpscan.com/tx/${hash}`}
+            target='blank'
+            className='text-decoration-none ms-3 link-secondary'
+            title='View on XRPSCAN'
+          >
+            {hash}
+          </a>
+        </div>
+        <div>Amount: {amount}</div>
+      </div>
       <div className='card-footer text-muted'>
-        <span
-          className='align-middle'
-          title={parsedDate}
-        >{`${timeToNow} ago`}</span>
-        <Link className='btn btn-primary float-end' to={`/p/${hash}`}>
+        <Link className='btn btn-primary' to={`/p/${hash}`}>
           View Post
         </Link>
       </div>
