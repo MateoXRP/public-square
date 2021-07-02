@@ -58,14 +58,7 @@ router.get('/:id', async (req, res) => {
     // get likes
     const likes = await getPostLikes(transactions, id);
 
-    const data = {
-      post,
-      comments,
-      likes
-    };
-
-    // console.log('data: ', data);
-    res.send({ data });
+    res.send({ post, comments, likes });
   } catch (error) {
     console.error(error);
     res.send({ error });
