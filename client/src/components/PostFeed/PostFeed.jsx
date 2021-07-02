@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useQuery } from 'react-query';
 
 import PostItem from '../PostItem';
+import Spinner from '../Spinner';
 
 const PostFeed = () => {
   function usePosts() {
@@ -15,23 +16,20 @@ const PostFeed = () => {
   const { status, data, error, isFetching } = usePosts();
 
   return (
-    <div className='container bg-gray-700'>
+    <div className='container pt-3'>
       <header className='App-header'>
         <h2 className='display-6 text-light'>Posts</h2>
       </header>
 
       <div>
         {status === 'loading' ? (
-          <div className='spinner-grow text-dark' role='status'>
-            <span className='visually-hidden'>Loading...</span>
-          </div>
+          <Spinner />
         ) : status === 'error' ? (
           <span>Error: {error.message}</span>
         ) : (
           <>
-            <div className='container-fluid'>
+            <div className='container'>
               {data.posts.map(post => {
-                // console.log('post: ', post);
                 return (
                   <PostItem
                     key={post.hash.substring(post.hash.length - 8)}
@@ -39,18 +37,9 @@ const PostFeed = () => {
                   />
                 );
               })}
-              {/* <pre>{JSON.stringify(posts, null, '\t')}</pre> */}
             </div>
 
-            <div>
-              {isFetching ? (
-                <div className='spinner-grow text-dark' role='status'>
-                  <span className='visually-hidden'>Loading...</span>
-                </div>
-              ) : (
-                ''
-              )}
-            </div>
+            <div>{isFetching ? <Spinner /> : ''}</div>
           </>
         )}
       </div>
