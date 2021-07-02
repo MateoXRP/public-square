@@ -7,12 +7,12 @@ const Topnav = () => {
   return (
     <nav className='navbar navbar-expand-lg sticky-top navbar-dark bg-dark'>
       <div className='container-fluid'>
-        <Link className='navbar-brand' to='/'>
+        <Link className='navbar-brand d-flex' to='/'>
           <img
             src={Logo}
             alt=''
             width='30'
-            height='24'
+            height='30'
             className='d-inline-block align-text-top'
           />
           <span className='ps-3'>Public Square</span>
@@ -38,12 +38,12 @@ const Topnav = () => {
               </Link>
             </li>
             <li className='nav-item'>
-              <Link className='nav-link' to='/'>
-                FAQ
+              <Link className='nav-link' to='/rules'>
+                Rules
               </Link>
             </li>
             <li className='nav-item'>
-              <Link className='nav-link' to='/'>
+              <Link className='nav-link disabled' to='/'>
                 About
               </Link>
             </li>
