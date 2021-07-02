@@ -1,12 +1,14 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
+
+import PostContent from '../PostContent';
+import Spinner from '../Spinner';
 
 const Post = () => {
   const { id } = useParams();
   console.log('ID: ', id);
-  // const queryClient = useQueryClient();
 
   function usePost() {
     return useQuery('post', async () => {
@@ -20,20 +22,23 @@ const Post = () => {
   return (
     <div className='container'>
       <header className='App-header'>
-        <h3>Post: {id}</h3>
+        <h2 className='display-6 text-light'>Post</h2>
       </header>
 
       <div>
         {status === 'loading' ? (
-          'Loading...'
+          <Spinner />
         ) : status === 'error' ? (
           <span>Error: {error.message}</span>
         ) : (
           <>
-            <div>
-              <pre>{JSON.stringify(data, null, '\t')}</pre>
+            <div className='container'>
+              <PostContent
+                key={data.post.hash.substring(data.post.hash.length - 8)}
+                data={data}
+              />
             </div>
-            <div>{isFetching ? 'Background Updating...' : ''}</div>
+            <div>{isFetching ? <Spinner /> : ''}</div>
           </>
         )}
       </div>
