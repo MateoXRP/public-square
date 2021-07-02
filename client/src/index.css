@@ -1,3 +1,11 @@
+:root {
+  --main-bg-color: #121212;
+  --card-bg-color: #1e1e1e;
+  --navbar-bg-color: #363636;
+  --text-muted-color: #9c9a98;
+  --text-color: #f8f9fa;
+}
+
 body {
   margin: 0;
   font-family: Segoe UI Historic, Segoe UI, Helvetica, Arial, sans-serif;
@@ -6,41 +14,40 @@ body {
 
   font-size: 16px;
   background-color: var(--main-bg-color);
-  font-family: 'PT Sans', sans-serif;
+  /* font-family: 'PT Sans', sans-serif; */
   height: 100%;
   color: var(--text-color);
 }
 
-:root {
-  --main-bg-color: #f0f2f5;
-  --main-titles-bg-color: #f6f7f8;
-  --main-border-color: #dfdfdf;
-  --main-title-color: initial;
-  --topbar-bg: #fff;
-  --topbar-shadow: 0 0 7px 0 rgb(180 180 180 / 75%);
-  --topbar-icons-hover: #e3e3e3;
-  --btn-color-bg: #1877f2;
-  --bg-image-container: #fbfbfb;
-  --bg-inner-containers: #fff;
-  --bg-input-bg: #f0f2f5;
-  --bg-message-box: #fff;
-  --bg-sidebar-icons: #d3d5d9;
-  --bg-topbar-icons: #e4e6eb;
-  --text-color: #4b4b4b;
-  --link-color: #0f3b4a;
-  --comment-input-border: #ccd0d5;
-  --comment-list-bg: #fbfbfb;
-  --comment-item-bg: #ebedf0;
-  --main-border-color-bit: #eee;
-  --sidebar-hover-menu: #e4e6e9;
-  --sidebar-hover-menu-border: #e4e6e9;
-  --scroll-bg: #eaeaea;
-  --scroll-thumb: #ccc;
-  --scroll-thumb-hover: #aaa;
-  --link-hover-color: #1767ce;
-  --input-disabled: #dbdbdb;
+.App {
+  background-color: var(--main-bg-color);
 }
 
-.container {
-  background-color: var(--main-bg-color);
+.navbar-dark {
+  background-color: var(--navbar-bg-color) !important;
+}
+
+.card {
+  max-width: 45rem;
+  color: var(--text-color);
+  background-color: var(--card-bg-color);
+}
+
+.list-group-item {
+  color: var(--text-color);
+  background-color: var(--card-bg-color);
+  border-color: var(--main-bg-color);
+  padding: 1rem;
+}
+
+.text-light {
+  color: var(--text-color) !important;
+}
+
+.text-muted {
+  color: var(--text-muted-color) !important;
+}
+
+.fs-smaller {
+  font-size: smaller;
 }
