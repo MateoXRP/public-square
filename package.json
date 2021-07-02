@@ -3,6 +3,10 @@
   "version": "2.0.0",
   "description": "social media app",
   "main": "server.js",
+  "engines": {
+    "node": "14.17.0",
+    "npm": "6.14.13"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
@@ -14,9 +18,11 @@
   "author": "rayGreycloud",
   "license": "ISC",
   "dependencies": {
+    "@xn-02f/md5": "^2.3.0",
     "axios": "^0.21.1",
     "cors": "^2.8.5",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "xrpl-client": "^1.9.1"
   },
   "devDependencies": {
     "concurrently": "^6.2.0",
