@@ -1,6 +1,7 @@
 const md5 = require('@xn-02f/md5');
 const getBithompUsername = require('../services/bithomp').getBithompUsername;
 const getXRPEmailHash = require('../services/xrpscan').getXRPEmailHash;
+const { txOmitList, postTxOmitList } = require('./tx-omit-list');
 
 // Convert memo data hex to string
 function hex2String(hex) {
@@ -83,8 +84,9 @@ function allPostsFilter(records) {
       (record.tx.TransactionType === 'Payment') &
       (record.tx.DestinationTag === undefined) &
       (record.tx.Memos !== undefined) &
-      (record.tx.hash !==
-        'C5BA9EE5A16D990E9A5FC7017267A19496C6605471B456AC1C67E1DE1BB26C3A')
+      !postTxOmitList.has(record.tx.hash)
+    // (record.tx.hash !==
+    //   'C5BA9EE5A16D990E9A5FC7017267A19496C6605471B456AC1C67E1DE1BB26C3A')
   );
 
   return postTx;
