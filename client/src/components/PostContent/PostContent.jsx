@@ -1,7 +1,6 @@
 import React from 'react';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import parseISO from 'date-fns/parseISO';
-import { Link } from 'react-router-dom';
 
 const PostContent = ({ data }) => {
   console.log('data: ', data);
@@ -17,7 +16,7 @@ const PostContent = ({ data }) => {
   const timeToNow = formatDistanceToNow(parsedDate);
 
   return (
-    <>
+    <div>
       <div className='card my-3'>
         <div className='card-body'>
           <div className='d-flex align-items-center mb-2'>
@@ -77,7 +76,7 @@ const PostContent = ({ data }) => {
           </pre>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
