@@ -17,31 +17,33 @@ const PostFeed = () => {
 
   return (
     <div className='container pt-3'>
-      <header className='App-header'>
-        <h2 className='display-6 text-light'>Posts</h2>
-      </header>
+      <div className='d-flex align-items-center flex-column'>
+        <header className='App-header'>
+          <h2 className='display-6 text-light'>Posts</h2>
+        </header>
 
-      <div>
-        {status === 'loading' ? (
-          <Spinner />
-        ) : status === 'error' ? (
-          <span>Error: {error.message}</span>
-        ) : (
-          <>
-            <div className='container'>
-              {data.posts.map(post => {
-                return (
-                  <PostItem
-                    key={post.hash.substring(post.hash.length - 8)}
-                    data={post}
-                  />
-                );
-              })}
-            </div>
+        <div>
+          {status === 'loading' ? (
+            <Spinner />
+          ) : status === 'error' ? (
+            <span>Error: {error.message}</span>
+          ) : (
+            <>
+              <div className='container'>
+                {data.posts.map(post => {
+                  return (
+                    <PostItem
+                      key={post.hash.substring(post.hash.length - 8)}
+                      data={post}
+                    />
+                  );
+                })}
+              </div>
 
-            <div>{isFetching ? <Spinner /> : ''}</div>
-          </>
-        )}
+              <div>{isFetching ? <Spinner /> : ''}</div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
