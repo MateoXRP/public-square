@@ -4,14 +4,8 @@ import parseISO from 'date-fns/parseISO';
 import { Link } from 'react-router-dom';
 
 const PostItem = ({ data }) => {
-  console.log('data: ', data);
   const { account, amount, date, gravatarURL, hash, memoData, username } = data;
   // console.log('account: ', data.post.account);
-
-  function createMarkup() {
-    return { __html: memoData };
-  }
-
   const parsedDate = parseISO(date);
   const timeToNow = formatDistanceToNow(parsedDate);
 
@@ -36,7 +30,7 @@ const PostItem = ({ data }) => {
             >{`${timeToNow} ago`}</div>
           </div>
         </div>
-        <div className='my-3' dangerouslySetInnerHTML={createMarkup()} />
+        <div className='my-3' dangerouslySetInnerHTML={{ __html: memoData }} />
       </div>
 
       <div className='card-body fs-smaller'>
