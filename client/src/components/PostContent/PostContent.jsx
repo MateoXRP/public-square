@@ -2,6 +2,8 @@ import React from 'react';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import parseISO from 'date-fns/parseISO';
 
+import Comments from '../Comments';
+
 const PostContent = ({ data }) => {
   console.log('data: ', data);
   const { account, amount, date, gravatarURL, hash, memoData, username } =
@@ -55,25 +57,21 @@ const PostContent = ({ data }) => {
           <div>Amount: {amount}</div>
         </div>
 
-        <div className='card-footer text-muted'>
-          <div className='btn btn-primary'>Like Post</div>
-          <div className='btn btn-success ms-3'>Tip Post</div>
+        <div className='card'>
+          <div className='card-body text-muted'>
+            <div className='btn btn-primary btn-sm'>Like Post</div>
+            <div className='btn btn-success btn-sm ms-3'>Tip Post</div>
+          </div>
         </div>
-      </div>
-      <div className='card'>
-        <div className='card-title'>Comments ({data.comments.length})</div>
-        <div className='card-body'>
-          <pre className='max-vw-40'>
-            {JSON.stringify(data.comments, null, '\t')}
-          </pre>
+
+        <div className='card fs-6'>
+          <div className='card-body'>
+            <i className='bi bi-hand-thumbs-up-fill'></i>
+            <span className='text-muted ps-3'>{data.likes.length}</span>
+          </div>
         </div>
-      </div>
-      <div className='card'>
-        <div className='card-title'>Likes ({data.likes.length})</div>
-        <div className='card-body'>
-          <pre className='max-vw-40'>
-            {JSON.stringify(data.likes, null, '\t')}
-          </pre>
+        <div className='card-footer'>
+          {data.comments && <Comments comments={data.comments} />}
         </div>
       </div>
     </div>

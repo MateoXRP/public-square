@@ -29,7 +29,7 @@ const PostFeed = () => {
             <span>Error: {error.message}</span>
           ) : (
             <>
-              <div className='container'>
+              <div className='container-lg'>
                 {data.posts.map(post => {
                   return (
                     <PostItem
