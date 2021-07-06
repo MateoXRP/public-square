@@ -65,4 +65,24 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// @route   POST api/posts
+// @desc    Create post
+// @access  Public
+router.post('/', async (req, res) => {
+  const { content } = req.body;
+  console.log('content: ', content);
+
+  try {
+    // validate and sanitize data
+    // submit transaction using xumm
+    // check result
+    // if not 200, return error (status 400?)
+    // otheerwise return payloadURL
+    // res.send({ payloadURL });
+  } catch (error) {
+    console.error(error);
+    res.send({ error });
+  }
+});
+
 module.exports = router;
