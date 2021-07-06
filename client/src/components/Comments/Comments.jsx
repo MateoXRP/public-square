@@ -6,8 +6,8 @@ const Comments = ({ comments }) => {
   console.log('comments: ', comments);
   return (
     <div className='card-footer'>
-      <p className='h5'>
-        <i class='bi bi-chat-dots-fill'></i>
+      <p className='fs-6'>
+        <i className='bi bi-chat-dots-fill'></i>
         <span className='text-muted ps-3'>{comments.length}</span>
         <span className='text-muted ps-3'>
           {comments.length === 1 ? 'Comment' : 'Comments'}
