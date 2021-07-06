@@ -16,9 +16,11 @@ const Post = () => {
       return data;
     });
   }
-
+  // fetch post data
   const { status, data, error, isFetching } = usePost();
-  // console.log('data: ', data);
+  // check if existing data belongs to target post
+  const isDataStale = id !== data?.post?.hash;
+
   return (
     <div className='row justify-content-center position-relative'>
       <Link to='/' className='btn-back'>
@@ -30,7 +32,7 @@ const Post = () => {
         </header>
 
         <div>
-          {status === 'loading' ? (
+          {status === 'loading' || (isFetching && isDataStale) ? (
             <Spinner />
           ) : status === 'error' ? (
             <span>Error: {error.message}</span>
@@ -40,7 +42,7 @@ const Post = () => {
                 key={data.post.hash.substring(data.post.hash.length - 8)}
                 data={data}
               />
-              <div>{isFetching ? <Spinner /> : ''}</div>
+              {isFetching ? <Spinner /> : ''}
             </>
           )}
         </div>
