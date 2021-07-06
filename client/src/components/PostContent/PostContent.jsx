@@ -3,6 +3,7 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import parseISO from 'date-fns/parseISO';
 
 import Comments from '../Comments';
+import Likes from '../Likes';
 
 const PostContent = ({ data }) => {
   console.log('data: ', data);
@@ -64,15 +65,9 @@ const PostContent = ({ data }) => {
           </div>
         </div>
 
-        <div className='card fs-6'>
-          <div className='card-body'>
-            <i className='bi bi-hand-thumbs-up-fill'></i>
-            <span className='text-muted ps-3'>{data.likes.length}</span>
-          </div>
-        </div>
-        <div className='card-footer'>
-          {data.comments && <Comments comments={data.comments} />}
-        </div>
+        <Likes likes={data.likes} />
+
+        <Comments comments={data.comments} />
       </div>
     </div>
   );
