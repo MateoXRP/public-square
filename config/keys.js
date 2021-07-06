@@ -7,5 +7,6 @@ if (process.env.NODE_ENV !== 'production') {
 module.exports = {
   bithompApiKey: process.env.BITHOMP_API_KEY,
   xummApiKey: process.env.XUMM_API_KEY,
-  xummApiSecret: process.env.XUMM_API_SECRET
+  xummApiSecret: process.env.XUMM_API_SECRET,
+  appXrplAddress: 'r9pRgEJnRvYsTg3hxGScPx4WTapj2KYLRp'
 };
