@@ -1,6 +1,14 @@
 const express = require('express');
 
+const appXrplAddress = require('../../config/keys').appXrplAddress;
+
 const { getAccountTx } = require('../../services/xrpl-client');
+const {
+  APP_RETURN_URL,
+  getTxAmount,
+  sendPayload
+} = require('../../services/xumm');
+
 const {
   getPosts,
   getPost,
@@ -69,16 +77,44 @@ router.get('/:id', async (req, res) => {
 // @desc    Create post
 // @access  Public
 router.post('/', async (req, res) => {
-  const { content } = req.body;
+  const { content, currency } = req.body;
   console.log('content: ', content);
+  console.log('currency: ', currency);
 
   try {
     // validate and sanitize data
+
+    // create payload
+    const memosField = [
+      {
+        Memo: {
+          MemoData: content
+        }
+      }
+    ];
+
+    const payloadConfig = {
+      txjson: {
+        TransactionType: 'Payment',
+        Destination: appXrplAddress,
+        Amount: getTxAmount(currency),
+        Memos: memosField
+      },
+      options: {
+        submit: false,
+        expire: 1440,
+        return_url: {
+          web: APP_RETURN_URL
+        }
+      }
+    };
+
     // submit transaction using xumm
+    const payloadURL = sendPayload(payloadConfig);
+
     // check result
-    // if not 200, return error (status 400?)
-    // otheerwise return payloadURL
-    // res.send({ payloadURL });
+    console.log('payloadURL: ', payloadURL);
+    res.send({ payloadURL });
   } catch (error) {
     console.error(error);
     res.send({ error });
