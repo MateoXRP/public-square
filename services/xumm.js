@@ -3,7 +3,7 @@ const axios = require('axios');
 const xummApiKey = require('../config/keys').xummApiKey;
 const xummApiSecret = require('../config/keys').xummApiSecret;
 
-const APP_RETURN_URL = 'https://pub-sq.herokuapp.com/{txid}';
+const appReturnURL = 'https://pub-sq.herokuapp.com';
 
 const xummHeaders = {
   'content-type': 'application/json',
@@ -27,7 +27,7 @@ function getTxAmount(currency) {
 }
 
 /**
- * @desc sends post payload to Xumm API
+ * @desc sends payload to Xumm API
  * @param {object} payloadConfig Xumm payload
  * @return {string} payloadURL for client redirect to Xumm
  */
@@ -38,23 +38,34 @@ async function sendPayload(payloadConfig) {
 
   const payload = JSON.stringify(payloadConfig);
 
+  console.log('payload', payload);
+
   try {
-    const result = await axios.post(
-      'https://xumm.app/api/v1/platform/payload',
-      payload,
+    const result = await axios.get(
+      'https://xumm.app/api/v1/platform/ping',
       config
     );
+    // const result = await axios.post(
+    //   'https://xumm.app/api/v1/platform/payload',
+    //   payload,
+    //   config
+    // );
 
-    console.log('payload result:', result);
+    // console.log('payload result xumm:', result.data);
     if (result.status !== 200) {
       throw new Error('Sorry, something went wrong. Please try again later');
     }
 
     // return payload URL
-    const payloadURL = result.data.next.always;
-    // console.log('payload URL:', payloadURL);
+    const data = {
+      ...result.data,
+      next: {
+        always: 'https://xumm.dev'
+      }
+    };
+    // console.log('payload result:', data);
 
-    return payloadURL;
+    return data;
   } catch (error) {
     console.log(error);
 
@@ -62,4 +73,4 @@ async function sendPayload(payloadConfig) {
   }
 }
 
-module.exports = { APP_RETURN_URL, getTxAmount, sendPayload };
+module.exports = { appReturnURL, getTxAmount, sendPayload };
