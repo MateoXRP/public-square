@@ -2,8 +2,11 @@ import React from 'react';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import parseISO from 'date-fns/parseISO';
 
-const Comments = ({ comments }) => {
-  console.log('comments: ', comments);
+import CommentForm from '../CommentForm';
+
+const Comments = ({ comments, postId }) => {
+  // console.log('comments: ', comments);
+  // console.log('postId:', postId);
   return (
     <div className='card-footer'>
       <p className='fs-6'>
@@ -13,6 +16,7 @@ const Comments = ({ comments }) => {
           {comments.length === 1 ? 'Comment' : 'Comments'}
         </span>
       </p>
+      <CommentForm postId={postId} />
       <ul className='list-group list-group-flush'>
         {comments.map(comment => {
           const { account, date, gravatarURL, hash, memoData, username } =
