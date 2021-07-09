@@ -2,10 +2,12 @@ import React from 'react';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import parseISO from 'date-fns/parseISO';
 
-const Likes = ({ likes }) => {
+import LikeForm from '../LikeForm';
+
+const Likes = ({ likes, postId }) => {
   return (
     <div className='card fs-6'>
-      <div className='card-body'>
+      <div className='card-body d-flex align-items-center'>
         <i className='bi bi-hand-thumbs-up-fill'></i>
         <span className='text-muted ps-3'>{likes.length}</span>
         <span className='text-muted ps-3'>
@@ -14,16 +16,17 @@ const Likes = ({ likes }) => {
         </span>
         {likes.length > 0 && (
           <button
-            className='btn btn-sm ms-5 text-info'
+            className='btn btn-sm ms-5 text-info text-uppercase'
             type='button'
             data-bs-toggle='collapse'
             data-bs-target='#likesList'
             aria-expanded='false'
             aria-controls='likesList'
           >
-            Details
+            Show List
           </button>
         )}
+        <LikeForm className='align-self-end' postId={postId} />
       </div>
       <div className='collapse' id='likesList'>
         <ul className='list-group list-group-flush'>
