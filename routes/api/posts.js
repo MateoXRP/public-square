@@ -4,7 +4,7 @@ const appXrplAddress = require('../../config/keys').appXrplAddress;
 
 const { getAccountTx } = require('../../services/xrpl-client');
 const {
-  APP_RETURN_URL,
+  appReturnURL,
   getTxAmount,
   sendPayload
 } = require('../../services/xumm');
@@ -77,18 +77,16 @@ router.get('/:id', async (req, res) => {
 // @desc    Create post
 // @access  Public
 router.post('/', async (req, res) => {
-  const { content, currency } = req.body;
-  console.log('content: ', content);
+  const { postContent, currency } = req.body;
+  console.log('postContent: ', postContent);
   console.log('currency: ', currency);
 
   try {
-    // validate and sanitize data
-
     // create payload
     const memosField = [
       {
         Memo: {
-          MemoData: content
+          MemoData: postContent
         }
       }
     ];
@@ -104,17 +102,118 @@ router.post('/', async (req, res) => {
         submit: false,
         expire: 1440,
         return_url: {
-          web: APP_RETURN_URL
+          web: appReturnURL
         }
       }
     };
 
     // submit transaction using xumm
-    const payloadURL = sendPayload(payloadConfig);
+    const data = await sendPayload(payloadConfig);
 
     // check result
-    console.log('payloadURL: ', payloadURL);
-    res.send({ payloadURL });
+    console.log('payload data: ', data);
+
+    res.send(data);
+  } catch (error) {
+    console.error(error);
+    res.send({ error });
+  }
+});
+
+// @route   POST api/posts/comment
+// @desc    Create comment to post
+// @access  Public
+router.post('/comment', async (req, res) => {
+  const { commentContent, currency, postId } = req.body;
+  // console.log('postId: ', postId);
+  // console.log('commentContent: ', commentContent);
+  // console.log('currency: ', currency);
+
+  try {
+    const commentData = `${postId} ${commentContent}`;
+    // console.log('commentData:', commentData);
+
+    // create payload
+    const memosField = [
+      {
+        Memo: {
+          MemoData: commentData
+        }
+      }
+    ];
+
+    const payloadConfig = {
+      txjson: {
+        TransactionType: 'Payment',
+        Destination: appXrplAddress,
+        DestinationTag: 100,
+        Amount: getTxAmount(currency),
+        Memos: memosField
+      },
+      options: {
+        submit: false,
+        expire: 1440,
+        return_url: {
+          web: `${appReturnURL}/p/${postId}`
+        }
+      }
+    };
+
+    // submit transaction using xumm
+    const data = await sendPayload(payloadConfig);
+
+    // check result
+    console.log('payload data: ', data);
+
+    res.send(data);
+  } catch (error) {
+    console.error(error);
+    res.send({ error });
+  }
+});
+
+// @route   POST api/posts/like
+// @desc    Like post
+// @access  Public
+router.post('/like', async (req, res) => {
+  const { currency, postId } = req.body;
+  console.log('postId: ', postId);
+  console.log('currency: ', currency);
+
+  try {
+    // create payload
+    const memosField = [
+      {
+        Memo: {
+          MemoData: postId
+        }
+      }
+    ];
+
+    const payloadConfig = {
+      txjson: {
+        TransactionType: 'Payment',
+        Destination: appXrplAddress,
+        DestinationTag: 101,
+        Amount: getTxAmount(currency),
+        Memos: memosField
+      },
+      options: {
+        submit: false,
+        expire: 1440,
+        return_url: {
+          web: `${appReturnURL}/p/${postId}`
+        }
+      }
+    };
+
+    // submit transaction using xumm
+    const data = await sendPayload(payloadConfig);
+
+    // check result
+    console.log('payload data: ', data);
+
+    res.send(data);
   } catch (error) {
     console.error(error);
     res.send({ error });
