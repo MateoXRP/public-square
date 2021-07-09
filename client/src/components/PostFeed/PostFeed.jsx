@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { useQuery } from 'react-query';
 
+import PostForm from '../PostForm';
 import PostItem from '../PostItem';
 import Spinner from '../Spinner';
 
@@ -16,11 +17,13 @@ const PostFeed = () => {
   const { status, data, error, isFetching } = usePosts();
 
   return (
-    <div className='container pt-3'>
-      <div className='d-flex align-items-center flex-column'>
+    <div className='row justify-content-center '>
+      <div className='col-xs-11 col-sm-10 col-md-8'>
         <header className='App-header'>
-          <h2 className='display-6 text-light'>Posts</h2>
+          <h2 className='text-center display-6 text-light'>Posts</h2>
         </header>
+
+        <PostForm />
 
         <div>
           {status === 'loading' ? (
@@ -29,7 +32,7 @@ const PostFeed = () => {
             <span>Error: {error.message}</span>
           ) : (
             <>
-              <div className='container-lg'>
+              <div className=''>
                 {data.posts.map(post => {
                   return (
                     <PostItem
