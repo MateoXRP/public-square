@@ -6,7 +6,7 @@ import Comments from '../Comments';
 import Likes from '../Likes';
 
 const PostContent = ({ data }) => {
-  console.log('data: ', data);
+  // console.log('data: ', data);
   const { account, amount, date, gravatarURL, hash, memoData, username } =
     data.post;
   // console.log('account: ', data.post.account);
@@ -58,16 +58,9 @@ const PostContent = ({ data }) => {
           <div>Amount: {amount}</div>
         </div>
 
-        <div className='card'>
-          <div className='card-body text-muted'>
-            <div className='btn btn-primary btn-sm'>Like Post</div>
-            <div className='btn btn-success btn-sm ms-3'>Tip Post</div>
-          </div>
-        </div>
+        <Likes likes={data.likes} postId={hash} />
 
-        <Likes likes={data.likes} />
-
-        <Comments comments={data.comments} />
+        <Comments comments={data.comments} postId={hash} />
       </div>
     </div>
   );
