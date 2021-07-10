@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import Logo from '../../assets/logo.png';
 
@@ -7,7 +7,7 @@ const Topnav = () => {
   return (
     <nav className='navbar navbar-expand-lg sticky-top navbar-dark bg-dark'>
       <div className='container-fluid'>
-        <Link className='navbar-brand d-flex' to='/'>
+        <NavLink className='navbar-brand d-flex' to='/'>
           <img
             src={Logo}
             alt=''
@@ -16,7 +16,7 @@ const Topnav = () => {
             className='d-inline-block align-text-top'
           />
           <span className='ps-3'>Public Square</span>
-        </Link>
+        </NavLink>
 
         <button
           className='navbar-toggler'
@@ -33,19 +33,24 @@ const Topnav = () => {
         <div className='collapse navbar-collapse' id='navbarContent'>
           <ul className='navbar-nav me-auto mb-2 mb-lg-0'>
             <li className='nav-item'>
-              <Link className='nav-link ' aria-current='page' to='/'>
+              <NavLink className='nav-link ' aria-current='page' to='/'>
                 Home
-              </Link>
+              </NavLink>
             </li>
             <li className='nav-item'>
-              <Link className='nav-link' to='/rules'>
+              <NavLink className='nav-link' to='/rules'>
                 Rules
-              </Link>
+              </NavLink>
             </li>
             <li className='nav-item'>
-              <Link className='nav-link disabled' to='/'>
+              <NavLink className='nav-link' to='/faq'>
+                FAQ
+              </NavLink>
+            </li>
+            <li className='nav-item'>
+              <NavLink className='nav-link' to='/about'>
                 About
-              </Link>
+              </NavLink>
             </li>
           </ul>
         </div>

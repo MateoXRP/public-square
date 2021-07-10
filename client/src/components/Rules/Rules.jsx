@@ -22,7 +22,12 @@ const Rules = () => {
           Although the contents of your post will be saved to a permanent,
           public ledger, we reserve the right to filter posts from our front-end
           that go against our{' '}
-          <a href='https://mg.social/site/terms' class='link-secondary'>
+          <a
+            href='https://mg.social/site/terms'
+            target='_blank'
+            rel='noreferrer'
+            className='link-secondary'
+          >
             terms and conditions
           </a>
           .
@@ -31,7 +36,7 @@ const Rules = () => {
           Run your own version of Public Square. Visit our{' '}
           <a
             href='https://github.com/MateoXRP/PublicSquare'
-            class='link-secondary'
+            className='link-secondary'
           >
             GitHub page
           </a>{' '}
