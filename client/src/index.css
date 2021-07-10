@@ -33,6 +33,11 @@ body {
   font-size: 2rem;
 }
 
+.accordion-button::after {
+  background-color: var(--text-color) !important;
+  border-radius: 50%;
+}
+
 .card {
   color: var(--text-color);
   background-color: var(--card-bg-color);
