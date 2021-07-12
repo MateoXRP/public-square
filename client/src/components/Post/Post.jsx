@@ -24,7 +24,7 @@ const Post = () => {
   return (
     <div className='row justify-content-center '>
       <div className='col-xs-11 col-sm-10 col-md-8 position-relative'>
-        <Link to='/' className='btn-back'>
+        <Link to='/' className='btn-back' title='Go Back'>
           <i className='bi bi-arrow-left-circle-fill'></i>
         </Link>
         <header className='App-header'>
