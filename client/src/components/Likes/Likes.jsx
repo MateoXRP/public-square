@@ -8,23 +8,32 @@ const Likes = ({ likes, postId }) => {
   return (
     <div className='card fs-6'>
       <div className='card-body d-flex align-items-center'>
-        <i className='bi bi-hand-thumbs-up-fill'></i>
-        <span className='text-muted ps-3'>{likes.length}</span>
-        <span className='text-muted ps-3'>
-          {' '}
-          {likes.length === 1 ? 'Like' : 'Likes'}
-        </span>
+        <div>
+          <i className='bi bi-hand-thumbs-up'></i>
+          <span className='text-muted ps-3'>{likes.length}</span>
+          <span className='text-muted ps-3'>
+            {' '}
+            {likes.length === 1 ? 'Like' : 'Likes'}
+          </span>
+        </div>
         {likes.length > 0 && (
-          <button
-            className='btn btn-sm ms-5 text-info text-uppercase'
-            type='button'
-            data-bs-toggle='collapse'
-            data-bs-target='#likesList'
-            aria-expanded='false'
-            aria-controls='likesList'
-          >
-            Show List
-          </button>
+          <div className='form-check form-switch ms-5'>
+            <input
+              className='form-check-input'
+              type='checkbox'
+              id='displayLikesSwitch'
+              data-bs-toggle='collapse'
+              data-bs-target='#likesList'
+              aria-expanded='false'
+              aria-controls='likesList'
+            />
+            <label
+              className='form-check-label text-muted'
+              htmlFor='displayLikesSwitch'
+            >
+              Display List
+            </label>
+          </div>
         )}
         <LikeForm className='align-self-end' postId={postId} />
       </div>
