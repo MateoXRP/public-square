@@ -48,7 +48,11 @@ const PostItem = ({ data }) => {
         <div>Amount: {amount}</div>
       </div>
       <div className='card-footer text-muted'>
-        <Link className='btn btn-primary' to={`/p/${hash}`}>
+        <Link
+          className='btn btn-outline-primary btn-sm text-uppercase'
+          to={`/p/${hash}`}
+        >
+          <i className='bi bi-hand-index-thumb pe-2'></i>
           View Post
         </Link>
       </div>
