@@ -7,10 +7,12 @@ import CommentForm from '../CommentForm';
 const Comments = ({ comments, postId }) => {
   // console.log('comments: ', comments);
   // console.log('postId:', postId);
+  // console.count('Comments render');
+
   return (
     <div className='card-footer'>
       <p className='fs-6'>
-        <i className='bi bi-chat-dots-fill'></i>
+        <i className='bi bi-chat-dots'></i>
         <span className='text-muted ps-3'>{comments.length}</span>
         <span className='text-muted ps-3'>
           {comments.length === 1 ? 'Comment' : 'Comments'}

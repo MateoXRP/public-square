@@ -6,13 +6,7 @@ import { useMutation } from 'react-query';
 import Spinner from '../Spinner';
 
 const LikeForm = ({ postId }) => {
-  const {
-    handleSubmit,
-    formState: { errors },
-    control,
-    reset,
-    setValue
-  } = useForm();
+  const { handleSubmit, control, reset, setValue } = useForm();
 
   const [radio, setRadio] = useState('XRP');
   const [xummRedirectURL, setXummRedirectURL] = useState(null);
@@ -66,7 +60,7 @@ const LikeForm = ({ postId }) => {
     addLikeMutation.mutate(data);
   };
 
-  console.log('form errors:', errors);
+  // console.count('Like form render');
 
   return (
     <form className='ms-auto' onSubmit={handleSubmit(submitLike)}>
@@ -122,6 +116,7 @@ const LikeForm = ({ postId }) => {
           type='submit'
           className='btn btn-outline-primary btn-sm text-uppercase'
         >
+          <i className='bi bi-hand-thumbs-up pe-2'></i>
           Like Post
         </button>
       </div>

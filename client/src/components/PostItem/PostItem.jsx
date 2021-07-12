@@ -52,6 +52,7 @@ const PostItem = ({ data }) => {
           className='btn btn-outline-primary btn-sm text-uppercase'
           to={`/p/${hash}`}
         >
+          <i className='bi bi-hand-index-thumb pe-2'></i>
           View Post
         </Link>
       </div>
