@@ -1,7 +1,7 @@
 const md5 = require('@xn-02f/md5');
 const getBithompUsername = require('../services/bithomp').getBithompUsername;
 const getXRPEmailHash = require('../services/xrpscan').getXRPEmailHash;
-const { txOmitList, postTxOmitList } = require('./tx-omit-list');
+const { postTxIncludeList, postTxOmitList } = require('./special-tx-lists');
 
 // Convert memo data hex to string
 function hex2String(hex) {
@@ -22,12 +22,22 @@ function hex2String(hex) {
   return result;
 }
 
+function string2Hex(str) {
+  // convert string into buffer
+  let bufStr = Buffer.from(str, 'utf8');
+
+  // convert buffer to hex string
+  const hexString = bufStr.toString('hex');
+
+  console.log('hexString: ', hexString);
+  return hexString;
+}
+
 // parse memos field and get memo data
 function parseMemoData(txMemos) {
   const memoData = txMemos[0].Memo.MemoData;
 
   const parsedMemo = hex2String(memoData);
-  // console.log('parsed memo data: ', parsedMemo);
 
   return parsedMemo;
 }
@@ -42,6 +52,7 @@ function getTimestamp(date) {
 
 // derive post data from transaction
 async function getPostData({ Account, Amount, date, hash, Memos }) {
+  // console.log('hash: ', hash);
   try {
     // get username
     const username = await getBithompUsername(Account);
@@ -82,11 +93,11 @@ function allPostsFilter(records) {
   const postTx = records.filter(
     record =>
       (record.tx.TransactionType === 'Payment') &
-      (record.tx.DestinationTag === undefined) &
+      // (record.tx.DestinationTag === undefined) &
+      (record.tx.DestinationTag === 99 ||
+        postTxIncludeList.has(record.tx.hash)) &
       (record.tx.Memos !== undefined) &
       !postTxOmitList.has(record.tx.hash)
-    // (record.tx.hash !==
-    //   'C5BA9EE5A16D990E9A5FC7017267A19496C6605471B456AC1C67E1DE1BB26C3A')
   );
 
   return postTx;
@@ -196,6 +207,7 @@ async function getPostLikes(records, id) {
 
 module.exports = {
   hex2String,
+  string2Hex,
   parseMemoData,
   getTimestamp,
   getPostData,

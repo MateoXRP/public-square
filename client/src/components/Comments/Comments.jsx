@@ -2,17 +2,23 @@ import React from 'react';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import parseISO from 'date-fns/parseISO';
 
-const Comments = ({ comments }) => {
-  console.log('comments: ', comments);
+import CommentForm from '../CommentForm';
+
+const Comments = ({ comments, postId }) => {
+  // console.log('comments: ', comments);
+  // console.log('postId:', postId);
+  // console.count('Comments render');
+
   return (
     <div className='card-footer'>
       <p className='fs-6'>
-        <i className='bi bi-chat-dots-fill'></i>
+        <i className='bi bi-chat-dots'></i>
         <span className='text-muted ps-3'>{comments.length}</span>
         <span className='text-muted ps-3'>
           {comments.length === 1 ? 'Comment' : 'Comments'}
         </span>
       </p>
+      <CommentForm postId={postId} />
       <ul className='list-group list-group-flush'>
         {comments.map(comment => {
           const { account, date, gravatarURL, hash, memoData, username } =

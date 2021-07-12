@@ -22,13 +22,13 @@ const Post = () => {
   const isDataStale = id !== data?.post?.hash;
 
   return (
-    <div className='row justify-content-center position-relative'>
-      <Link to='/' className='btn-back'>
-        <i className='bi bi-arrow-left-circle-fill'></i>
-      </Link>
-      <div className='col-xs-11 col-sm-10 col-md-8'>
-        <header className='App-header text-center'>
-          <h2 className='display-6 text-light'>Post</h2>
+    <div className='row justify-content-center '>
+      <div className='col-xs-11 col-sm-10 col-md-8 position-relative'>
+        <Link to='/' className='btn-back' title='Go Back'>
+          <i className='bi bi-arrow-left-circle-fill'></i>
+        </Link>
+        <header className='App-header'>
+          <h2 className='text-center display-6 text-light'>Post</h2>
         </header>
 
         <div>
