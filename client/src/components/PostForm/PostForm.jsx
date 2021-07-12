@@ -66,13 +66,13 @@ const PostForm = () => {
     addPostMutation.mutate(data);
   };
 
-  console.log('form errors:', errors);
+  // console.log('form errors:', errors);
 
   return (
     <div className='card my-3 container-fluid'>
       <form onSubmit={handleSubmit(submitPost)}>
         <div className='my-3'>
-          <label htmlFor='postContent' className='form-label'>
+          <label htmlFor='postContent' className='form-label text-uppercase'>
             Create Post
           </label>
           <textarea
@@ -141,10 +141,23 @@ const PostForm = () => {
                 </div>
               )}
             />
-            <input
-              type='submit'
-              className='btn btn-outline-primary btn-sm float-end text-uppercase'
-            />
+            <div className='float-end'>
+              <button
+                type='button'
+                className='btn btn-outline-secondary btn-sm text-uppercase'
+                onClick={() => reset()}
+              >
+                <i className='bi bi-x-circle pe-2'></i>
+                Cancel
+              </button>
+              <button
+                type='submit'
+                className='btn btn-outline-primary btn-sm text-uppercase ms-3'
+              >
+                <i className='bi bi-arrow-right-circle pe-2'></i>
+                Submit
+              </button>
+            </div>
           </div>
         </div>
       </form>
