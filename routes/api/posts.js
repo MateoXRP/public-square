@@ -9,11 +9,13 @@ const {
   sendPayload
 } = require('../../services/xumm');
 
+const { postTxOmitList } = require('../../util/special-tx-lists');
 const {
   getPosts,
   getPost,
   getPostComments,
-  getPostLikes
+  getPostLikes,
+  string2Hex
 } = require('../../util/tx-data');
 
 const router = express.Router();
@@ -55,6 +57,16 @@ router.get('/:id', async (req, res) => {
   const { id } = req.params;
   // console.log('post ID: ', id);
   try {
+    if (postTxOmitList.has(id)) {
+      return res.status(404).json({
+        error: {
+          ref: id,
+          code: 404,
+          message: 'Post not found'
+        }
+      });
+    }
+
     const { transactions } = await getAccountTx();
 
     // get post
@@ -78,15 +90,19 @@ router.get('/:id', async (req, res) => {
 // @access  Public
 router.post('/', async (req, res) => {
   const { postContent, currency } = req.body;
-  console.log('postContent: ', postContent);
-  console.log('currency: ', currency);
+  // console.log('postContent: ', postContent);
+  // console.log('currency: ', currency);
 
   try {
+    // convert text to hex
+    const postData = string2Hex(postContent);
+    console.log('postData: ', postData);
+
     // create payload
     const memosField = [
       {
         Memo: {
-          MemoData: postContent
+          MemoData: postData
         }
       }
     ];
@@ -95,11 +111,12 @@ router.post('/', async (req, res) => {
       txjson: {
         TransactionType: 'Payment',
         Destination: appXrplAddress,
+        DestinationTag: 99,
         Amount: getTxAmount(currency),
         Memos: memosField
       },
       options: {
-        submit: false,
+        submit: true,
         expire: 1440,
         return_url: {
           web: appReturnURL
@@ -130,7 +147,7 @@ router.post('/comment', async (req, res) => {
   // console.log('currency: ', currency);
 
   try {
-    const commentData = `${postId} ${commentContent}`;
+    const commentData = string2Hex(`${postId} ${commentContent}`);
     // console.log('commentData:', commentData);
 
     // create payload
@@ -151,7 +168,7 @@ router.post('/comment', async (req, res) => {
         Memos: memosField
       },
       options: {
-        submit: false,
+        submit: true,
         expire: 1440,
         return_url: {
           web: `${appReturnURL}/p/${postId}`
@@ -179,13 +196,14 @@ router.post('/like', async (req, res) => {
   const { currency, postId } = req.body;
   console.log('postId: ', postId);
   console.log('currency: ', currency);
-
   try {
+    const likeData = string2Hex(postId);
+
     // create payload
     const memosField = [
       {
         Memo: {
-          MemoData: postId
+          MemoData: likeData
         }
       }
     ];
@@ -199,7 +217,7 @@ router.post('/like', async (req, res) => {
         Memos: memosField
       },
       options: {
-        submit: false,
+        submit: true,
         expire: 1440,
         return_url: {
           web: `${appReturnURL}/p/${postId}`
