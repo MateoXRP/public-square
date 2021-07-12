@@ -41,31 +41,24 @@ async function sendPayload(payloadConfig) {
   console.log('payload', payload);
 
   try {
-    const result = await axios.get(
-      'https://xumm.app/api/v1/platform/ping',
-      config
-    );
-    // const result = await axios.post(
-    //   'https://xumm.app/api/v1/platform/payload',
-    //   payload,
+    // const result = await axios.get(
+    //   'https://xumm.app/api/v1/platform/ping',
     //   config
     // );
 
-    // console.log('payload result xumm:', result.data);
+    const result = await axios.post(
+      'https://xumm.app/api/v1/platform/payload',
+      payload,
+      config
+    );
+
+    // console.log('xumm result:', result.data);
+
     if (result.status !== 200) {
       throw new Error('Sorry, something went wrong. Please try again later');
     }
 
-    // return payload URL
-    const data = {
-      ...result.data,
-      next: {
-        always: 'https://xumm.dev'
-      }
-    };
-    // console.log('payload result:', data);
-
-    return data;
+    return result.data;
   } catch (error) {
     console.log(error);
 
