@@ -17,7 +17,7 @@ const PostContent = ({ data }) => {
 
   const parsedDate = parseISO(date);
   const timeToNow = formatDistanceToNow(parsedDate);
-
+  // console.count('post content render');
   return (
     <div>
       <div className='card my-3'>
