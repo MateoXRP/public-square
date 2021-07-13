@@ -38,6 +38,15 @@ router.get('/test', (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const { transactions } = await getAccountTx();
+    if (!transactions) {
+      return res.status(404).json({
+        error: {
+          ref: id,
+          code: 404,
+          message: 'Error retrieving transactions'
+        }
+      });
+    }
 
     const posts = await getPosts(transactions);
     // console.log('posts: ', posts);
@@ -68,6 +77,16 @@ router.get('/:id', async (req, res) => {
     }
 
     const { transactions } = await getAccountTx();
+
+    if (!transactions) {
+      return res.status(404).json({
+        error: {
+          ref: id,
+          code: 404,
+          message: 'Error retrieving transaction'
+        }
+      });
+    }
 
     // get post
     const post = await getPost(transactions, id);

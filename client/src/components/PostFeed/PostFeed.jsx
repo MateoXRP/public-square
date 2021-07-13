@@ -29,7 +29,7 @@ const PostFeed = () => {
           {status === 'loading' ? (
             <Spinner />
           ) : status === 'error' ? (
-            <span>Error: {error.message}</span>
+            <span className='text-danger'>Error: {error.message}</span>
           ) : (
             <>
               <div className=''>
