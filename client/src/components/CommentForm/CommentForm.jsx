@@ -92,7 +92,24 @@ const CommentForm = ({ postId }) => {
 
         {addCommentMutation.isLoading && <Spinner />}
 
-        <div className='d-flex align-items-center justify-content-between pt-2'>
+        <div className='d-flex flex-column flex-lg-row align-items-center align-items-lg-start pt-2'>
+          <div className='me-3'>
+            <button
+              type='button'
+              className='btn btn-outline-secondary btn-sm text-uppercase'
+              onClick={() => reset()}
+            >
+              <i className='bi bi-x-circle pe-2'></i>
+              Cancel
+            </button>
+            <button
+              type='submit'
+              className='btn btn-outline-primary btn-sm text-uppercase ms-3'
+            >
+              <i className='bi bi-arrow-right-circle pe-2'></i>
+              Submit
+            </button>
+          </div>
           <Controller
             control={control}
             defaultValue='XRP'
@@ -138,23 +155,6 @@ const CommentForm = ({ postId }) => {
               </div>
             )}
           />
-          <div className='float-end'>
-            <button
-              type='button'
-              className='btn btn-outline-secondary btn-sm text-uppercase'
-              onClick={() => reset()}
-            >
-              <i className='bi bi-x-circle pe-2'></i>
-              Cancel
-            </button>
-            <button
-              type='submit'
-              className='btn btn-outline-primary btn-sm text-uppercase ms-3'
-            >
-              <i className='bi bi-arrow-right-circle pe-2'></i>
-              Submit
-            </button>
-          </div>
         </div>
       </div>
     </form>

@@ -26,10 +26,10 @@ const PostContent = ({ data }) => {
             <img src={gravatarURL} className='rounded-circle' alt='' />
             <div className='ms-3'>
               {username ? (
-                <span className=''>
-                  <span className='card-title'>{username}</span>
-                  <span className='ms-3 text-muted'>{account}</span>
-                </span>
+                <div className='d-flex flex-column flex-md-row'>
+                  <span className='pe-3'>{username}</span>
+                  <span className='text-muted'>{account}</span>
+                </div>
               ) : (
                 <span className=''>{account}</span>
               )}
