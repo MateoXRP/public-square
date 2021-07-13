@@ -23,7 +23,7 @@ async function getBithompUsername(address) {
     return username;
   } catch (error) {
     console.log('bithomp error: ', error.data);
-    return error;
+    return null;
   }
 }
 
