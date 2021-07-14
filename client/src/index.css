@@ -49,6 +49,16 @@ body {
   padding: 1rem;
 }
 
+.post-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.post-content img {
+  max-width: fit-content;
+  padding: 0.5rem 0;
+}
+
 .text-light {
   color: var(--text-color) !important;
 }

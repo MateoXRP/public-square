@@ -35,7 +35,6 @@ const Likes = ({ likes, postId }) => {
             </label>
           </div>
         )}
-        <LikeForm className='align-self-end' postId={postId} />
       </div>
       <div className='collapse' id='likesList'>
         <ul className='list-group list-group-flush'>
@@ -73,6 +72,7 @@ const Likes = ({ likes, postId }) => {
             })}
         </ul>
       </div>
+      <LikeForm className='align-self-end' postId={postId} />
     </div>
   );
 };
