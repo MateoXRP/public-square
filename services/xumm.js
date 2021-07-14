@@ -14,15 +14,18 @@ const xummHeaders = {
 /**
  * @desc get payload amount based on currency
  * @param {string} currency
+ * @param {string} amount
  * @return {string || object} string for XRP, object for MGS
  */
-function getTxAmount(currency) {
+function getTxAmount(currency, amount = null) {
   return currency === 'MGS'
     ? {
         currency: 'MGS',
-        value: '1',
+        value: amount ? amount.toString() : '1',
         issuer: 'rHP4bHzghBdzskqcaPciL5WRGkHosB5zYx'
       }
+    : amount
+    ? (amount * 1000000).toString()
     : '10000';
 }
 
