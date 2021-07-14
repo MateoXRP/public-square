@@ -63,16 +63,23 @@ const LikeForm = ({ postId }) => {
   // console.count('Like form render');
 
   return (
-    <form className='ms-auto' onSubmit={handleSubmit(submitLike)}>
+    <form className='p-3' onSubmit={handleSubmit(submitLike)}>
       {addLikeMutation.isLoading && <Spinner />}
 
-      <div className='d-flex align-items-center pt-2'>
+      <div className='d-flex flex-column flex-md-row align-items-md-center gap-2'>
+        <button
+          type='submit'
+          className='btn btn-outline-primary btn-sm text-uppercase me-3'
+        >
+          <i className='bi bi-hand-thumbs-up pe-2'></i>
+          Like Post
+        </button>
         <Controller
           control={control}
           defaultValue='XRP'
           name='currency'
           render={() => (
-            <div className='d-flex align-items-center' role='radiogroup'>
+            <div className='d-flex  align-items-center' role='radiogroup'>
               <label htmlFor='' className='pb-1'>
                 Like fee currency:
               </label>
@@ -112,13 +119,6 @@ const LikeForm = ({ postId }) => {
             </div>
           )}
         />
-        <button
-          type='submit'
-          className='btn btn-outline-primary btn-sm text-uppercase'
-        >
-          <i className='bi bi-hand-thumbs-up pe-2'></i>
-          Like Post
-        </button>
       </div>
     </form>
   );
