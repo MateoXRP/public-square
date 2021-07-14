@@ -39,7 +39,7 @@ const CommentForm = ({ postId }) => {
     const body = JSON.stringify(commentData);
 
     try {
-      const result = await axios.post(`/api/posts/comment`, body, config);
+      const result = await axios.post(`/api/comments`, body, config);
       // console.log('add comment result:', result.data);
 
       return result.data;
