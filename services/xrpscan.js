@@ -24,7 +24,7 @@ async function getXRPEmailHash(account) {
     return emailHash;
   } catch (error) {
     console.error(error);
-    return error;
+    return '';
   }
 }
 

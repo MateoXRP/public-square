@@ -35,7 +35,7 @@ const Post = () => {
           {status === 'loading' || (isFetching && isDataStale) ? (
             <Spinner />
           ) : status === 'error' ? (
-            <span>Error: {error.message}</span>
+            <span className='text-danger'>Error: {error.message}</span>
           ) : (
             <>
               <PostContent
