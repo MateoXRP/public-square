@@ -15,15 +15,20 @@ const PostItem = ({ data }) => {
         <div className='d-flex align-items-center mb-2'>
           <img src={gravatarURL} className='rounded-circle' alt='' />
           <div className='ms-3'>
-            {username ? (
-              <span className=''>
-                <span className='card-title'>{username}</span>
-                <span className='ms-3 text-muted'>{account}</span>
-              </span>
-            ) : (
-              <span className=''>{account}</span>
-            )}
-
+            <Link
+              to={`/u/${account}`}
+              className='text-decoration-none'
+              title='See all posts'
+            >
+              {username ? (
+                <>
+                  <span className='card-title'>{username}</span>
+                  <span className='ms-3'>{account}</span>
+                </>
+              ) : (
+                <span>{account}</span>
+              )}
+            </Link>
             <div
               className='text-muted fs-smaller'
               title={parsedDate}
