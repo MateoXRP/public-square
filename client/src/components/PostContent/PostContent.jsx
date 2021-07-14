@@ -40,7 +40,10 @@ const PostContent = ({ data }) => {
               >{`${timeToNow} ago`}</div>
             </div>
           </div>
-          <div className='my-3' dangerouslySetInnerHTML={createMarkup()} />
+          <div
+            className='post-content my-3'
+            dangerouslySetInnerHTML={createMarkup()}
+          />
         </div>
 
         <div className='card-body fs-smaller'>

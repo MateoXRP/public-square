@@ -30,7 +30,11 @@ const PostItem = ({ data }) => {
             >{`${timeToNow} ago`}</div>
           </div>
         </div>
-        <div className='my-3' dangerouslySetInnerHTML={{ __html: memoData }} />
+
+        <div
+          className='post-content my-3'
+          dangerouslySetInnerHTML={{ __html: memoData }}
+        />
       </div>
 
       <div className='card-body fs-smaller'>
