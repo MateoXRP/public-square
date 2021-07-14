@@ -20,18 +20,6 @@ const {
 
 const router = express.Router();
 
-// @route   GET api/posts/test
-// @desc    Test route
-// @access  Public
-router.get('/test', (req, res) => {
-  try {
-    res.send({ data: 'Posts route test response' });
-  } catch (error) {
-    console.log(error);
-    res.send({ error });
-  }
-});
-
 // @route   GET api/posts
 // @desc    Fetch posts data
 // @access  Public
@@ -139,107 +127,6 @@ router.post('/', async (req, res) => {
         expire: 1440,
         return_url: {
           web: appReturnURL
-        }
-      }
-    };
-
-    // submit transaction using xumm
-    const data = await sendPayload(payloadConfig);
-
-    // check result
-    console.log('payload data: ', data);
-
-    res.send(data);
-  } catch (error) {
-    console.error(error);
-    res.send({ error });
-  }
-});
-
-// @route   POST api/posts/comment
-// @desc    Create comment to post
-// @access  Public
-router.post('/comment', async (req, res) => {
-  const { commentContent, currency, postId } = req.body;
-  // console.log('postId: ', postId);
-  // console.log('commentContent: ', commentContent);
-  // console.log('currency: ', currency);
-
-  try {
-    const commentData = string2Hex(`${postId} ${commentContent}`);
-    // console.log('commentData:', commentData);
-
-    // create payload
-    const memosField = [
-      {
-        Memo: {
-          MemoData: commentData
-        }
-      }
-    ];
-
-    const payloadConfig = {
-      txjson: {
-        TransactionType: 'Payment',
-        Destination: appXrplAddress,
-        DestinationTag: 100,
-        Amount: getTxAmount(currency),
-        Memos: memosField
-      },
-      options: {
-        submit: true,
-        expire: 1440,
-        return_url: {
-          web: `${appReturnURL}/p/${postId}`
-        }
-      }
-    };
-
-    // submit transaction using xumm
-    const data = await sendPayload(payloadConfig);
-
-    // check result
-    console.log('payload data: ', data);
-
-    res.send(data);
-  } catch (error) {
-    console.error(error);
-    res.send({ error });
-  }
-});
-
-// @route   POST api/posts/like
-// @desc    Like post
-// @access  Public
-router.post('/like', async (req, res) => {
-  const { currency, postId } = req.body;
-  console.log('postId: ', postId);
-  console.log('currency: ', currency);
-  try {
-    const likeData = string2Hex(postId);
-
-    // create payload
-    const memosField = [
-      {
-        Memo: {
-          MemoData: likeData
-        }
-      }
-    ];
-
-    const payloadConfig = {
-      txjson: {
-        TransactionType: 'Payment',
-        Destination: appXrplAddress,
-        DestinationTag: 101,
-        Amount: getTxAmount(currency),
-        Memos: memosField
-      },
-      options: {
-        submit: true,
-        expire: 1440,
-        return_url: {
-          web: `${appReturnURL}/p/${postId}`
         }
       }
     };
