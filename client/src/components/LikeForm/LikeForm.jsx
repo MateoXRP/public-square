@@ -32,7 +32,7 @@ const LikeForm = ({ postId }) => {
     const body = JSON.stringify(likeData);
 
     try {
-      const result = await axios.post(`/api/posts/like`, body, config);
+      const result = await axios.post(`/api/likes`, body, config);
       console.log('like form result', result.data);
 
       return result.data;
