@@ -103,6 +103,22 @@ function allPostsFilter(records) {
   return postTx;
 }
 
+// get post transactions by address from account transactions
+function postsByAddressFilter(records, address) {
+  const postTx = records.filter(
+    record =>
+      (record.tx.Account === address) &
+      (record.tx.TransactionType === 'Payment') &
+      // (record.tx.DestinationTag === undefined) &
+      (record.tx.DestinationTag === 99 ||
+        postTxIncludeList.has(record.tx.hash)) &
+      (record.tx.Memos !== undefined) &
+      !postTxOmitList.has(record.tx.hash)
+  );
+
+  return postTx;
+}
+
 // find post tx by id from account transactions
 function postByIdFilter(records, id) {
   const postTx = records.filter(record => record.tx.hash === id);
@@ -151,6 +167,22 @@ function likesByPostIdFilter(records, id) {
 
 async function getPosts(records) {
   const postTx = allPostsFilter(records);
+
+  // get posts data
+  const postsData = await postTx.map(async record => {
+    const data = await getPostData(record.tx);
+    // console.log('data: ', data);
+    return data;
+  });
+
+  return Promise.all(postsData).then(posts => {
+    // console.log('posts: ', posts);
+    return posts;
+  });
+}
+
+async function getPostsByAddress(records, address) {
+  const postTx = postsByAddressFilter(records, address);
 
   // get posts data
   const postsData = await postTx.map(async record => {
@@ -216,6 +248,7 @@ module.exports = {
   commentsByPostIdFilter,
   likesByPostIdFilter,
   getPosts,
+  getPostsByAddress,
   getPost,
   getPostComments,
   getPostLikes

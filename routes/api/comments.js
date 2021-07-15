@@ -56,6 +56,7 @@ router.post('/', async (req, res) => {
 
     // check result
     // console.log('payload data: ', data);
+    console.log(`comment posted to post ${postId}`);
 
     res.send(data);
   } catch (error) {

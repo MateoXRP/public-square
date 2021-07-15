@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import parseISO from 'date-fns/parseISO';
 
@@ -6,17 +7,21 @@ import Comments from '../Comments';
 import Likes from '../Likes';
 
 const PostContent = ({ data }) => {
-  // console.log('data: ', data);
   const { account, amount, date, gravatarURL, hash, memoData, username } =
     data.post;
   // console.log('account: ', data.post.account);
 
-  function createMarkup() {
-    return { __html: memoData };
-  }
-
   const parsedDate = parseISO(date);
   const timeToNow = formatDistanceToNow(parsedDate);
+
+  const Username = username ? (
+    <>
+      <span className='card-title'>{username}</span>
+      <span className='ms-3'>{account}</span>
+    </>
+  ) : (
+    <span>{account}</span>
+  );
   // console.count('post content render');
   return (
     <div>
@@ -24,15 +29,23 @@ const PostContent = ({ data }) => {
         <div className='card-body'>
           <div className='d-flex align-items-center mb-2'>
             <img src={gravatarURL} className='rounded-circle' alt='' />
+
             <div className='ms-3'>
-              {username ? (
-                <div className='d-flex flex-column flex-md-row'>
-                  <span className='pe-3'>{username}</span>
-                  <span className='text-muted'>{account}</span>
-                </div>
-              ) : (
-                <span className=''>{account}</span>
-              )}
+              <Link
+                to={{
+                  pathname: `/u/${account}`,
+                  state: {
+                    user: {
+                      gravatarURL,
+                      username
+                    }
+                  }
+                }}
+                className='text-decoration-none'
+                title='See all posts'
+              >
+                {Username}
+              </Link>
 
               <div
                 className='text-muted fs-smaller'
@@ -42,7 +55,7 @@ const PostContent = ({ data }) => {
           </div>
           <div
             className='post-content my-3'
-            dangerouslySetInnerHTML={createMarkup()}
+            dangerouslySetInnerHTML={{ __html: memoData }}
           />
         </div>
 

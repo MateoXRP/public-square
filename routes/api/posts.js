@@ -11,10 +11,11 @@ const {
 
 const { postTxOmitList } = require('../../util/special-tx-lists');
 const {
-  getPosts,
   getPost,
   getPostComments,
   getPostLikes,
+  getPosts,
+  getPostsByAddress,
   string2Hex
 } = require('../../util/tx-data');
 
@@ -92,6 +93,34 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// @route   GET api/posts/address/:address
+// @desc    Fetch posts by user address
+// @access  Public
+router.get('/address/:address', async (req, res) => {
+  const { address } = req.params;
+  try {
+    const { transactions } = await getAccountTx();
+    if (!transactions) {
+      return res.status(404).json({
+        error: {
+          ref: id,
+          code: 404,
+          message: 'Error retrieving transactions'
+        }
+      });
+    }
+
+    const posts = await getPostsByAddress(transactions, address);
+    // console.log('posts: ', posts);
+
+    // const data = { posts };
+    res.send({ posts });
+  } catch (error) {
+    console.error(error);
+    res.send({ error });
+  }
+});
+
 // @route   POST api/posts
 // @desc    Create post
 // @access  Public
@@ -135,7 +164,8 @@ router.post('/', async (req, res) => {
     const data = await sendPayload(payloadConfig);
 
     // check result
-    console.log('payload data: ', data);
+    // console.log('payload data: ', data);
+    console.log(`a new post was created`);
 
     res.send(data);
   } catch (error) {

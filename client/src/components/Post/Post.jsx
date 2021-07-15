@@ -1,6 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useQuery } from 'react-query';
 
@@ -8,6 +7,7 @@ import PostContent from '../PostContent';
 import Spinner from '../Spinner';
 
 const Post = () => {
+  let history = useHistory();
   const { id } = useParams();
 
   function usePost() {
@@ -23,10 +23,12 @@ const Post = () => {
 
   return (
     <div className='row justify-content-center '>
-      <div className='col-xs-10 col-sm-9 col-md-8 col-xl-7 position-relative'>
-        <Link to='/' className='btn-back' title='Go Back'>
-          <i className='bi bi-arrow-left-circle-fill'></i>
-        </Link>
+      <div className='col-xs-10 col-sm-9 col-md-8 col-xl-7'>
+        <i
+          className='bi bi-arrow-left-circle-fill btn-back text-primary'
+          onClick={() => history.goBack()}
+          title='Go Back'
+        ></i>
         <header className='App-header'>
           <h2 className='text-center display-6 text-light'>Post</h2>
         </header>
