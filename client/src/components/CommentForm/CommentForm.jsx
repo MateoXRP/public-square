@@ -50,11 +50,11 @@ const CommentForm = ({ postId }) => {
 
   const addCommentMutation = useMutation(addComment, {
     onError: error => {
-      console.log('mutate error: ', error);
+      // console.log('mutate error: ', error);
       reset();
     },
     onSuccess: data => {
-      console.log('mutate success data: ', data);
+      // console.log('mutate success data: ', data);
       if (data?.next) {
         setXummRedirectURL(data.next.always);
       }
@@ -63,7 +63,7 @@ const CommentForm = ({ postId }) => {
 
   const submitComment = async data => {
     data.postId = postId;
-    console.log('submit data:', data);
+    // console.log('submit data:', data);
     addCommentMutation.mutate(data);
   };
 
@@ -92,7 +92,7 @@ const CommentForm = ({ postId }) => {
 
         {addCommentMutation.isLoading && <Spinner />}
 
-        <div className='d-flex flex-column flex-lg-row align-items-center align-items-lg-start pt-2'>
+        <div className='d-flex flex-column flex-lg-row align-items-center align-items-lg-start pt-3'>
           <div className='me-3'>
             <button
               type='button'
