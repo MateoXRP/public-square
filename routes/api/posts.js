@@ -111,7 +111,7 @@ router.get('/address/:address', async (req, res) => {
     }
 
     const posts = await getPostsByAddress(transactions, address);
-    console.log('posts: ', posts);
+    // console.log('posts: ', posts);
 
     // const data = { posts };
     res.send({ posts });
@@ -164,7 +164,8 @@ router.post('/', async (req, res) => {
     const data = await sendPayload(payloadConfig);
 
     // check result
-    console.log('payload data: ', data);
+    // console.log('payload data: ', data);
+    console.log(`a new post was created`);
 
     res.send(data);
   } catch (error) {
