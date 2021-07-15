@@ -17,8 +17,8 @@ const router = express.Router();
 // @access  Public
 router.post('/', async (req, res) => {
   const { currency, postId } = req.body;
-  console.log('postId: ', postId);
-  console.log('currency: ', currency);
+  // console.log('postId: ', postId);
+  // console.log('currency: ', currency);
   try {
     const likeData = string2Hex(postId);
 
@@ -53,6 +53,7 @@ router.post('/', async (req, res) => {
 
     // check result
     // console.log('payload data: ', data);
+    console.log(`post ${postId} was liked`);
 
     res.send(data);
   } catch (error) {

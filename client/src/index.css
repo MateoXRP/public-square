@@ -19,27 +19,41 @@ body {
   color: var(--text-color);
 }
 
-.App {
-  background-color: var(--main-bg-color);
-}
-
-.navbar-dark {
-  background-color: var(--navbar-bg-color) !important;
-}
-
-.btn-back {
-  position: absolute;
-  font-size: 2rem;
-}
-
 .accordion-button::after {
   background-color: var(--text-color) !important;
   border-radius: 50%;
 }
 
+.App {
+  background-color: var(--main-bg-color);
+}
+
+.btn-back {
+  cursor: pointer;
+  position: absolute;
+  top: 4rem;
+  left: 1rem;
+  z-index: 1010;
+  font-size: 2rem;
+  transition: color 0.15 ease-in-out;
+}
+
+.btn-back:hover,
+.btn-back:focus {
+  color: #fff !important;
+}
+
 .card {
   color: var(--text-color);
   background-color: var(--card-bg-color);
+}
+
+.fs-smaller {
+  font-size: smaller;
+}
+
+.img-thumbnail {
+  background-color: unset;
 }
 
 .list-group-item {
@@ -49,6 +63,9 @@ body {
   padding: 1rem;
 }
 
+.navbar-dark {
+  background-color: var(--navbar-bg-color) !important;
+}
 .post-content {
   display: flex;
   flex-direction: column;
@@ -65,8 +82,4 @@ body {
 
 .text-muted {
   color: var(--text-muted-color) !important;
-}
-
-.fs-smaller {
-  font-size: smaller;
 }
