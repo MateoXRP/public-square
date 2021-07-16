@@ -4,7 +4,6 @@ import ConfirmModal from '../ConfirmModal';
 
 const ConfirmAction = ({ formRef, type, iconClass }) => {
   const [isVisible, setIsVisible] = useState(false);
-  console.log('isVisible: ', isVisible);
 
   const toggleModal = () => {
     setIsVisible(!isVisible);

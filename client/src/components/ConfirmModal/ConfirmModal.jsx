@@ -2,8 +2,6 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 
 const ConfirmModal = ({ formRef, type, isVisible, hideModal }) => {
-  console.log('confirm/isVisible: ', isVisible);
-  console.log('confirm/type: ', type);
   if (!isVisible) return null;
 
   const handleSubmit = () => {
