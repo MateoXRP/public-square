@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { useForm, Controller } from 'react-hook-form';
 import { useMutation } from 'react-query';
 
 import Spinner from '../Spinner';
+import ConfirmAction from '../ConfirmAction';
 
 const CommentForm = ({ postId }) => {
   const {
@@ -13,11 +14,13 @@ const CommentForm = ({ postId }) => {
     control,
     reset,
     setValue
-  } = useForm();
+  } = useForm({ defaultValues: { currency: 'XRP' } });
+
+  const formRef = useRef(null);
 
   const [radio, setRadio] = useState('XRP');
   const [xummRedirectURL, setXummRedirectURL] = useState(null);
-
+  console.log('radio: ', radio);
   useEffect(() => {
     if (xummRedirectURL) {
       window.location.assign(xummRedirectURL);
@@ -27,6 +30,10 @@ const CommentForm = ({ postId }) => {
   const changeRadio = e => {
     setRadio(e.target.value);
     setValue('currency', e.target.value);
+  };
+
+  const handleCancel = () => {
+    setValue('commentContent', '');
   };
 
   const addComment = async commentData => {
@@ -63,14 +70,14 @@ const CommentForm = ({ postId }) => {
 
   const submitComment = async data => {
     data.postId = postId;
-    // console.log('submit data:', data);
-    addCommentMutation.mutate(data);
+    console.log('submit data:', data);
+    // addCommentMutation.mutate(data);
   };
 
   // console.log('form errors:', errors);
 
   return (
-    <form onSubmit={handleSubmit(submitComment)}>
+    <form ref={formRef} onSubmit={handleSubmit(submitComment)}>
       <div className='my-3'>
         <textarea
           className='form-control'
@@ -96,19 +103,18 @@ const CommentForm = ({ postId }) => {
           <div className='me-3'>
             <button
               type='button'
-              className='btn btn-outline-secondary btn-sm text-uppercase'
-              onClick={() => reset()}
+              className='btn btn-outline-secondary btn-sm text-uppercase me-3'
+              onClick={handleCancel}
             >
               <i className='bi bi-x-circle pe-2'></i>
               Cancel
             </button>
-            <button
-              type='submit'
-              className='btn btn-outline-primary btn-sm text-uppercase ms-3'
-            >
-              <i className='bi bi-arrow-right-circle pe-2'></i>
-              Submit
-            </button>
+
+            <ConfirmAction
+              formRef={formRef}
+              type='Add Comment'
+              iconClass='bi-arrow-right-circle'
+            />
           </div>
           <Controller
             control={control}
