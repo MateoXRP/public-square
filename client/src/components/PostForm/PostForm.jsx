@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { useForm, Controller } from 'react-hook-form';
 import { useMutation } from 'react-query';
 
 import Spinner from '../Spinner';
+import ConfirmAction from '../ConfirmAction';
 
 const PostForm = () => {
   const {
@@ -14,6 +15,8 @@ const PostForm = () => {
     reset,
     setValue
   } = useForm();
+
+  const formRef = useRef(null);
 
   const [radio, setRadio] = useState('XRP');
   const [xummRedirectURL, setXummRedirectURL] = useState(null);
@@ -63,14 +66,14 @@ const PostForm = () => {
 
   const submitPost = async data => {
     console.log('submit data:', data);
-    addPostMutation.mutate(data);
+    // addPostMutation.mutate(data);
   };
 
   // console.log('form errors:', errors);
 
   return (
     <div className='card my-3 container-fluid'>
-      <form onSubmit={handleSubmit(submitPost)}>
+      <form ref={formRef} onSubmit={handleSubmit(submitPost)}>
         <div className='my-3'>
           <label htmlFor='postContent' className='form-label text-uppercase'>
             Create Post
@@ -144,19 +147,17 @@ const PostForm = () => {
             <div className='float-end'>
               <button
                 type='button'
-                className='btn btn-outline-secondary btn-sm text-uppercase'
+                className='btn btn-outline-secondary btn-sm text-uppercase me-3'
                 onClick={() => reset()}
               >
                 <i className='bi bi-x-circle pe-2'></i>
                 Cancel
               </button>
-              <button
-                type='submit'
-                className='btn btn-outline-primary btn-sm text-uppercase ms-3'
-              >
-                <i className='bi bi-arrow-right-circle pe-2'></i>
-                Submit
-              </button>
+              <ConfirmAction
+                formRef={formRef}
+                type='Create Post'
+                iconClass='bi-arrow-right-circle'
+              />
             </div>
           </div>
         </div>
