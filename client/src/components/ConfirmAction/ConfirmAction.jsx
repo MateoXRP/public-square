@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import ConfirmModal from '../ConfirmModal';
 
-const ConfirmAction = ({ formRef, type, iconClass }) => {
+const ConfirmAction = ({ formRef, type, iconClass, isDisabled }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const toggleModal = () => {
@@ -17,9 +17,10 @@ const ConfirmAction = ({ formRef, type, iconClass }) => {
   return (
     <>
       <button
-        id='toggleConfirmModal'
+        id={`toggleConfirmModal-${type}`}
         className='btn btn-outline-primary btn-sm text-uppercase'
         onClick={e => showModal(e)}
+        disabled={isDisabled}
       >
         <i className={`bi ${iconClass} pe-2`}></i>
         {type}
