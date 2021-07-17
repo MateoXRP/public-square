@@ -10,11 +10,12 @@ const PostForm = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
     control,
     reset,
     setValue
-  } = useForm();
+  } = useForm({ defaultValues: { currency: 'XRP', postContent: '' } });
 
   const formRef = useRef(null);
 
@@ -30,6 +31,10 @@ const PostForm = () => {
   const changeRadio = e => {
     setRadio(e.target.value);
     setValue('currency', e.target.value);
+  };
+
+  const handleCancel = () => {
+    setValue('postContent', '');
   };
 
   const addPost = async postData => {
@@ -65,11 +70,11 @@ const PostForm = () => {
   });
 
   const submitPost = async data => {
-    console.log('submit data:', data);
-    // addPostMutation.mutate(data);
+    // console.log('submit data:', data);
+    addPostMutation.mutate(data);
   };
 
-  // console.log('form errors:', errors);
+  const isContentEmpty = watch('postContent').length === 0;
 
   return (
     <div className='card my-3 container-fluid'>
@@ -78,19 +83,31 @@ const PostForm = () => {
           <label htmlFor='postContent' className='form-label text-uppercase'>
             Create Post
           </label>
-          <textarea
-            className='form-control'
-            id='postContent'
-            placeholder='Enter your post here...'
-            rows='3'
-            {...register('postContent', {
-              required: 'The post content field is required',
-              maxLength: {
-                value: 280,
-                message: 'Exceeds maximum length of 280 characters'
-              }
-            })}
-          ></textarea>
+          <div className='position-relative'>
+            <textarea
+              className='form-control'
+              id='postContent'
+              placeholder='Enter your post here...'
+              rows='3'
+              {...register('postContent', {
+                required: 'The post content field is required',
+                minLength: 1,
+                maxLength: {
+                  value: 280,
+                  message: 'Exceeds maximum length of 280 characters'
+                }
+              })}
+            ></textarea>
+            <span
+              type='button'
+              onClick={handleCancel}
+              className={`btn-clear-inline ${
+                isContentEmpty ? 'invisible' : ''
+              }`}
+            >
+              <i className={`bi bi-x-circle`}></i>
+            </span>
+          </div>
 
           {errors.postContent && (
             <div style={{ color: 'red' }}>{errors.postContent.message}</div>
@@ -145,18 +162,11 @@ const PostForm = () => {
               )}
             />
             <div className='float-end'>
-              <button
-                type='button'
-                className='btn btn-outline-secondary btn-sm text-uppercase me-3'
-                onClick={() => reset()}
-              >
-                <i className='bi bi-x-circle pe-2'></i>
-                Cancel
-              </button>
               <ConfirmAction
                 formRef={formRef}
                 type='Create Post'
                 iconClass='bi-arrow-right-circle'
+                isDisabled={isContentEmpty}
               />
             </div>
           </div>

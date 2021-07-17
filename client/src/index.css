@@ -43,6 +43,20 @@ body {
   color: #fff !important;
 }
 
+.btn-clear-inline {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0.25rem;
+  z-index: 1010;
+  color: var(--text-muted-color);
+}
+
+.btn-clear-inline:hover,
+.btn-clear-inline:focus {
+  color: #212529;
+}
+
 .card {
   color: var(--text-color);
   background-color: var(--card-bg-color);

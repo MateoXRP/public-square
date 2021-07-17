@@ -59,8 +59,8 @@ const LikeForm = ({ postId }) => {
 
   const submitLike = async data => {
     data.postId = postId;
-    console.log('submit data:', data);
-    // addLikeMutation.mutate(data);
+    // console.log('submit data:', data);
+    addLikeMutation.mutate(data);
   };
 
   // console.count('Like form render');
@@ -69,13 +69,7 @@ const LikeForm = ({ postId }) => {
     <form className='p-3' ref={formRef} onSubmit={handleSubmit(submitLike)}>
       {addLikeMutation.isLoading && <Spinner />}
 
-      <div className='d-flex flex-column flex-md-row align-items-md-center gap-2'>
-        <ConfirmAction
-          formRef={formRef}
-          type='Like Post'
-          iconClass='bi-hand-thumbs-up'
-        />
-
+      <div className='d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2'>
         <Controller
           control={control}
           defaultValue='XRP'
@@ -120,6 +114,11 @@ const LikeForm = ({ postId }) => {
               </div>
             </div>
           )}
+        />
+        <ConfirmAction
+          formRef={formRef}
+          type='Like Post'
+          iconClass='bi-hand-thumbs-up'
         />
       </div>
     </form>

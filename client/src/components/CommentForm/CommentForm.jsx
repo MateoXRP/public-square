@@ -10,17 +10,18 @@ const CommentForm = ({ postId }) => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
     control,
     reset,
     setValue
-  } = useForm({ defaultValues: { currency: 'XRP' } });
+  } = useForm({ defaultValues: { currency: 'XRP', commentContent: '' } });
 
   const formRef = useRef(null);
 
   const [radio, setRadio] = useState('XRP');
   const [xummRedirectURL, setXummRedirectURL] = useState(null);
-  console.log('radio: ', radio);
+
   useEffect(() => {
     if (xummRedirectURL) {
       window.location.assign(xummRedirectURL);
@@ -70,15 +71,15 @@ const CommentForm = ({ postId }) => {
 
   const submitComment = async data => {
     data.postId = postId;
-    console.log('submit data:', data);
-    // addCommentMutation.mutate(data);
+    // console.log('submit data:', data);
+    addCommentMutation.mutate(data);
   };
 
-  // console.log('form errors:', errors);
+  const isContentEmpty = watch('commentContent').length === 0;
 
   return (
     <form ref={formRef} onSubmit={handleSubmit(submitComment)}>
-      <div className='my-3'>
+      <div className='my-3 position-relative'>
         <textarea
           className='form-control'
           id='commentContent'
@@ -92,6 +93,13 @@ const CommentForm = ({ postId }) => {
             }
           })}
         ></textarea>
+        <span
+          type='button'
+          onClick={handleCancel}
+          className={`btn-clear-inline ${isContentEmpty ? 'invisible' : ''}`}
+        >
+          <i className={`bi bi-x-circle`}></i>
+        </span>
 
         {errors.commentContent && (
           <div style={{ color: 'red' }}>{errors.commentContent.message}</div>
@@ -99,23 +107,7 @@ const CommentForm = ({ postId }) => {
 
         {addCommentMutation.isLoading && <Spinner />}
 
-        <div className='d-flex flex-column flex-lg-row align-items-center align-items-lg-start pt-3'>
-          <div className='me-3'>
-            <button
-              type='button'
-              className='btn btn-outline-secondary btn-sm text-uppercase me-3'
-              onClick={handleCancel}
-            >
-              <i className='bi bi-x-circle pe-2'></i>
-              Cancel
-            </button>
-
-            <ConfirmAction
-              formRef={formRef}
-              type='Add Comment'
-              iconClass='bi-arrow-right-circle'
-            />
-          </div>
+        <div className='d-flex flex-column flex-lg-row align-items-center align-items-lg-start justify-content-between pt-3'>
           <Controller
             control={control}
             defaultValue='XRP'
@@ -161,6 +153,14 @@ const CommentForm = ({ postId }) => {
               </div>
             )}
           />
+          <div className='float-end'>
+            <ConfirmAction
+              formRef={formRef}
+              type='Add Comment'
+              iconClass='bi-arrow-right-circle'
+              isDisabled={isContentEmpty}
+            />
+          </div>
         </div>
       </div>
     </form>
