@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { useForm, Controller } from 'react-hook-form';
 import { useMutation } from 'react-query';
 
 import Spinner from '../Spinner';
+import ConfirmAction from '../ConfirmAction';
 
 const LikeForm = ({ postId }) => {
   const { handleSubmit, control, reset, setValue } = useForm();
+
+  const formRef = useRef(null);
 
   const [radio, setRadio] = useState('XRP');
   const [xummRedirectURL, setXummRedirectURL] = useState(null);
@@ -56,24 +59,17 @@ const LikeForm = ({ postId }) => {
 
   const submitLike = async data => {
     data.postId = postId;
-    console.log('submit data:', data);
+    // console.log('submit data:', data);
     addLikeMutation.mutate(data);
   };
 
   // console.count('Like form render');
 
   return (
-    <form className='p-3' onSubmit={handleSubmit(submitLike)}>
+    <form className='p-3' ref={formRef} onSubmit={handleSubmit(submitLike)}>
       {addLikeMutation.isLoading && <Spinner />}
 
-      <div className='d-flex flex-column flex-md-row align-items-md-center gap-2'>
-        <button
-          type='submit'
-          className='btn btn-outline-primary btn-sm text-uppercase me-3'
-        >
-          <i className='bi bi-hand-thumbs-up pe-2'></i>
-          Like Post
-        </button>
+      <div className='d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2'>
         <Controller
           control={control}
           defaultValue='XRP'
@@ -118,6 +114,11 @@ const LikeForm = ({ postId }) => {
               </div>
             </div>
           )}
+        />
+        <ConfirmAction
+          formRef={formRef}
+          type='Like Post'
+          iconClass='bi-hand-thumbs-up'
         />
       </div>
     </form>
