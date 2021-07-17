@@ -17,35 +17,37 @@ const PostFeed = () => {
   const { status, data, error, isFetching } = usePosts();
 
   return (
-    <div className='row justify-content-center '>
-      <div className='col-xs-11 col-sm-10 col-md-8'>
-        <header className='App-header'>
-          <h2 className='text-center display-6 text-light'>Posts</h2>
-        </header>
+    <div className='container'>
+      <div className='row justify-content-center '>
+        <div className='col-xs-11 col-sm-10 col-md-8'>
+          <header className='App-header'>
+            <h2 className='text-center display-6 text-light'>Posts</h2>
+          </header>
 
-        <PostForm />
+          <PostForm />
 
-        <div>
-          {status === 'loading' ? (
-            <Spinner />
-          ) : status === 'error' ? (
-            <span className='text-danger'>Error: {error.message}</span>
-          ) : (
-            <>
-              <div className=''>
-                {data.posts.map(post => {
-                  return (
-                    <PostItem
-                      key={post.hash.substring(post.hash.length - 8)}
-                      data={post}
-                    />
-                  );
-                })}
-              </div>
+          <div>
+            {status === 'loading' ? (
+              <Spinner />
+            ) : status === 'error' ? (
+              <span className='text-danger'>Error: {error.message}</span>
+            ) : (
+              <>
+                <div className=''>
+                  {data.posts.map(post => {
+                    return (
+                      <PostItem
+                        key={post.hash.substring(post.hash.length - 8)}
+                        data={post}
+                      />
+                    );
+                  })}
+                </div>
 
-              <div>{isFetching ? <Spinner /> : ''}</div>
-            </>
-          )}
+                <div>{isFetching ? <Spinner /> : ''}</div>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>
