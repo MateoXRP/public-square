@@ -36,47 +36,49 @@ const UserPosts = () => {
   );
 
   return (
-    <div className='row justify-content-center '>
-      <div className='col-xs-11 col-sm-10 col-md-8'>
-        <i
-          className='bi bi-arrow-left-circle-fill btn-back text-primary'
-          onClick={() => history.goBack()}
-          title='Go Back'
-        ></i>
-        <header className='App-header'>
-          <div className='card mx-auto mt-2'>
-            <div className='card-body d-flex align-items-center justify-content-center'>
-              <img
-                src={user.gravatarURL}
-                className='rounded-circle img-thumbnail'
-                alt=''
-              />
-              {Username}
-            </div>
-          </div>
-        </header>
-
-        <div>
-          {status === 'loading' || (isFetching && isDataStale) ? (
-            <Spinner />
-          ) : status === 'error' ? (
-            <span className='text-danger'>Error: {error.message}</span>
-          ) : (
-            <>
-              <div className=''>
-                {data.posts?.map(post => {
-                  return (
-                    <PostItem
-                      key={post.hash.substring(post.hash.length - 8)}
-                      data={post}
-                    />
-                  );
-                })}
+    <div className='container'>
+      <div className='row justify-content-center '>
+        <div className='col-xs-11 col-sm-10 col-md-8'>
+          <i
+            className='bi bi-arrow-left-circle-fill btn-back text-primary'
+            onClick={() => history.goBack()}
+            title='Go Back'
+          ></i>
+          <header className='App-header'>
+            <div className='card mx-auto mt-2'>
+              <div className='card-body d-flex align-items-center justify-content-center'>
+                <img
+                  src={user.gravatarURL}
+                  className='rounded-circle img-thumbnail'
+                  alt=''
+                />
+                {Username}
               </div>
+            </div>
+          </header>
 
-              <div>{isFetching ? <Spinner /> : ''}</div>
-            </>
-          )}
+          <div>
+            {status === 'loading' || (isFetching && isDataStale) ? (
+              <Spinner />
+            ) : status === 'error' ? (
+              <span className='text-danger'>Error: {error.message}</span>
+            ) : (
+              <>
+                <div className=''>
+                  {data.posts?.map(post => {
+                    return (
+                      <PostItem
+                        key={post.hash.substring(post.hash.length - 8)}
+                        data={post}
+                      />
+                    );
+                  })}
+                </div>
+
+                <div>{isFetching ? <Spinner /> : ''}</div>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>
