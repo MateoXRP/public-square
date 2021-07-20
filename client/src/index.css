@@ -81,6 +81,90 @@ body {
   background-color: var(--card-bg-color);
 }
 
+.content-editor {
+  min-height: 7rem;
+  padding: 0 0.75rem;
+  color: var(--text-color);
+  background-color: var(--navbar-bg-color) !important;
+  border-radius: 0.25rem;
+}
+
+.rdw-editor-toolbar {
+  background-color: var(--navbar-bg-color) !important;
+  border-radius: 0.25rem !important;
+  border: none !important;
+}
+
+.rdw-dropdown-selectedtext,
+.rdw-dropdown-selectedtext a {
+  color: #212529 !important;
+  text-decoration: none;
+}
+
+.rdw-dropdown-wrapper {
+  color: var(--text-color);
+}
+
+.rdw-dropdown-optionwrapper {
+  background-color: var(--navbar-bg-color) !important;
+}
+
+.rdw-dropdownoption-active {
+  color: #212529 !important;
+}
+
+.rdw-dropdownoption-highlighted {
+  color: #212529 !important;
+}
+
+.rdw-fontsize-dropdown {
+  min-width: 3.5rem !important;
+}
+
+/* .rdw-editor-main {
+  min-height: 7rem;
+  border-radius: 0.25rem;
+} */
+
+.rdw-link-modal,
+.rdw-embedded-modal,
+.rdw-image-modal,
+.rdw-emoji-modal,
+.rdw-colorpicker-modal {
+  width: unset !important;
+  height: unset !important;
+  color: #fff;
+  background-color: var(--navbar-bg-color) !important;
+  border-radius: 0.25rem !important;
+  box-shadow: none !important;
+}
+
+.rdw-image-modal,
+.rdw-emoji-modal,
+.rdw-colorpicker-modal {
+  width: 15rem !important;
+}
+
+.rdw-emoji-modal {
+  height: 15rem !important;
+}
+
+.rdw-image-modal {
+  width: 20rem !important;
+}
+
+.rdw-colorpicker-modal-options {
+  overflow: unset !important;
+}
+
+.rdw-link-modal-label {
+  box-shadow: none !important;
+}
+
+.rdw-link-modal-target-option {
+  margin-bottom: unset !important;
+}
+
 .fs-smaller {
   font-size: smaller;
 }
