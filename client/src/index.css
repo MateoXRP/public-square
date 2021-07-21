@@ -19,7 +19,7 @@ body {
 }
 
 .accordion-button::after {
-  background-color: var(--text-color) !important;
+  background-color: var(--navbar-bg-color) !important;
   border-radius: 50%;
 }
 
@@ -87,6 +87,10 @@ body {
   color: var(--text-color);
   background-color: var(--navbar-bg-color) !important;
   border-radius: 0.25rem;
+}
+
+.faq-item-answer {
+  background-color: var(--navbar-bg-color) !important;
 }
 
 .rdw-editor-toolbar {

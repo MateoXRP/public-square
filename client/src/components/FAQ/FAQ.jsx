@@ -36,7 +36,9 @@ const FAQ = () => {
               aria-labelledby={`faq-heading-${item.displayOrder}`}
               data-bs-parent='#accordionFAQ'
             >
-              <div className='accordion-body'>{item.answer}</div>
+              <div className='accordion-body faq-item-answer'>
+                {item.answer}
+              </div>
             </div>
           </div>
         ))}
