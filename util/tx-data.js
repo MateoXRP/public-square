@@ -29,7 +29,7 @@ function string2Hex(str) {
   // convert buffer to hex string
   const hexString = bufStr.toString('hex');
 
-  console.log('hexString: ', hexString);
+  // console.log('hexString: ', hexString);
   return hexString;
 }
 

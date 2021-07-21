@@ -44,18 +44,13 @@ async function sendPayload(payloadConfig) {
   console.log('payload', payload);
 
   try {
-    // const result = await axios.get(
-    //   'https://xumm.app/api/v1/platform/ping',
-    //   config
-    // );
-
     const result = await axios.post(
       'https://xumm.app/api/v1/platform/payload',
       payload,
       config
     );
 
-    // console.log('xumm result:', result.data);
+    console.log('xumm result:', result.data);
 
     if (result.status !== 200) {
       throw new Error('Sorry, something went wrong. Please try again later');

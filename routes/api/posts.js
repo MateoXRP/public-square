@@ -132,7 +132,7 @@ router.post('/', async (req, res) => {
   try {
     // convert text to hex
     const postData = string2Hex(postContent);
-    console.log('postData: ', postData);
+    // console.log('postData: ', postData);
 
     // create payload
     const memosField = [
@@ -159,13 +159,13 @@ router.post('/', async (req, res) => {
         }
       }
     };
+    // console.log('payload config: ', payloadConfig);
 
     // submit transaction using xumm
     const data = await sendPayload(payloadConfig);
 
     // check result
-    // console.log('payload data: ', data);
-    console.log(`a new post was created`);
+    console.log(`New post was created`);
 
     res.send(data);
   } catch (error) {
