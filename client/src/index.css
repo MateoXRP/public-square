@@ -16,7 +16,6 @@ body {
   background-color: var(--main-bg-color);
   /* font-family: 'PT Sans', sans-serif; */
   height: 100%;
-  color: var(--text-color);
 }
 
 .accordion-button::after {
@@ -25,6 +24,7 @@ body {
 }
 
 .App {
+  color: var(--text-color);
   background-color: var(--main-bg-color);
 }
 
@@ -117,8 +117,16 @@ body {
   color: #212529 !important;
 }
 
+.rdw-block-dropdown .rdw-dropdown-optionwrapper {
+  overflow-y: unset !important;
+}
+
 .rdw-fontsize-dropdown {
   min-width: 3.5rem !important;
+}
+
+.rdw-fontfamily-optionwrapper {
+  overflow-y: unset !important;
 }
 
 /* .rdw-editor-main {
@@ -145,14 +153,6 @@ body {
   width: 15rem !important;
 }
 
-.rdw-emoji-modal {
-  height: 15rem !important;
-}
-
-.rdw-image-modal {
-  width: 20rem !important;
-}
-
 .rdw-colorpicker-modal-options {
   overflow: unset !important;
 }
@@ -161,8 +161,24 @@ body {
   box-shadow: none !important;
 }
 
-.rdw-link-modal-target-option {
+/* .rdw-link-modal-target-option {
   margin-bottom: unset !important;
+} */
+
+.rdw-emoji-modal {
+  height: 15rem !important;
+}
+
+.rdw-image-modal {
+  width: 20rem !important;
+}
+
+.rdw-image-imagewrapper {
+  color: #212529 !important;
+}
+
+.rdw-image-alignment-options-popup {
+  background-color: var(--card-bg-color) !important;
 }
 
 .fs-smaller {
