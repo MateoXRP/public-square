@@ -5,10 +5,12 @@ import { useMutation } from 'react-query';
 
 import Spinner from '../Spinner';
 import ConfirmAction from '../ConfirmAction';
+import ContentEditor from '../ContentEditor';
+
+import { testContentLength } from '../../util/tx-data';
 
 const PostForm = () => {
   const {
-    register,
     handleSubmit,
     watch,
     formState: { errors },
@@ -33,9 +35,10 @@ const PostForm = () => {
     setValue('currency', e.target.value);
   };
 
-  const handleCancel = () => {
-    setValue('postContent', '');
-  };
+  // need custom toolbar button for this
+  // const handleCancel = () => {
+  //   setValue('postContent', '');
+  // };
 
   const addPost = async postData => {
     const config = {
@@ -70,8 +73,15 @@ const PostForm = () => {
   });
 
   const submitPost = async data => {
-    // console.log('submit data:', data);
-    addPostMutation.mutate(data);
+    const results = testContentLength(data.postContent);
+    console.log('test result: ', results);
+    console.log('submit data:', data);
+
+    if (results.isLengthValid) {
+      addPostMutation.mutate(data);
+    } else {
+      errors.postContent.message = `Exceeds maximum length by approximately ${results.overage}`;
+    }
   };
 
   const isContentEmpty = watch('postContent').length === 0;
@@ -84,29 +94,18 @@ const PostForm = () => {
             Create Post
           </label>
           <div className='position-relative'>
-            <textarea
-              className='form-control'
-              id='postContent'
-              placeholder='Enter your post here...'
-              rows='3'
-              {...register('postContent', {
+            <Controller
+              control={control}
+              name='postContent'
+              defaultValue=''
+              render={({ field: { onChange } }) => (
+                <ContentEditor onChange={onChange} />
+              )}
+              rules={{
                 required: 'The post content field is required',
-                minLength: 1,
-                maxLength: {
-                  value: 280,
-                  message: 'Exceeds maximum length of 280 characters'
-                }
-              })}
-            ></textarea>
-            <span
-              type='button'
-              onClick={handleCancel}
-              className={`btn-clear-inline ${
-                isContentEmpty ? 'invisible' : ''
-              }`}
-            >
-              <i className={`bi bi-x-circle`}></i>
-            </span>
+                minLength: 1
+              }}
+            />
           </div>
 
           {errors.postContent && (
