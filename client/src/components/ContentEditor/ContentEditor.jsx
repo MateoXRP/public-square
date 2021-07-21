@@ -26,7 +26,7 @@ class ContentEditor extends Component {
 
   onContentStateChange = contentState => {
     const htmlContent = draftToHtml(contentState);
-    console.log('html: ', htmlContent.length);
+    // console.log('html: ', htmlContent.length);
 
     this.props.onChange(htmlContent);
   };
@@ -58,7 +58,14 @@ class ContentEditor extends Component {
               'history'
             ],
             inline: {
-              options: ['bold', 'italic', 'underline', 'monospace']
+              options: ['bold', 'italic', 'underline']
+            },
+            image: {
+              popupClassName: 'content-editor-img-popup',
+              urlEnabled: true,
+              uploadEnabled: false,
+              alignmentEnabled: true,
+              alt: { present: false, mandatory: false }
             }
           }}
         />
