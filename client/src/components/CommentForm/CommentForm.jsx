@@ -5,10 +5,12 @@ import { useMutation } from 'react-query';
 
 import Spinner from '../Spinner';
 import ConfirmAction from '../ConfirmAction';
+import ContentEditor from '../ContentEditor';
+
+import { testContentLength } from '../../util/tx-data';
 
 const CommentForm = ({ postId }) => {
   const {
-    register,
     handleSubmit,
     watch,
     formState: { errors },
@@ -33,9 +35,9 @@ const CommentForm = ({ postId }) => {
     setValue('currency', e.target.value);
   };
 
-  const handleCancel = () => {
-    setValue('commentContent', '');
-  };
+  // const handleCancel = () => {
+  //   setValue('commentContent', '');
+  // };
 
   const addComment = async commentData => {
     const config = {
@@ -58,7 +60,7 @@ const CommentForm = ({ postId }) => {
 
   const addCommentMutation = useMutation(addComment, {
     onError: error => {
-      // console.log('mutate error: ', error);
+      console.log('mutate error: ', error);
       reset();
     },
     onSuccess: data => {
@@ -70,9 +72,18 @@ const CommentForm = ({ postId }) => {
   });
 
   const submitComment = async data => {
+    const results = testContentLength(data.commentContent);
+    // console.log('test result: ', results);
+
     data.postId = postId;
+
     // console.log('submit data:', data);
-    addCommentMutation.mutate(data);
+
+    if (results.isLengthValid) {
+      addCommentMutation.mutate(data);
+    } else {
+      errors.commentContent.message = `Exceeds maximum length by approximately ${results.overage}`;
+    }
   };
 
   const isContentEmpty = watch('commentContent').length === 0;
@@ -80,26 +91,20 @@ const CommentForm = ({ postId }) => {
   return (
     <form ref={formRef} onSubmit={handleSubmit(submitComment)}>
       <div className='my-3 position-relative'>
-        <textarea
-          className='form-control'
-          id='commentContent'
-          placeholder='Add a comment...'
-          rows='1'
-          {...register('commentContent', {
-            required: 'The comment field is required',
-            maxLength: {
-              value: 140,
-              message: 'Exceeds maximum length of 140 characters'
-            }
-          })}
-        ></textarea>
-        <span
-          type='button'
-          onClick={handleCancel}
-          className={`btn-clear-inline ${isContentEmpty ? 'invisible' : ''}`}
-        >
-          <i className={`bi bi-x-circle`}></i>
-        </span>
+        <div className='position-relative'>
+          <Controller
+            control={control}
+            name='commentContent'
+            defaultValue=''
+            render={({ field: { onChange } }) => (
+              <ContentEditor onChange={onChange} />
+            )}
+            rules={{
+              required: 'The content editor is empty',
+              minLength: 1
+            }}
+          />
+        </div>
 
         {errors.commentContent && (
           <div style={{ color: 'red' }}>{errors.commentContent.message}</div>

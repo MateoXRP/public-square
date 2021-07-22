@@ -51,7 +51,7 @@ const PostForm = () => {
 
     try {
       const result = await axios.post(`/api/posts`, body, config);
-      console.log('post form result', result.data);
+      // console.log('post form result', result.data);
 
       return result.data;
     } catch (error) {
@@ -65,7 +65,7 @@ const PostForm = () => {
       reset();
     },
     onSuccess: data => {
-      console.log('mutate success data: ', data);
+      // console.log('mutate success data: ', data);
       if (data?.next) {
         setXummRedirectURL(data.next.always);
       }
@@ -74,8 +74,8 @@ const PostForm = () => {
 
   const submitPost = async data => {
     const results = testContentLength(data.postContent);
-    console.log('test result: ', results);
-    console.log('submit data:', data);
+    // console.log('test result: ', results);
+    // console.log('submit data:', data);
 
     if (results.isLengthValid) {
       addPostMutation.mutate(data);
@@ -102,7 +102,7 @@ const PostForm = () => {
                 <ContentEditor onChange={onChange} />
               )}
               rules={{
-                required: 'The post content field is required',
+                required: 'The content editor is empty',
                 minLength: 1
               }}
             />
