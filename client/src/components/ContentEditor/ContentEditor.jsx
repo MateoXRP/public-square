@@ -19,14 +19,19 @@ class ContentEditor extends Component {
     });
   }
 
-  onEditorStateChange = editorState =>
+  onEditorStateChange = editorState => {
+    const currentContent = this.state.editorState.getCurrentContent();
+    const newContent = editorState.getCurrentContent();
+    // console.log('equal: ', currentContent === newContent);
+    if (currentContent === newContent) return;
+
     this.setState({
       editorState
     });
+  };
 
   onContentStateChange = contentState => {
     const htmlContent = draftToHtml(contentState);
-    // console.log('html: ', htmlContent.length);
 
     this.props.onChange(htmlContent);
   };
