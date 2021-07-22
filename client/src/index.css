@@ -82,7 +82,6 @@ body {
 }
 
 .content-editor {
-  min-height: 7rem;
   padding: 0 0.75rem;
   color: var(--text-color);
   background-color: var(--navbar-bg-color) !important;
@@ -195,7 +194,7 @@ body {
 
 .list-group-item {
   color: var(--text-color);
-  background-color: var(--card-bg-color);
+  background-color: #212529 !important;
   border-color: var(--main-bg-color);
   padding: 1rem;
 }
