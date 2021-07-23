@@ -33,7 +33,7 @@ const Topnav = () => {
         <div className='collapse navbar-collapse' id='navbarContent'>
           <ul className='navbar-nav me-auto mb-2 mb-lg-0'>
             <li className='nav-item'>
-              <NavLink className='nav-link ' aria-current='page' to='/'>
+              <NavLink className='nav-link' to='/' exact>
                 Home
               </NavLink>
             </li>
