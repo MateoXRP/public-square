@@ -27,7 +27,7 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   const cursor = Number.parseInt(req.query.cursor);
 
-  console.log('cursor: ', cursor);
+  // console.log('cursor: ', cursor);
   try {
     const { transactions } = await getAccountTx();
     if (!transactions) {
@@ -41,8 +41,8 @@ router.get('/', async (req, res) => {
     }
 
     const result = await getPosts(transactions, cursor);
-    console.log('posts: ', result.posts.length);
-    console.log('nextCursor: ', result.nextCursor);
+    // console.log('posts: ', result.posts.length);
+    // console.log('nextCursor: ', result.nextCursor);
 
     const response = { data: result.posts };
 
@@ -109,7 +109,7 @@ router.get('/address/:address', async (req, res) => {
   const { address } = req.params;
   const cursor = Number.parseInt(req.query.cursor);
 
-  console.log('cursor: ', cursor);
+  // console.log('cursor: ', cursor);
   try {
     const { transactions } = await getAccountTx();
     if (!transactions) {
@@ -123,8 +123,8 @@ router.get('/address/:address', async (req, res) => {
     }
 
     const result = await getPostsByAddress(transactions, address, cursor);
-    console.log('posts: ', result.posts.length);
-    console.log('nextCursor: ', result.nextCursor);
+    // console.log('posts: ', result.posts.length);
+    // console.log('nextCursor: ', result.nextCursor);
 
     const response = { data: result.posts };
 

@@ -170,7 +170,7 @@ async function getPosts(records, cursor) {
 
   const lastPostIdx = postTx.length - 1;
   const nextCursorIdx = cursor + 4;
-  console.log('nextCursorIdx: ', nextCursorIdx);
+  // console.log('nextCursorIdx: ', nextCursorIdx);
   const result = {
     nextCursor: lastPostIdx >= nextCursorIdx ? nextCursorIdx : null
   };
@@ -197,7 +197,7 @@ async function getPostsByAddress(records, address, cursor) {
 
   const lastPostIdx = postTx.length - 1;
   const nextCursorIdx = cursor + 4;
-  console.log('nextCursorIdx: ', nextCursorIdx);
+  // console.log('nextCursorIdx: ', nextCursorIdx);
   const result = {
     nextCursor: lastPostIdx >= nextCursorIdx ? nextCursorIdx : null
   };
@@ -217,17 +217,6 @@ async function getPostsByAddress(records, address, cursor) {
     // console.log('posts: ', posts);
     return result;
   });
-  // get posts data
-  // const postsData = await postTx.map(async record => {
-  //   const data = await getPostData(record.tx);
-  //   // console.log('data: ', data);
-  //   return data;
-  // });
-
-  // return Promise.all(postsData).then(posts => {
-  //   // console.log('posts: ', posts);
-  //   return posts;
-  // });
 }
 
 async function getPost(records, id) {
