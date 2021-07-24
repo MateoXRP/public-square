@@ -165,36 +165,69 @@ function likesByPostIdFilter(records, id) {
   return likeTx;
 }
 
-async function getPosts(records) {
+async function getPosts(records, cursor) {
   const postTx = allPostsFilter(records);
 
+  const lastPostIdx = postTx.length - 1;
+  const nextCursorIdx = cursor + 4;
+  console.log('nextCursorIdx: ', nextCursorIdx);
+  const result = {
+    nextCursor: lastPostIdx >= nextCursorIdx ? nextCursorIdx : null
+  };
+
+  // get next 4 posts starting with cursor index
+  const postsBatch = postTx.slice(cursor, nextCursorIdx);
+
   // get posts data
-  const postsData = await postTx.map(async record => {
+  const postsData = await postsBatch.map(async record => {
     const data = await getPostData(record.tx);
     // console.log('data: ', data);
     return data;
   });
 
   return Promise.all(postsData).then(posts => {
+    result.posts = posts;
     // console.log('posts: ', posts);
-    return posts;
+    return result;
   });
 }
 
-async function getPostsByAddress(records, address) {
+async function getPostsByAddress(records, address, cursor) {
   const postTx = postsByAddressFilter(records, address);
 
+  const lastPostIdx = postTx.length - 1;
+  const nextCursorIdx = cursor + 4;
+  console.log('nextCursorIdx: ', nextCursorIdx);
+  const result = {
+    nextCursor: lastPostIdx >= nextCursorIdx ? nextCursorIdx : null
+  };
+
+  // get next 4 posts starting with cursor index
+  const postsBatch = postTx.slice(cursor, nextCursorIdx);
+
   // get posts data
-  const postsData = await postTx.map(async record => {
+  const postsData = await postsBatch.map(async record => {
     const data = await getPostData(record.tx);
     // console.log('data: ', data);
     return data;
   });
 
   return Promise.all(postsData).then(posts => {
+    result.posts = posts;
     // console.log('posts: ', posts);
-    return posts;
+    return result;
   });
+  // get posts data
+  // const postsData = await postTx.map(async record => {
+  //   const data = await getPostData(record.tx);
+  //   // console.log('data: ', data);
+  //   return data;
+  // });
+
+  // return Promise.all(postsData).then(posts => {
+  //   // console.log('posts: ', posts);
+  //   return posts;
+  // });
 }
 
 async function getPost(records, id) {
