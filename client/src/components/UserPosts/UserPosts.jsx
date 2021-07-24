@@ -1,7 +1,7 @@
-import React from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import React, { useEffect, useRef } from 'react';
 import axios from 'axios';
-import { useQuery } from 'react-query';
+import { useHistory, useParams } from 'react-router-dom';
+import { useInfiniteQuery } from 'react-query';
 
 import PostItem from '../PostItem';
 import Spinner from '../Spinner';
@@ -15,16 +15,63 @@ const UserPosts = () => {
   } = history;
 
   const { address } = useParams();
+  const fetchPosts = async ({ pageParam = 0 }) => {
+    const res = await axios.get(
+      `/api/posts/address/${address}?cursor=${pageParam}`
+    );
+    return res.data;
+  };
 
-  function useUserPosts() {
-    return useQuery('userPosts', async () => {
-      const { data } = await axios.get(`/api/posts/address/${address}`);
-      return data;
-    });
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    // isFetchingNextPage,
+    status
+  } = useInfiniteQuery('userPosts', fetchPosts, {
+    getNextPageParam: (lastPage, pages) => lastPage.nextCursor
+  });
+
+  if (error) {
+    console.log('error: ', error);
   }
 
-  const { status, data, error, isFetching } = useUserPosts();
-  const isDataStale = address !== data?.posts[0].account;
+  const target = useRef();
+
+  // infinite scroll fetch
+  useEffect(() => {
+    const observerOptions = {
+      root: null, // Page as root
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const handleObserver = async entries => {
+      const feedEnd = entries[0];
+
+      if (feedEnd.isIntersecting && !isFetching && hasNextPage) {
+        await fetchNextPage();
+      }
+    };
+
+    const observer = new IntersectionObserver(handleObserver, observerOptions);
+
+    const el = target && target.current;
+
+    if (!el) {
+      return;
+    }
+
+    observer.observe(el);
+
+    return () => {
+      observer.unobserve(el);
+    };
+  }, [isFetching, hasNextPage, fetchNextPage, target]);
+
+  const isDataStale = address !== data?.pages[0].data[0].account;
 
   const Username = user.username ? (
     <div className='d-flex flex-column ms-3'>
@@ -64,18 +111,43 @@ const UserPosts = () => {
               <span className='text-danger'>Error: {error.message}</span>
             ) : (
               <>
-                <div className=''>
-                  {data.posts?.map(post => {
-                    return (
-                      <PostItem
-                        key={post.hash.substring(post.hash.length - 8)}
-                        data={post}
-                      />
-                    );
-                  })}
+                {data.pages.map((group, idx) => (
+                  <React.Fragment key={idx}>
+                    {group.data.map(post => {
+                      return (
+                        <PostItem
+                          key={post.hash.substring(post.hash.length - 8)}
+                          data={post}
+                        />
+                      );
+                    })}
+                  </React.Fragment>
+                ))}
+                <div>
+                  <div className='d-grid mx-auto'>
+                    <button
+                      ref={target}
+                      onClick={() => fetchNextPage()}
+                      disabled={!hasNextPage || isFetching}
+                      className={`btn btn-fluid btn-outline-info text-uppercase`}
+                    >
+                      {isFetching ? (
+                        <>
+                          <span
+                            className='spinner-grow spinner-grow-sm me-2'
+                            role='status'
+                            aria-hidden='true'
+                          ></span>
+                          <span>Loading</span>
+                        </>
+                      ) : hasNextPage ? (
+                        'Load More'
+                      ) : (
+                        <span>End</span>
+                      )}
+                    </button>
+                  </div>
                 </div>
-
-                <div>{isFetching ? <Spinner /> : ''}</div>
               </>
             )}
           </div>
