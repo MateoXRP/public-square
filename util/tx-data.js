@@ -103,11 +103,11 @@ function allPostsFilter(records) {
   return postTx;
 }
 
-// get post transactions by address from account transactions
-function postsByAddressFilter(records, address) {
+// get post transactions by account from account transactions
+function postsByAccountFilter(records, account) {
   const postTx = records.filter(
     record =>
-      (record.tx.Account === address) &
+      (record.tx.Account === account) &
       (record.tx.TransactionType === 'Payment') &
       // (record.tx.DestinationTag === undefined) &
       (record.tx.DestinationTag === 99 ||
@@ -192,8 +192,8 @@ async function getPosts(records, cursor) {
   });
 }
 
-async function getPostsByAddress(records, address, cursor) {
-  const postTx = postsByAddressFilter(records, address);
+async function getPostsByAccount(records, account, cursor) {
+  const postTx = postsByAccountFilter(records, account);
 
   const lastPostIdx = postTx.length - 1;
   const nextCursorIdx = cursor + 4;
@@ -270,7 +270,7 @@ module.exports = {
   commentsByPostIdFilter,
   likesByPostIdFilter,
   getPosts,
-  getPostsByAddress,
+  getPostsByAccount,
   getPost,
   getPostComments,
   getPostLikes
