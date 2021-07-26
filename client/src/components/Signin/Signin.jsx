@@ -1,69 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState } from 'react';
 
 import SigninBtn from '../SigninBtn';
 
-import { saveUserAccountToLS, saveUserTokenToLS } from '../../util/user';
-
 const Signin = () => {
-  const history = useHistory();
   const [payloadUuid, setPayloadUuid] = useState('');
-  const paramsString = useLocation().search;
-  const query = new URLSearchParams(paramsString);
-  const resultId = query.get('id');
-  console.log('paramsString: ', paramsString);
-  console.log('resultId: ', resultId);
   console.log('payloadUuid: ', payloadUuid);
-  // useMutation?
-
-  useEffect(() => {
-    async function getUserInfo(payloadId) {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      };
-
-      try {
-        const res = await axios.get(`/api/user/info?id=${payloadId}`, config);
-
-        console.log('user info result: ', res.data);
-
-        return res.data;
-      } catch (error) {
-        console.log('error: ', error);
-      }
-    }
-
-    if (resultId) {
-      const result = getUserInfo(resultId);
-
-      result
-        .then(result => {
-          console.log('user info recd');
-          // get user account and token
-          const {
-            application: { issued_user_token },
-            response: { account }
-          } = result;
-          // save to local storage
-          saveUserAccountToLS(account);
-          saveUserTokenToLS(issued_user_token);
-        })
-        .then(() => {
-          // redirect to feed
-          history.push('/');
-        })
-        .catch(error => console.log(error));
-    }
-  }, [resultId, history]);
 
   const onSubmitSuccess = uuid => {
     // console.log('submit success data: ', data);
     console.log('submit success data.uuid: ', uuid);
     setPayloadUuid(uuid);
   };
+
+  if (payloadUuid) {
+    window.location.assign(`https://xumm.app/sign/${payloadUuid}`);
+  }
 
   return (
     <div className='container p-3'>
@@ -88,16 +39,7 @@ const Signin = () => {
             </ul>
           </section>
           <section className='p-4'>
-            {resultId ? (
-              <button className='btn btn-outline-primary text-uppercase'>
-                <span
-                  className='spinner-grow spinner-grow-sm me-2'
-                  role='status'
-                  aria-hidden='true'
-                ></span>
-                <span>Processing</span>
-              </button>
-            ) : payloadUuid ? (
+            {payloadUuid ? (
               <img
                 src={`https://xumm.app/sign/${payloadUuid}_q.png`}
                 className='rounded mx-auto d-block'
@@ -107,21 +49,6 @@ const Signin = () => {
               <SigninBtn onSubmitSuccess={onSubmitSuccess} />
             )}
           </section>
-          {/* <section className='p-4'>
-            <div className='signin-qr-wrapper'>
-              {payloadUuid ? (
-                <img
-                  src={`https://xumm.app/sign/${payloadUuid}_q.png`}
-                  className='rounded mx-auto d-block'
-                  alt='xumm QR code'
-                ></img>
-              ) : (
-                <h5 className='mx-auto'>
-                  <em>QR Code Appears Here</em>
-                </h5>
-              )}
-            </div>
-          </section> */}
         </div>
       </div>
     </div>
