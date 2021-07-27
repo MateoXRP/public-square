@@ -6,12 +6,13 @@ const Signin = () => {
   const [payloadUuid, setPayloadUuid] = useState('');
   console.log('payloadUuid: ', payloadUuid);
 
+  // callback for signin btn to return payload uuid
   const onSubmitSuccess = uuid => {
-    // console.log('submit success data: ', data);
     console.log('submit success data.uuid: ', uuid);
     setPayloadUuid(uuid);
   };
 
+  // use payload uuid to redirect to xumm qr code page
   if (payloadUuid) {
     window.location.assign(`https://xumm.app/sign/${payloadUuid}`);
   }
@@ -39,15 +40,7 @@ const Signin = () => {
             </ul>
           </section>
           <section className='p-4'>
-            {payloadUuid ? (
-              <img
-                src={`https://xumm.app/sign/${payloadUuid}_q.png`}
-                className='rounded mx-auto d-block'
-                alt='xumm QR code'
-              ></img>
-            ) : (
-              <SigninBtn onSubmitSuccess={onSubmitSuccess} />
-            )}
+            <SigninBtn onSubmitSuccess={onSubmitSuccess} />
           </section>
         </div>
       </div>
