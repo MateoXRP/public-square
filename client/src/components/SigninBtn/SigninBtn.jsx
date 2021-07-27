@@ -29,9 +29,9 @@ const SigninBtn = ({ onSubmitSuccess }) => {
     submitResponse
       .then(response => {
         console.log('submitResponse received: ', response);
-        console.log('payload_uiid: ', response.data.payload_uuid);
-        // cb to parent w/response
+        // console.log('payload_uiid: ', response.data.payload_uuid);
         setIsProcessing(false);
+        // cb to parent w/response
         onSubmitSuccess(response.data.payload_uuid);
       })
       .catch(error => {
@@ -41,7 +41,6 @@ const SigninBtn = ({ onSubmitSuccess }) => {
   };
 
   const handleClick = () => {
-    console.log('sign in button clicked.');
     startSignin();
     return;
   };
