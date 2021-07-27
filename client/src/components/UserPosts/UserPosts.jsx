@@ -14,10 +14,10 @@ const UserPosts = () => {
     }
   } = history;
 
-  const { address } = useParams();
+  const { account } = useParams();
   const fetchPosts = async ({ pageParam = 0 }) => {
     const res = await axios.get(
-      `/api/posts/address/${address}?cursor=${pageParam}`
+      `/api/posts/account/${account}?cursor=${pageParam}`
     );
     return res.data;
   };
@@ -71,15 +71,15 @@ const UserPosts = () => {
     };
   }, [isFetching, hasNextPage, fetchNextPage, target]);
 
-  const isDataStale = address !== data?.pages[0].data[0].account;
+  const isDataStale = account !== data?.pages[0].data[0].account;
 
   const Username = user.username ? (
     <div className='d-flex flex-column ms-3'>
       <span className='fs-3'>{user.username}</span>
-      <span className='fs-6 text-muted'>{address}</span>
+      <span className='fs-6 text-muted'>{account}</span>
     </div>
   ) : (
-    <div className='fs-4 ms-3'>{address}</div>
+    <div className='fs-4 ms-3'>{account}</div>
   );
 
   return (

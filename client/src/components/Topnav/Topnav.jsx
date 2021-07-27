@@ -31,7 +31,7 @@ const Topnav = () => {
         </button>
 
         <div className='collapse navbar-collapse' id='navbarContent'>
-          <ul className='navbar-nav me-auto mb-2 mb-lg-0'>
+          <ul className='navbar-nav w-100 me-auto mb-2 mb-lg-0'>
             <li className='nav-item'>
               <NavLink className='nav-link' to='/' exact>
                 Home
@@ -50,6 +50,11 @@ const Topnav = () => {
             <li className='nav-item'>
               <NavLink className='nav-link' to='/about'>
                 About
+              </NavLink>
+            </li>
+            <li className='nav-item ms-auto'>
+              <NavLink className='nav-link' to='/signin'>
+                Sign in
               </NavLink>
             </li>
           </ul>

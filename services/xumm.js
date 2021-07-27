@@ -32,7 +32,7 @@ function getTxAmount(currency, amount = null) {
 /**
  * @desc sends payload to Xumm API
  * @param {object} payloadConfig Xumm payload
- * @return {string} payloadURL for client redirect to Xumm
+ * @return {object} payload response
  */
 async function sendPayload(payloadConfig) {
   const config = {
@@ -64,4 +64,34 @@ async function sendPayload(payloadConfig) {
   }
 }
 
-module.exports = { appReturnURL, getTxAmount, sendPayload };
+/**
+ * @desc gets payload info from Xumm API
+ * @param {string} payloadUuid Xumm payload
+ * @return {object} payload result
+ */
+async function getPayload(payloadUuid) {
+  const config = {
+    headers: xummHeaders
+  };
+
+  try {
+    const result = await axios.get(
+      `https://xumm.app/api/v1/platform/payload/${payloadUuid}`,
+      config
+    );
+
+    // console.log('xumm result:', result.data);
+
+    if (result.status !== 200) {
+      throw new Error('Sorry, something went wrong. Please try again later');
+    }
+
+    return result.data;
+  } catch (error) {
+    console.log(error);
+
+    return error;
+  }
+}
+
+module.exports = { appReturnURL, getTxAmount, sendPayload, getPayload };
