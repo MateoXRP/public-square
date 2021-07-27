@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
+import LoadingBtn from '../LoadingBtn';
+
 import { saveUserAccountToLS, saveUserTokenToLS } from '../../util/user';
 
 const SigningIn = () => {
@@ -9,11 +11,10 @@ const SigningIn = () => {
   const paramsString = useLocation().search;
   const query = new URLSearchParams(paramsString);
   const resultId = query.get('id');
-  console.log('paramsString: ', paramsString);
   console.log('resultId: ', resultId);
 
   useEffect(() => {
-    async function getUserInfo(payloadId) {
+    async function getUserData(payloadId) {
       const config = {
         headers: {
           'Content-Type': 'application/json'
@@ -21,9 +22,9 @@ const SigningIn = () => {
       };
 
       try {
-        const res = await axios.get(`/api/user/info?id=${payloadId}`, config);
+        const res = await axios.get(`/api/user/data?id=${payloadId}`, config);
 
-        console.log('user info result: ', res.data);
+        console.log('user data result: ', res.data);
 
         return res.data;
       } catch (error) {
@@ -32,11 +33,11 @@ const SigningIn = () => {
     }
 
     if (resultId) {
-      const result = getUserInfo(resultId);
+      const result = getUserData(resultId);
 
       result
         .then(result => {
-          console.log('user info recd');
+          console.log('user data recd');
           // get user account and token
           const {
             application: { issued_user_token },
@@ -68,14 +69,7 @@ const SigningIn = () => {
             </ul>
           </section>
           <section className='p-4'>
-            <button className='btn btn-outline-primary text-uppercase'>
-              <span
-                className='spinner-grow spinner-grow-sm me-2'
-                role='status'
-                aria-hidden='true'
-              ></span>
-              <span>Processing</span>
-            </button>
+            <LoadingBtn label='Processing' />
           </section>
         </div>
       </div>
