@@ -61,7 +61,7 @@ const faqData = [
         <ul>
           <li>
             Public Square uses Bithomp.com to get the username connected to an
-            address
+            account/address
           </li>
           <li>
             Visit the{' '}
@@ -77,7 +77,8 @@ const faqData = [
             page
           </li>
           <li>
-            Use the form to connect your desired username to your XRP address
+            Use the form to connect your desired username to your XRP
+            account/address
           </li>
         </ul>
       </div>

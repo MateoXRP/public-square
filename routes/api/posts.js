@@ -15,7 +15,7 @@ const {
   getPostComments,
   getPostLikes,
   getPosts,
-  getPostsByAddress,
+  getPostsByAccount,
   string2Hex
 } = require('../../util/tx-data');
 
@@ -102,11 +102,11 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// @route   GET api/posts/address/:address
-// @desc    Fetch posts by user address
+// @route   GET api/posts/account/:account
+// @desc    Fetch posts by user account
 // @access  Public
-router.get('/address/:address', async (req, res) => {
-  const { address } = req.params;
+router.get('/account/:account', async (req, res) => {
+  const { account } = req.params;
   const cursor = Number.parseInt(req.query.cursor);
 
   // console.log('cursor: ', cursor);
@@ -122,7 +122,7 @@ router.get('/address/:address', async (req, res) => {
       });
     }
 
-    const result = await getPostsByAddress(transactions, address, cursor);
+    const result = await getPostsByAccount(transactions, account, cursor);
     // console.log('posts: ', result.posts.length);
     // console.log('nextCursor: ', result.nextCursor);
 

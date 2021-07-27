@@ -10,6 +10,7 @@ app.use(express.json({ extended: false }));
 app.use('/api/posts', require('./routes/api/posts'));
 app.use('/api/comments', require('./routes/api/comments'));
 app.use('/api/likes', require('./routes/api/likes'));
+app.use('/api/user', require('./routes/api/user'));
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
