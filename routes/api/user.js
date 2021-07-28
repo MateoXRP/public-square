@@ -49,7 +49,7 @@ router.get('/data', async (req, res) => {
   try {
     // confirm transaction using xumm
     const data = await getPayload(id);
-    // console.log('data: ', data);
+    console.log('data: ', data);
 
     const userData = {
       application: data.application,

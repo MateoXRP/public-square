@@ -80,7 +80,7 @@ async function getPayload(payloadUuid) {
       config
     );
 
-    // console.log('xumm result:', result.data);
+    console.log('xumm result:', result.data);
 
     if (result.status !== 200) {
       throw new Error('Sorry, something went wrong. Please try again later');

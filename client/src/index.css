@@ -219,3 +219,17 @@ body {
 .text-muted {
   color: var(--text-muted-color) !important;
 }
+
+#userDropdown {
+  color: #ffffff8c;
+  text-decoration: none;
+}
+
+.userDropdownMenu.dropdown-menu {
+  left: unset !important;
+  right: 0 !important;
+}
+
+.userDropdownMenu.dropdown-menu > li > span {
+  font-size: smaller !important;
+}
