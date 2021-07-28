@@ -46,10 +46,11 @@ const SigningIn = () => {
           // save to local storage
           saveUserAccountToLS(account);
           saveUserTokenToLS(issued_user_token);
+          return account;
         })
-        .then(() => {
+        .then(account => {
           // redirect to feed
-          history.push('/');
+          history.push('/', { account });
         })
         .catch(error => console.log(error));
     }
