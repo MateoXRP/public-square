@@ -1,6 +1,7 @@
 const md5 = require('@xn-02f/md5');
 const getBithompUsername = require('../services/bithomp').getBithompUsername;
 const getXRPEmailHash = require('../services/xrpscan').getXRPEmailHash;
+
 const { postTxIncludeList, postTxOmitList } = require('./special-tx-lists');
 
 // Convert memo data hex to string
@@ -83,6 +84,33 @@ async function getPostData({ Account, Amount, date, hash, Memos }) {
 
     // console.log('post data: ', data);
     return data;
+  } catch (error) {
+    console.log('error: ', error);
+  }
+}
+
+// get user info from account/address
+async function getUserInfo(account) {
+  try {
+    // get username
+    const username = await getBithompUsername(account);
+
+    // generate Gravatar URL
+    const xrpEmailHash = await getXRPEmailHash(account);
+
+    const emailHash = xrpEmailHash ? xrpEmailHash.toLowerCase() : md5(account);
+
+    const gravatarURL = `https://www.gravatar.com/avatar/${emailHash}?s=24&d=retro`;
+
+    // post data object
+    const userInfo = {
+      account,
+      gravatarURL,
+      username
+    };
+
+    console.log('getUserInfo: ', userInfo);
+    return userInfo;
   } catch (error) {
     console.log('error: ', error);
   }
@@ -265,6 +293,7 @@ module.exports = {
   parseMemoData,
   getTimestamp,
   getPostData,
+  getUserInfo,
   allPostsFilter,
   postByIdFilter,
   commentsByPostIdFilter,
