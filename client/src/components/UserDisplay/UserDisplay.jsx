@@ -63,7 +63,6 @@ const UserDisplay = () => {
   }, [account]);
 
   const handleSignout = () => {
-    console.log('sign out btn clicked.');
     clearUserInfoFromLS();
     setAccount(null);
   };
