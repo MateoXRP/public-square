@@ -1,13 +1,14 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
+import UserDisplay from '../UserDisplay';
 import Logo from '../../assets/logo.png';
 
 const Topnav = () => {
   return (
     <nav className='navbar navbar-expand-lg sticky-top navbar-dark bg-dark'>
       <div className='container-fluid'>
-        <NavLink className='navbar-brand d-flex' to='/'>
+        <NavLink className='navbar-brand d-flex align-items-center py-0' to='/'>
           <img
             src={Logo}
             alt=''
@@ -15,7 +16,7 @@ const Topnav = () => {
             height='30'
             className='d-inline-block align-text-top'
           />
-          <span className='ps-3'>Public Square</span>
+          <span className='ps-3 pb-1'>Public Square</span>
         </NavLink>
 
         <button
@@ -31,8 +32,8 @@ const Topnav = () => {
         </button>
 
         <div className='collapse navbar-collapse' id='navbarContent'>
-          <ul className='navbar-nav w-100 me-auto mb-2 mb-lg-0'>
-            <li className='nav-item'>
+          <ul className='navbar-nav justify-content-end w-100 me-auto mb-2 mb-lg-0'>
+            <li className='nav-item me-auto'>
               <NavLink className='nav-link' to='/' exact>
                 Home
               </NavLink>
@@ -52,10 +53,8 @@ const Topnav = () => {
                 About
               </NavLink>
             </li>
-            <li className='nav-item ms-auto'>
-              <NavLink className='nav-link' to='/signin'>
-                Sign in
-              </NavLink>
+            <li className='nav-item my-auto ms-4'>
+              <UserDisplay />
             </li>
           </ul>
         </div>
