@@ -24,7 +24,7 @@ const SigningIn = () => {
       try {
         const res = await axios.get(`/api/user/data?id=${payloadId}`, config);
 
-        console.log('user data result: ', res.data);
+        // console.log('user data result: ', res.data);
 
         return res.data;
       } catch (error) {
@@ -37,7 +37,7 @@ const SigningIn = () => {
 
       result
         .then(result => {
-          console.log('user data recd');
+          // console.log('user data recd');
           // get user account and token
           const {
             application: { issued_user_token },
@@ -46,10 +46,11 @@ const SigningIn = () => {
           // save to local storage
           saveUserAccountToLS(account);
           saveUserTokenToLS(issued_user_token);
+          return account;
         })
-        .then(() => {
+        .then(account => {
           // redirect to feed
-          history.push('/');
+          history.push('/', { account });
         })
         .catch(error => console.log(error));
     }
