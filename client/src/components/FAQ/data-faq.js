@@ -5,6 +5,24 @@
 const faqData = [
   {
     displayOrder: 1,
+    question: 'What fees does Public Square charge?',
+    answer: (
+      <div className='px-2 py-3'>
+        <ul className='fs-6'>
+          <li>
+            Public Square charges a flat fee for each post, comment and like
+          </li>
+          <li>The current fee is: 0.01 XRP or 1.0 MGS</li>
+          <li>
+            Please note this fee does not include the XRP Ledger transaction
+            fee, which is usually 0.000012 XRP
+          </li>
+        </ul>
+      </div>
+    )
+  },
+  {
+    displayOrder: 2,
     question: 'How to create a Post',
     answer: (
       <div className='px-2 py-3'>
@@ -29,7 +47,7 @@ const faqData = [
     )
   },
   {
-    displayOrder: 2,
+    displayOrder: 3,
     question: 'How to modify a post or comment',
     answer: (
       <div className='px-2 py-3'>
@@ -53,7 +71,7 @@ const faqData = [
     )
   },
   {
-    displayOrder: 3,
+    displayOrder: 4,
     question: 'How to register username',
     answer: (
       <div className='px-2 py-3'>
@@ -85,7 +103,7 @@ const faqData = [
     )
   },
   {
-    displayOrder: 4,
+    displayOrder: 5,
     question: 'How to register email',
     answer: (
       <div className='px-2 py-3'>
@@ -110,7 +128,7 @@ const faqData = [
     )
   },
   {
-    displayOrder: 5,
+    displayOrder: 6,
     question: 'How to change avatar',
     answer: (
       <div className='px-2 py-3'>
@@ -159,14 +177,58 @@ const faqData = [
     )
   },
   {
-    displayOrder: 6,
+    displayOrder: 7,
     question: 'How to contact support',
     answer: (
       <div className='px-2 py-3'>
-        <h5>
+        <div className='fs-6'>
           If you experience problems, or have any questions, please Public
           Square support at <a href='mailto:admin@mg.social'>admin@mg.social</a>
-        </h5>
+        </div>
+      </div>
+    )
+  },
+  {
+    displayOrder: 8,
+    question: 'Site Terms & Conditions',
+    answer: (
+      <div className='px-2 py-3'>
+        <div className='fs-6'>
+          <span>
+            Use of this site is subject to MG.Social's terms and conditions,
+            which can be found at
+          </span>
+
+          <a
+            href='https://mg.social/site/terms'
+            target='_blank'
+            rel='noreferrer'
+            className='link-primary text-decoration-none'
+          >
+            <span> MG.Social</span>
+          </a>
+        </div>
+      </div>
+    )
+  },
+  {
+    displayOrder: 9,
+    question: 'Can I run my own version of Public Square?',
+    answer: (
+      <div className='px-2 py-3'>
+        <p className='lead'>~ Coming Soon ~</p>
+        {/* <div className='fs-6'>
+          Yes, visit
+          <a
+            href='https://mg.social/site/terms'
+            target='_blank'
+            rel='noreferrer'
+            className='link-primary text-decoration-none'
+          >
+            <span> our GitHub repo </span>
+          </a>
+          for details
+        </div> */}
       </div>
     )
   }
