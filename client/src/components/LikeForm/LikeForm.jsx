@@ -6,6 +6,8 @@ import { useMutation } from 'react-query';
 import Spinner from '../Spinner';
 import ConfirmAction from '../ConfirmAction';
 
+import { getUserTokenFromLS } from '../../util/user';
+
 const LikeForm = ({ postId }) => {
   const { handleSubmit, control, reset, setValue } = useForm();
 
@@ -59,7 +61,16 @@ const LikeForm = ({ postId }) => {
 
   const submitLike = async data => {
     data.postId = postId;
-    // console.log('submit data:', data);
+
+    const userToken = getUserTokenFromLS();
+    console.log('LikeForm/userToken: ', userToken);
+
+    if (userToken) {
+      data.userToken = userToken;
+    }
+
+    console.log('submit data:', data);
+
     addLikeMutation.mutate(data);
   };
 

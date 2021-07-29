@@ -8,6 +8,7 @@ import ConfirmAction from '../ConfirmAction';
 import ContentEditor from '../ContentEditor';
 
 import { testContentLength } from '../../util/tx-data';
+import { getUserTokenFromLS } from '../../util/user';
 
 const PostForm = () => {
   const {
@@ -34,11 +35,6 @@ const PostForm = () => {
     setRadio(e.target.value);
     setValue('currency', e.target.value);
   };
-
-  // need custom toolbar button for this
-  // const handleCancel = () => {
-  //   setValue('postContent', '');
-  // };
 
   const addPost = async postData => {
     const config = {
@@ -77,11 +73,21 @@ const PostForm = () => {
     // console.log('test result: ', results);
     // console.log('submit data:', data);
 
-    if (results.isLengthValid) {
-      addPostMutation.mutate(data);
-    } else {
+    if (!results.isLengthValid) {
       errors.postContent.message = `Exceeds maximum length by approximately ${results.overage}`;
+      return;
     }
+
+    // if xumm user token, add to data
+    const userToken = getUserTokenFromLS();
+    console.log('PostForm/userToken: ', userToken);
+
+    if (userToken) {
+      data.userToken = userToken;
+    }
+
+    console.log('submit data: ', data);
+    addPostMutation.mutate(data);
   };
 
   const isContentEmpty = watch('postContent').length === 0;

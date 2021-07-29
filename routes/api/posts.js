@@ -143,9 +143,10 @@ router.get('/account/:account', async (req, res) => {
 // @desc    Create post
 // @access  Public
 router.post('/', async (req, res) => {
-  const { postContent, currency } = req.body;
+  const { postContent, currency, userToken } = req.body;
   // console.log('postContent: ', postContent);
   // console.log('currency: ', currency);
+  console.log('userToken: ', userToken);
 
   try {
     // convert text to hex
@@ -177,7 +178,12 @@ router.post('/', async (req, res) => {
         }
       }
     };
-    // console.log('payload config: ', payloadConfig);
+
+    if (userToken) {
+      payloadConfig.user_token = userToken;
+    }
+
+    console.log('payload config: ', payloadConfig);
 
     // submit transaction using xumm
     const data = await sendPayload(payloadConfig);
