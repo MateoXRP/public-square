@@ -16,10 +16,11 @@ const router = express.Router();
 // @desc    Create comment to post
 // @access  Public
 router.post('/', async (req, res) => {
-  const { commentContent, currency, postId } = req.body;
+  const { commentContent, currency, postId, userToken } = req.body;
   // console.log('postId: ', postId);
   // console.log('commentContent: ', commentContent);
   // console.log('currency: ', currency);
+  console.log('userToken: ', userToken);
 
   try {
     const commentData = string2Hex(`${postId} ${commentContent}`);
@@ -50,6 +51,12 @@ router.post('/', async (req, res) => {
         }
       }
     };
+
+    if (userToken) {
+      payloadConfig.user_token = userToken;
+    }
+
+    console.log('payload config: ', payloadConfig);
 
     // submit transaction using xumm
     const data = await sendPayload(payloadConfig);

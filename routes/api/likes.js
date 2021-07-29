@@ -16,9 +16,11 @@ const router = express.Router();
 // @desc    Like post
 // @access  Public
 router.post('/', async (req, res) => {
-  const { currency, postId } = req.body;
+  const { currency, postId, userToken } = req.body;
   // console.log('postId: ', postId);
   // console.log('currency: ', currency);
+  console.log('userToken: ', userToken);
+
   try {
     const likeData = string2Hex(postId);
 
@@ -47,6 +49,12 @@ router.post('/', async (req, res) => {
         }
       }
     };
+
+    if (userToken) {
+      payloadConfig.user_token = userToken;
+    }
+
+    console.log('payload config: ', payloadConfig);
 
     // submit transaction using xumm
     const data = await sendPayload(payloadConfig);

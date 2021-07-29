@@ -8,6 +8,7 @@ import ConfirmAction from '../ConfirmAction';
 import ContentEditor from '../ContentEditor';
 
 import { testContentLength } from '../../util/tx-data';
+import { getUserTokenFromLS } from '../../util/user';
 
 const CommentForm = ({ postId }) => {
   const {
@@ -30,14 +31,13 @@ const CommentForm = ({ postId }) => {
     }
   }, [xummRedirectURL]);
 
+  // const userToken = getUserTokenFromLS();
+  // console.log('CommentForm/userToken: ', userToken);
+
   const changeRadio = e => {
     setRadio(e.target.value);
     setValue('currency', e.target.value);
   };
-
-  // const handleCancel = () => {
-  //   setValue('commentContent', '');
-  // };
 
   const addComment = async commentData => {
     const config = {
@@ -75,15 +75,22 @@ const CommentForm = ({ postId }) => {
     const results = testContentLength(data.commentContent);
     // console.log('test result: ', results);
 
+    if (!results.isLengthValid) {
+      errors.commentContent.message = `Exceeds maximum length by approximately ${results.overage}`;
+      return;
+    }
     data.postId = postId;
 
-    // console.log('submit data:', data);
+    const userToken = getUserTokenFromLS();
+    console.log('CommentForm/userToken: ', userToken);
 
-    if (results.isLengthValid) {
-      addCommentMutation.mutate(data);
-    } else {
-      errors.commentContent.message = `Exceeds maximum length by approximately ${results.overage}`;
+    if (userToken) {
+      data.userToken = userToken;
     }
+
+    console.log('submit data:', data);
+
+    addCommentMutation.mutate(data);
   };
 
   const isContentEmpty = watch('commentContent').length === 0;

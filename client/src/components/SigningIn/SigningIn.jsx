@@ -11,7 +11,7 @@ const SigningIn = () => {
   const paramsString = useLocation().search;
   const query = new URLSearchParams(paramsString);
   const resultId = query.get('id');
-  console.log('resultId: ', resultId);
+  // console.log('resultId: ', resultId);
 
   useEffect(() => {
     async function getUserData(payloadId) {
