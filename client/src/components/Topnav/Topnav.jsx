@@ -32,17 +32,13 @@ const Topnav = () => {
         </button>
 
         <div className='collapse navbar-collapse' id='navbarContent'>
-          <ul className='navbar-nav justify-content-end w-100 me-auto mb-2 mb-lg-0'>
-            <li className='nav-item me-auto'>
+          <ul className='navbar-nav justify-content-end w-100 me-auto mb-2 mb-lg-0 text-uppercase'>
+            <li className='nav-item'>
               <NavLink className='nav-link' to='/' exact>
                 Home
               </NavLink>
             </li>
-            <li className='nav-item'>
-              <NavLink className='nav-link' to='/rules'>
-                Rules
-              </NavLink>
-            </li>
+
             <li className='nav-item'>
               <NavLink className='nav-link' to='/faq'>
                 FAQ

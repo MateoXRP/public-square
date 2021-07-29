@@ -212,6 +212,12 @@ body {
   padding: 0.5rem 0;
 }
 
+.signin-btn-wrapper {
+  width: fit-content;
+  margin-right: auto;
+  margin-left: auto;
+}
+
 .text-light {
   color: var(--text-color) !important;
 }

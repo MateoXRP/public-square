@@ -10,7 +10,9 @@ const FAQ = () => {
     <div className='container p-3'>
       <div className='row justify-content-center '>
         <div className='col-xs-11 col-sm-10 col-md-8'>
-          <h2 className='display-6 text-light'>FAQ</h2>
+          <h2 className='display-6 text-center text-uppercase text-monospace text-light'>
+            FAQ
+          </h2>
           <div className='accordion accordion-flush' id='accordionFAQ'>
             {items.map(item => (
               <div

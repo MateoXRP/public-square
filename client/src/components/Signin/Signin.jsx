@@ -22,25 +22,41 @@ const Signin = () => {
       <div className='row justify-content-center '>
         <div className='col-xs-11 col-sm-10 col-md-8'>
           <section className='justify-content-center p-4'>
-            <h3 className='display-4'>Sign in with XUMM</h3>
-            <ul className='list-group list-group-flush'>
-              <li className='list-group-item'>
-                This will enable push notifications to your device with the XUMM
-                app.
-              </li>
-              <li className='list-group-item'>Click the Sign in button.</li>
-              <li className='list-group-item'>Scan the QR code.</li>
-              <li className='list-group-item'>
-                Approve the sign in transaction on the XUMM app.
-              </li>
-              <li className='list-group-item'>
-                After successful sign in, you will be redirected to the home
-                page
-              </li>
-            </ul>
-          </section>
-          <section className='p-4'>
-            <SigninBtn onSubmitSuccess={onSubmitSuccess} />
+            <h2 className='display-6 text-center text-uppercase text-monospace text-light'>
+              Sign in
+            </h2>
+            <div className='bg-dark p-4'>
+              <p>
+                Sign in with XUMM and the XUMM app. This will enable push
+                notifications to your device with the XUMM app.
+              </p>
+              <ul>
+                <li className='pb-2'>Click the Sign in button.</li>
+                <li className='pb-2'>Scan the QR code.</li>
+                <li className='pb-2'>
+                  Approve the sign in transaction on the XUMM app.
+                </li>
+                <li className='pb-2'>
+                  After successful sign in, you will be redirected to the home
+                  page
+                </li>
+                <li className='pb-2'>
+                  <span>Learn about XUMM and the XUMM app at </span>
+                  <a
+                    href='https://https://xumm.dev'
+                    target='_blank'
+                    rel='noreferrer'
+                    className='link-primary text-uppercase text-decoration-none'
+                    title='xumm.dev'
+                  >
+                    <span> xumm.dev</span>
+                  </a>
+                </li>
+              </ul>
+              <div className='pt-3'>
+                <SigninBtn onSubmitSuccess={onSubmitSuccess} />
+              </div>
+            </div>
           </section>
         </div>
       </div>
