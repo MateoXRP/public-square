@@ -91,8 +91,9 @@ const UserDisplay = () => {
         )}
       </button>
       <ul className='userDropdownMenu dropdown-menu dropdown-menu-dark text-center'>
-        <li>
-          <span className='dropdown-item fs-6'>{account}</span>
+        <li className='dropdown-item fs-6'>
+          <div>Account:</div>
+          <div>{account}</div>
         </li>
         <li>
           <button
