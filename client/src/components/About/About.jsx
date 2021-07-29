@@ -1,48 +1,56 @@
 import React from 'react';
+import format from 'date-fns/format';
 
 const About = () => {
+  const year = format(new Date(), 'yyyy');
+
   return (
     <div className='container mt-3'>
       <div className='row justify-content-center '>
         <div className='col-xs-11 col-sm-10 col-md-8'>
-          <div className='card bg-dark px-3 py-5'>
-            <h1 className='card-title text-center text-light font-monospace pb-3'>
-              Public Square
-            </h1>
-            <p className='card-text text-center fs-3'>
+          <h2 className='display-6 text-center text-uppercase text-monospace text-light'>
+            About Public Square
+          </h2>
+
+          <ul className='list-group list-group-flush mt-3 text-decoration-none bg-dark'>
+            <li className='list-group-item text-center fs-4'>
               <span>A microblog living on: </span>
               <a
                 href='https://xrpl.org/'
                 target='_blank'
                 rel='noreferrer'
-                className='link-success text-uppercase'
+                className='link-success text-uppercase text-decoration-none ps-3'
               >
                 XRPL blockchain
               </a>
-            </p>
-            <p className='card-text text-center fs-3'>
-              <span>Created by: </span>
-              <a
-                href='https://mg.social'
-                target='_blank'
-                rel='noreferrer'
-                className='link-primary text-uppercase'
-              >
-                MG.Social
-              </a>
-            </p>
-            <p className='card-text text-center fs-3'>
+            </li>
+            <li className='list-group-item text-center fs-4'>
               <span>Powered by: </span>
               <a
                 href='https://xumm.app'
                 target='_blank'
                 rel='noreferrer'
-                className='link-info text-uppercase'
+                className='link-info text-uppercase text-decoration-none ps-3'
               >
                 Xumm
               </a>
-            </p>
-          </div>
+            </li>
+            <li className='list-group-item text-center fs-4'>
+              <span>Created by: </span>
+              <a
+                href='https://mg.social'
+                target='_blank'
+                rel='noreferrer'
+                className='link-primary text-uppercase text-decoration-none ps-3'
+              >
+                MG.Social
+              </a>
+              <div className='text-muted fs-6 mt-4'>
+                &copy; {year}
+                <span> MG.Social</span>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </div>

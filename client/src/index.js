@@ -10,12 +10,10 @@ import reportWebVitals from './reportWebVitals';
 const queryClient = new QueryClient();
 
 ReactDOM.render(
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <App />
-      <ReactQueryDevtools initialIsOpen />
-    </QueryClientProvider>
-  </React.StrictMode>,
+  <QueryClientProvider client={queryClient}>
+    <App />
+    <ReactQueryDevtools initialIsOpen />
+  </QueryClientProvider>,
   document.getElementById('root')
 );
 
