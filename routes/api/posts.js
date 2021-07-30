@@ -144,13 +144,11 @@ router.get('/account/:account', async (req, res) => {
 // @access  Public
 router.post('/', async (req, res) => {
   const { postContent, currency, userToken } = req.body;
-  // console.log('postContent: ', postContent);
-  // console.log('currency: ', currency);
   console.log('userToken: ', userToken);
 
   try {
     // convert text to hex
-    const postData = string2Hex(postContent);
+    const postData = string2Hex(postContent).toUpperCase();
     // console.log('postData: ', postData);
 
     // create payload

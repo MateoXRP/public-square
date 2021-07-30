@@ -31,9 +31,6 @@ const CommentForm = ({ postId }) => {
     }
   }, [xummRedirectURL]);
 
-  // const userToken = getUserTokenFromLS();
-  // console.log('CommentForm/userToken: ', userToken);
-
   const changeRadio = e => {
     setRadio(e.target.value);
     setValue('currency', e.target.value);
@@ -82,7 +79,7 @@ const CommentForm = ({ postId }) => {
     data.postId = postId;
 
     const userToken = getUserTokenFromLS();
-    console.log('CommentForm/userToken: ', userToken);
+    // console.log('CommentForm/userToken: ', userToken);
 
     if (userToken) {
       data.userToken = userToken;

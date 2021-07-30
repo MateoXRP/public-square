@@ -17,9 +17,7 @@ const router = express.Router();
 // @access  Public
 router.post('/', async (req, res) => {
   const { currency, postId, userToken } = req.body;
-  // console.log('postId: ', postId);
-  // console.log('currency: ', currency);
-  console.log('userToken: ', userToken);
+  // console.log('userToken: ', userToken);
 
   try {
     const likeData = string2Hex(postId);
