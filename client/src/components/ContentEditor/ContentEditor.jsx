@@ -9,7 +9,8 @@ class ContentEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      editorState: ''
+      editorState: '',
+      htmlContent: ''
     };
   }
 
@@ -20,11 +21,6 @@ class ContentEditor extends Component {
   }
 
   onEditorStateChange = editorState => {
-    const currentContent = this.state.editorState.getCurrentContent();
-    const newContent = editorState.getCurrentContent();
-    // console.log('equal: ', currentContent === newContent);
-    if (currentContent === newContent) return;
-
     this.setState({
       editorState
     });
@@ -33,7 +29,15 @@ class ContentEditor extends Component {
   onContentStateChange = contentState => {
     const htmlContent = draftToHtml(contentState);
 
-    this.props.onChange(htmlContent);
+    // only update if html product changes
+    if (this.state.htmlContent !== htmlContent) {
+      console.log(htmlContent);
+      this.setState({
+        htmlContent
+      });
+
+      this.props.onChange(htmlContent);
+    }
   };
 
   render() {
