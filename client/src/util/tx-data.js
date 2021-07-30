@@ -31,7 +31,7 @@ function string2Hex(str) {
 function testContentLength(content) {
   // Convert content to hex
   const data = string2Hex(content);
-  console.log('data: ', data.length);
+  // console.log('data: ', data.length);
 
   // Create memos field array
   const memos = [
@@ -47,7 +47,7 @@ function testContentLength(content) {
 
   // check size
   const fieldLength = memosField.length;
-  console.log('memos length: ', fieldLength);
+  // console.log('memos length: ', fieldLength);
 
   const isLengthValid = fieldLength < 1000;
 

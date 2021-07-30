@@ -70,8 +70,6 @@ const PostForm = () => {
 
   const submitPost = async data => {
     const results = testContentLength(data.postContent);
-    // console.log('test result: ', results);
-    // console.log('submit data:', data);
 
     if (!results.isLengthValid) {
       errors.postContent.message = `Exceeds maximum length by approximately ${results.overage}`;
@@ -80,13 +78,13 @@ const PostForm = () => {
 
     // if xumm user token, add to data
     const userToken = getUserTokenFromLS();
-    console.log('PostForm/userToken: ', userToken);
 
     if (userToken) {
       data.userToken = userToken;
     }
 
     console.log('submit data: ', data);
+
     addPostMutation.mutate(data);
   };
 

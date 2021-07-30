@@ -17,14 +17,10 @@ const router = express.Router();
 // @access  Public
 router.post('/', async (req, res) => {
   const { commentContent, currency, postId, userToken } = req.body;
-  // console.log('postId: ', postId);
-  // console.log('commentContent: ', commentContent);
-  // console.log('currency: ', currency);
-  console.log('userToken: ', userToken);
+  // console.log('userToken: ', userToken);
 
   try {
-    const commentData = string2Hex(`${postId} ${commentContent}`);
-    // console.log('commentData:', commentData);
+    const commentData = string2Hex(`${postId} ${commentContent}`).toUpperCase();
 
     // create payload
     const memosField = [

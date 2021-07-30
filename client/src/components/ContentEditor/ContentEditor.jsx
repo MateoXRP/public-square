@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
+
 import draftToHtml from 'draftjs-to-html';
 
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -27,11 +28,14 @@ class ContentEditor extends Component {
   };
 
   onContentStateChange = contentState => {
-    const htmlContent = draftToHtml(contentState);
+    const html = draftToHtml(contentState);
+
+    // remove \n (linebreaks)
+    const htmlContent = html.replace(/(\n)/gm, '');
+    console.log('htmlContent: ', htmlContent);
 
     // only update if html product changes
     if (this.state.htmlContent !== htmlContent) {
-      console.log(htmlContent);
       this.setState({
         htmlContent
       });
