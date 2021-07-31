@@ -7,7 +7,7 @@ const faqData = [
     displayOrder: 1,
     question: 'What fees does Public Square charge?',
     answer: (
-      <div className='px-2 py-3'>
+      <>
         <ul className='fs-6'>
           <li>
             Public Square charges a flat fee for each post, comment and like
@@ -18,15 +18,15 @@ const faqData = [
             fee, which is usually 0.000012 XRP
           </li>
         </ul>
-      </div>
+      </>
     )
   },
   {
     displayOrder: 2,
     question: 'How to create a Post',
     answer: (
-      <div className='px-2 py-3'>
-        <h5>How to create a Post</h5>
+      <>
+        <div className='faq-item-header'>How to create a Post</div>
         <ul>
           <li>
             Use the editor to create your post and select the currency for the
@@ -43,15 +43,17 @@ const faqData = [
             Public Square
           </li>
         </ul>
-      </div>
+      </>
     )
   },
   {
     displayOrder: 3,
     question: 'How to modify a post or comment',
     answer: (
-      <div className='px-2 py-3'>
-        <h5>Posts and comments cannot be modified or deleted</h5>
+      <>
+        <div className='faq-item-header'>
+          Posts and comments cannot be modified or deleted
+        </div>
         <ul>
           <li>
             Posts and comments are part of the transaction data that is saved on
@@ -67,15 +69,17 @@ const faqData = [
             regulations.
           </li>
         </ul>
-      </div>
+      </>
     )
   },
   {
     displayOrder: 4,
     question: 'How to register username',
     answer: (
-      <div className='px-2 py-3'>
-        <h5>Register username to your XRPL account using Bithomp</h5>
+      <>
+        <div className='faq-item-header'>
+          Register username to your XRPL account using Bithomp
+        </div>
         <ul>
           <li>
             Public Square uses Bithomp.com to get the username connected to an
@@ -99,15 +103,17 @@ const faqData = [
             account/address
           </li>
         </ul>
-      </div>
+      </>
     )
   },
   {
     displayOrder: 5,
     question: 'How to register email',
     answer: (
-      <div className='px-2 py-3'>
-        <h5>Set an email address on your XRPL account</h5>
+      <>
+        <div className='faq-item-header'>
+          Set an email address on your XRPL account
+        </div>
         <ul>
           <li>
             Visit the{' '}
@@ -124,15 +130,17 @@ const faqData = [
           <li>Enter your email address into the email field</li>
           <li>click "Send Account Settings to Xumm" button</li>
         </ul>
-      </div>
+      </>
     )
   },
   {
     displayOrder: 6,
     question: 'How to change avatar',
     answer: (
-      <div className='px-2 py-3'>
-        <h5>Step 1: Setup a Gravatar image for your chosen email address</h5>
+      <>
+        <div className='faq-item-header'>
+          Step 1: Setup a Gravatar image for your chosen email address
+        </div>
         <ul>
           <li>
             If you already have a Gravatar image setup for your chosen email,
@@ -152,7 +160,9 @@ const faqData = [
           <li>Setup a Gravatar image for your email</li>
         </ul>
 
-        <h5>Step 2: Set an email address on your XRPL account</h5>
+        <div className='faq-item-header'>
+          Step 2: Set an email address on your XRPL account
+        </div>
         <ul>
           <li>
             If your chosen email address is already associated with your XRPL
@@ -173,26 +183,26 @@ const faqData = [
           <li>Enter your email address into the email field</li>
           <li>click "Send Account Settings to Xumm" button</li>
         </ul>
-      </div>
+      </>
     )
   },
   {
     displayOrder: 7,
     question: 'How to contact support',
     answer: (
-      <div className='px-2 py-3'>
+      <>
         <div className='fs-6'>
           If you experience problems, or have any questions, please Public
           Square support at <a href='mailto:admin@mg.social'>admin@mg.social</a>
         </div>
-      </div>
+      </>
     )
   },
   {
     displayOrder: 8,
     question: 'Site Terms & Conditions',
     answer: (
-      <div className='px-2 py-3'>
+      <>
         <div className='fs-6'>
           <span>
             Use of this site is subject to MG.Social's terms and conditions,
@@ -208,14 +218,14 @@ const faqData = [
             <span> MG.Social</span>
           </a>
         </div>
-      </div>
+      </>
     )
   },
   {
     displayOrder: 9,
     question: 'Can I run my own version of Public Square?',
     answer: (
-      <div className='px-2 py-3'>
+      <>
         <p className='lead'>~ Coming Soon ~</p>
         {/* <div className='fs-6'>
           Yes, visit
@@ -229,7 +239,7 @@ const faqData = [
           </a>
           for details
         </div> */}
-      </div>
+      </>
     )
   }
 ];

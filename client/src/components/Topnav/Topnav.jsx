@@ -44,12 +44,12 @@ const Topnav = () => {
                 FAQ
               </NavLink>
             </li>
-            <li className='nav-item'>
+            <li className='nav-item me-3'>
               <NavLink className='nav-link' to='/about'>
                 About
               </NavLink>
             </li>
-            <li className='nav-item my-auto ms-4'>
+            <li className='nav-item my-auto'>
               <UserDisplay />
             </li>
           </ul>

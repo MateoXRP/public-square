@@ -18,7 +18,7 @@ const ConfirmAction = ({ formRef, type, iconClass, isDisabled }) => {
     <>
       <button
         id={`toggleConfirmModal-${type}`}
-        className='btn btn-outline-primary btn-sm text-uppercase'
+        className='btn btn-outline-primary btn-sm w-100 text-uppercase'
         onClick={e => showModal(e)}
         disabled={isDisabled}
       >

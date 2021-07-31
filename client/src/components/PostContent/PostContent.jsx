@@ -15,69 +15,67 @@ const PostContent = ({ data }) => {
   const timeToNow = formatDistanceToNow(parsedDate);
 
   const Username = username ? (
-    <>
-      <span className='card-title'>{username}</span>
-      <span className='ms-3'>{account}</span>
-    </>
+    <div className='d-flex flex-column flex-sm-row align-items-baseline'>
+      <span className='me-3'>{username}</span>
+      <span className='fs-smaller'>{account}</span>
+    </div>
   ) : (
-    <span>{account}</span>
+    <span className='fs-smaller'>{account}</span>
   );
   // console.count('post content render');
   return (
-    <div>
-      <div className='card my-3'>
-        <div className='card-body'>
-          <div className='d-flex align-items-center mb-2'>
-            <img src={gravatarURL} className='rounded-circle' alt='' />
+    <div className='card my-3'>
+      <div className='card-body'>
+        <div className='d-flex align-items-center mb-2'>
+          <img src={gravatarURL} className='rounded-circle' alt='' />
 
-            <div className='ms-3'>
-              <Link
-                to={{
-                  pathname: `/u/${account}`,
-                  state: {
-                    user: {
-                      gravatarURL,
-                      username
-                    }
+          <div className='ms-3'>
+            <Link
+              to={{
+                pathname: `/u/${account}`,
+                state: {
+                  user: {
+                    gravatarURL,
+                    username
                   }
-                }}
-                className='text-decoration-none'
-                title='See all posts'
-              >
-                {Username}
-              </Link>
-
-              <div
-                className='text-muted fs-smaller'
-                title={parsedDate}
-              >{`${timeToNow} ago`}</div>
-            </div>
-          </div>
-          <div
-            className='post-content my-3'
-            dangerouslySetInnerHTML={{ __html: memoData }}
-          />
-        </div>
-
-        <div className='card-body fs-smaller'>
-          <div>
-            Trans#
-            <a
-              href={`https://xrpscan.com/tx/${hash}`}
-              target='blank'
-              className='text-decoration-none ms-3 link-secondary'
-              title='View on XRPSCAN'
+                }
+              }}
+              className='text-decoration-none'
+              title='See all posts'
             >
-              {hash}
-            </a>
+              {Username}
+            </Link>
+
+            <div
+              className='text-muted fs-smaller'
+              title={parsedDate}
+            >{`${timeToNow} ago`}</div>
           </div>
-          <div>Amount: {amount}</div>
         </div>
-
-        <Likes likes={data.likes} postId={hash} />
-
-        <Comments comments={data.comments} postId={hash} />
+        <div
+          className='post-content my-3'
+          dangerouslySetInnerHTML={{ __html: memoData }}
+        />
       </div>
+
+      <div className='card-body fs-smaller'>
+        <div className='trans-number'>
+          Trans#
+          <a
+            href={`https://xrpscan.com/tx/${hash}`}
+            target='blank'
+            className='text-decoration-none ms-3 link-secondary'
+            title='View on XRPSCAN'
+          >
+            <span>{hash}</span>
+          </a>
+        </div>
+        <div>Amount: {amount}</div>
+      </div>
+
+      <Likes likes={data.likes} postId={hash} />
+
+      <Comments comments={data.comments} postId={hash} />
     </div>
   );
 };
