@@ -15,13 +15,59 @@ body {
   font-size: 16px;
   background-color: var(--main-bg-color);
   /* font-family: 'PT Sans', sans-serif; */
+  width: 100%;
   height: 100%;
+}
+
+/* Overwrite Bootstrap classes */
+
+.text-light {
+  color: var(--text-color) !important;
+}
+
+.text-muted {
+  color: var(--text-muted-color) !important;
+}
+
+.img-thumbnail {
+  background-color: unset;
+}
+
+.card {
+  color: var(--text-color);
+  background-color: var(--card-bg-color);
 }
 
 .accordion-button::after {
   background-color: var(--navbar-bg-color) !important;
   border-radius: 50%;
 }
+
+.list-group-item {
+  color: var(--text-color);
+  background-color: #212529 !important;
+  border-color: var(--main-bg-color);
+  padding: 1rem;
+}
+
+.navbar-dark {
+  background-color: var(--navbar-bg-color) !important;
+}
+
+/* Pseudo-Bootstrap utility classes */
+.fs-sm {
+  font-size: 0.875rem;
+}
+
+.fs-smaller {
+  font-size: smaller;
+}
+
+.mw-66 {
+  max-width: 66.6%;
+}
+
+/* Component classes */
 
 .App {
   color: var(--text-color);
@@ -31,8 +77,9 @@ body {
 .btn-back {
   cursor: pointer;
   position: absolute;
-  top: 4rem;
-  left: 1rem;
+  top: -3.2rem;
+  left: 0;
+  width: fit-content;
   z-index: 1010;
   font-size: 2rem;
   transition: color 0.15 ease-in-out;
@@ -41,25 +88,6 @@ body {
 .btn-back:hover,
 .btn-back:focus {
   color: #fff !important;
-}
-
-.btn-clear-inline {
-  cursor: pointer;
-  position: absolute;
-  top: 0;
-  right: 0.25rem;
-  z-index: 1010;
-  color: var(--text-muted-color);
-}
-
-.btn-clear-inline:hover,
-.btn-clear-inline:focus {
-  color: #212529;
-}
-
-.card {
-  color: var(--text-color);
-  background-color: var(--card-bg-color);
 }
 
 .confirm-modal {
@@ -88,8 +116,20 @@ body {
   border-radius: 0.25rem;
 }
 
+.currency-label {
+  min-width: fit-content;
+}
+
 .faq-item-answer {
   background-color: var(--navbar-bg-color) !important;
+}
+
+.faq-item-answer ul {
+  padding-left: 1rem;
+}
+
+.faq-item-answer li {
+  font-size: 0.825rem;
 }
 
 .rdw-editor-toolbar {
@@ -118,6 +158,11 @@ body {
 
 .rdw-dropdownoption-highlighted {
   color: #212529 !important;
+}
+
+.rdw-block-dropdown,
+.rdw-fontfamily-dropdown {
+  width: 5rem !important;
 }
 
 .rdw-block-dropdown .rdw-dropdown-optionwrapper {
@@ -184,24 +229,6 @@ body {
   background-color: var(--card-bg-color) !important;
 }
 
-.fs-smaller {
-  font-size: smaller;
-}
-
-.img-thumbnail {
-  background-color: unset;
-}
-
-.list-group-item {
-  color: var(--text-color);
-  background-color: #212529 !important;
-  border-color: var(--main-bg-color);
-  padding: 1rem;
-}
-
-.navbar-dark {
-  background-color: var(--navbar-bg-color) !important;
-}
 .post-content {
   display: flex;
   flex-direction: column;
@@ -218,12 +245,10 @@ body {
   margin-left: auto;
 }
 
-.text-light {
-  color: var(--text-color) !important;
-}
-
-.text-muted {
-  color: var(--text-muted-color) !important;
+.trans-number {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 #userDropdown {
@@ -238,4 +263,36 @@ body {
 
 .userDropdownMenu.dropdown-menu > .dropdown-item {
   font-size: smaller !important;
+}
+
+@media screen and (max-width: 410px) {
+  body {
+    font-size: 14px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .content-wrapper {
+    max-width: 75%;
+  }
+
+  .faq-item-header {
+    font-size: 1.175rem;
+  }
+
+  .faq-item-answer li {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .content-wrapper {
+    max-width: 66%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .content-wrapper {
+    max-width: 768px;
+  }
 }

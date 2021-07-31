@@ -56,64 +56,62 @@ const PostFeed = () => {
   }, [isFetching, hasNextPage, fetchNextPage, target]);
 
   return (
-    <div className='container'>
-      <div className='row justify-content-center '>
-        <div className='col-xs-11 col-sm-10 col-md-8'>
-          <header className='my-3'>
-            <h2 className='display-6 text-center text-uppercase text-monospace text-light'>
-              Public Square
-            </h2>
-          </header>
+    <div className='container-sm content-wrapper'>
+      <div className='row'>
+        <header className='my-3'>
+          <h2 className='display-6 text-center text-uppercase text-monospace text-light'>
+            Public Square
+          </h2>
+        </header>
 
-          <PostForm />
+        <PostForm />
 
-          <div>
-            {status === 'loading' ? (
-              <Spinner />
-            ) : status === 'error' ? (
-              <span className='text-danger'>Error: {error.message}</span>
-            ) : (
-              <>
-                {data.pages.map((group, idx) => (
-                  <React.Fragment key={idx}>
-                    {group.data.map(post => {
-                      return (
-                        <PostItem
-                          key={post.hash.substring(post.hash.length - 8)}
-                          data={post}
-                        />
-                      );
-                    })}
-                  </React.Fragment>
-                ))}
-                <div>
-                  <div className='d-grid mx-auto'>
-                    <button
-                      ref={target}
-                      onClick={() => fetchNextPage()}
-                      disabled={!hasNextPage || isFetching}
-                      className={`btn btn-fluid btn-outline-info text-uppercase`}
-                    >
-                      {isFetching ? (
-                        <>
-                          <span
-                            className='spinner-grow spinner-grow-sm me-2'
-                            role='status'
-                            aria-hidden='true'
-                          ></span>
-                          <span>Loading</span>
-                        </>
-                      ) : hasNextPage ? (
-                        'Load More'
-                      ) : (
-                        <span>End</span>
-                      )}
-                    </button>
-                  </div>
+        <div>
+          {status === 'loading' ? (
+            <Spinner />
+          ) : status === 'error' ? (
+            <span className='text-danger'>Error: {error.message}</span>
+          ) : (
+            <>
+              {data.pages.map((group, idx) => (
+                <React.Fragment key={idx}>
+                  {group.data.map(post => {
+                    return (
+                      <PostItem
+                        key={post.hash.substring(post.hash.length - 8)}
+                        data={post}
+                      />
+                    );
+                  })}
+                </React.Fragment>
+              ))}
+              <div>
+                <div className='d-grid mx-auto'>
+                  <button
+                    ref={target}
+                    onClick={() => fetchNextPage()}
+                    disabled={!hasNextPage || isFetching}
+                    className={`btn btn-fluid btn-outline-info text-uppercase`}
+                  >
+                    {isFetching ? (
+                      <>
+                        <span
+                          className='spinner-grow spinner-grow-sm me-2'
+                          role='status'
+                          aria-hidden='true'
+                        ></span>
+                        <span>Loading</span>
+                      </>
+                    ) : hasNextPage ? (
+                      'Load More'
+                    ) : (
+                      <span>End</span>
+                    )}
+                  </button>
                 </div>
-              </>
-            )}
-          </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
