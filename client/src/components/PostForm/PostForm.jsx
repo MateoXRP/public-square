@@ -91,9 +91,9 @@ const PostForm = () => {
   const isContentEmpty = watch('postContent').length === 0;
 
   return (
-    <div className='card my-3 container-fluid'>
-      <form ref={formRef} onSubmit={handleSubmit(submitPost)}>
-        <div className='my-3'>
+    <div className='my-3 container-fluid'>
+      <form className='card' ref={formRef} onSubmit={handleSubmit(submitPost)}>
+        <div className='m-3'>
           <label htmlFor='postContent' className='form-label text-uppercase'>
             Create Post
           </label>
@@ -118,53 +118,53 @@ const PostForm = () => {
 
           {addPostMutation.isLoading && <Spinner />}
 
-          <div className='d-flex align-items-center justify-content-between pt-2'>
+          <div className='d-flex flex-column flex-md-row justify-content-md-between align-items-md-center pt-2'>
             <Controller
               control={control}
               defaultValue='XRP'
               name='currency'
               render={({ field: { onChange, value } }) => (
-                <div className='d-flex align-items-center' role='radiogroup'>
-                  <label htmlFor='' className='pb-1'>
-                    Posting fee currency:
-                  </label>
-                  <div className='form-check form-check-inline ms-3'>
-                    <input
-                      className='form-check-input'
-                      checked={radio === 'XRP'}
-                      type='radio'
-                      name='currency'
-                      id='XRP'
-                      value='XRP'
-                      onChange={e => {
-                        changeRadio(e);
-                      }}
-                    />
-                    <label className='form-check-label' htmlFor='XRP'>
-                      0.01 XRP
-                    </label>
-                  </div>
+                <div className='d-flex align-items-baseline' role='radiogroup'>
+                  <div className='currency-label'>Posting fee currency:</div>
+                  <div className='ps-3'>
+                    <div className='form-check form-check-inline'>
+                      <input
+                        className='form-check-input'
+                        checked={radio === 'XRP'}
+                        type='radio'
+                        name='currency'
+                        id='XRP'
+                        value='XRP'
+                        onChange={e => {
+                          changeRadio(e);
+                        }}
+                      />
+                      <label className='form-check-label' htmlFor='XRP'>
+                        0.01 XRP
+                      </label>
+                    </div>
 
-                  <div className='form-check form-check-inline '>
-                    <input
-                      className='form-check-input'
-                      checked={radio === 'MGS'}
-                      type='radio'
-                      name='currency'
-                      id='MGS'
-                      value='MGS'
-                      onChange={e => {
-                        changeRadio(e);
-                      }}
-                    />
-                    <label className='form-check-label' htmlFor='MGS'>
-                      1.0 MGS
-                    </label>
+                    <div className='form-check form-check-inline'>
+                      <input
+                        className='form-check-input'
+                        checked={radio === 'MGS'}
+                        type='radio'
+                        name='currency'
+                        id='MGS'
+                        value='MGS'
+                        onChange={e => {
+                          changeRadio(e);
+                        }}
+                      />
+                      <label className='form-check-label' htmlFor='MGS'>
+                        1.0 MGS
+                      </label>
+                    </div>
                   </div>
                 </div>
               )}
             />
-            <div className='float-end'>
+            <div className='pt-2'>
               <ConfirmAction
                 formRef={formRef}
                 type='Create Post'

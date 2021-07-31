@@ -22,33 +22,36 @@ const Post = () => {
   const isDataStale = id !== data?.post?.hash;
 
   return (
-    <div className='container'>
-      <div className='row justify-content-center '>
-        <div className='col-xs-10 col-sm-9 col-md-8 col-xl-7'>
-          <i
-            className='bi bi-arrow-left-circle-fill btn-back text-primary'
-            onClick={() => history.goBack()}
-            title='Go Back'
-          ></i>
-          <header className='App-header'>
-            <h2 className='text-center display-6 text-light'>Post</h2>
-          </header>
+    <div className='container-sm content-wrapper'>
+      <div className='row'>
+        {/* <i
+          className='bi bi-arrow-left-circle-fill btn-back text-primary'
+          onClick={() => history.goBack()}
+          title='Go Back'
+        ></i> */}
+        <header className='App-header'>
+          <h2 className='text-center display-6 text-light'>Post</h2>
+        </header>
 
-          <div>
-            {status === 'loading' || (isFetching && isDataStale) ? (
-              <Spinner />
-            ) : status === 'error' ? (
-              <span className='text-danger'>Error: {error.message}</span>
-            ) : (
-              <>
-                <PostContent
-                  key={data.post.hash.substring(data.post.hash.length - 8)}
-                  data={data}
-                />
-                {isFetching ? <Spinner /> : ''}
-              </>
-            )}
-          </div>
+        <div>
+          {status === 'loading' || (isFetching && isDataStale) ? (
+            <Spinner />
+          ) : status === 'error' ? (
+            <span className='text-danger'>Error: {error.message}</span>
+          ) : (
+            <div className='position-relative'>
+              <i
+                className='bi bi-arrow-left-circle-fill btn-back text-primary'
+                onClick={() => history.goBack()}
+                title='Go Back'
+              ></i>
+              <PostContent
+                key={data.post.hash.substring(data.post.hash.length - 8)}
+                data={data}
+              />
+              {isFetching ? <Spinner /> : ''}
+            </div>
+          )}
         </div>
       </div>
     </div>

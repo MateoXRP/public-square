@@ -12,12 +12,12 @@ const PostItem = ({ data }) => {
   const timeToNow = formatDistanceToNow(parsedDate);
 
   const Username = username ? (
-    <>
-      <span className='card-title'>{username}</span>
-      <span className='ms-3'>{account}</span>
-    </>
+    <div className='d-flex flex-column flex-sm-row align-items-baseline'>
+      <span className='me-3'>{username}</span>
+      <span className='fs-smaller'>{account}</span>
+    </div>
   ) : (
-    <span>{account}</span>
+    <span className='fs-smaller'>{account}</span>
   );
 
   return (
