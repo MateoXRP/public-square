@@ -59,7 +59,7 @@ router.post('/', async (req, res) => {
 
     // check result
     // console.log('payload data: ', data);
-    console.log(`post ${postId} was liked`);
+    console.log(`post ${postId} like tx response: `, data);
 
     res.send(data);
   } catch (error) {
