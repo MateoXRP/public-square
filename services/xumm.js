@@ -41,7 +41,7 @@ async function sendPayload(payloadConfig) {
 
   const payload = JSON.stringify(payloadConfig);
 
-  console.log('payload', payload);
+  // console.log('payload', payload);
 
   try {
     const result = await axios.post(
@@ -50,7 +50,7 @@ async function sendPayload(payloadConfig) {
       config
     );
 
-    console.log('xumm result:', result.data);
+    // console.log('xumm result:', result.data);
 
     if (result.status !== 200) {
       throw new Error('Sorry, something went wrong. Please try again later');
@@ -80,7 +80,7 @@ async function getPayload(payloadUuid) {
       config
     );
 
-    console.log('xumm result:', result.data);
+    // console.log('xumm result:', result.data);
 
     if (result.status !== 200) {
       throw new Error('Sorry, something went wrong. Please try again later');

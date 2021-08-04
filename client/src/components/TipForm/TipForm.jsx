@@ -24,8 +24,6 @@ const TipForm = ({ recipient, postId }) => {
 
   const currency = watch('currency');
   const amount = watch('amount');
-  console.log('currency: ', currency);
-  console.log('amount: ', amount);
 
   useEffect(() => {
     if (xummRedirectURL) {
@@ -49,7 +47,7 @@ const TipForm = ({ recipient, postId }) => {
 
     try {
       const result = await axios.post(`/api/tips`, body, config);
-      console.log('tip form result', result.data);
+      // console.log('tip form result', result.data);
 
       return result.data;
     } catch (error) {
@@ -63,7 +61,7 @@ const TipForm = ({ recipient, postId }) => {
       reset();
     },
     onSuccess: data => {
-      console.log('mutate success data: ', data);
+      // console.log('mutate success data: ', data);
       if (data?.next) {
         setXummRedirectURL(data.next.always);
       }
@@ -85,8 +83,6 @@ const TipForm = ({ recipient, postId }) => {
 
     addTipMutation.mutate(data);
   };
-
-  // console.count('Tip form render');
 
   return (
     <form className='p-3' ref={formRef} onSubmit={handleSubmit(submitTip)}>
