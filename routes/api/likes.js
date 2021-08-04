@@ -52,14 +52,14 @@ router.post('/', async (req, res) => {
       payloadConfig.user_token = userToken;
     }
 
-    console.log('payload config: ', payloadConfig);
+    // console.log('payload config: ', payloadConfig);
 
     // submit transaction using xumm
     const data = await sendPayload(payloadConfig);
 
     // check result
     // console.log('payload data: ', data);
-    console.log(`post ${postId} was liked`);
+    console.log(`post ${postId} like tx response: `, data);
 
     res.send(data);
   } catch (error) {

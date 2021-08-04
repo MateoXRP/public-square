@@ -181,7 +181,7 @@ router.post('/', async (req, res) => {
       payloadConfig.user_token = userToken;
     }
 
-    console.log('payload config: ', payloadConfig);
+    // console.log('payload config: ', payloadConfig);
 
     // submit transaction using xumm
     const data = await sendPayload(payloadConfig);

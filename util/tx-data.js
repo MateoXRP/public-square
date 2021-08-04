@@ -109,7 +109,7 @@ async function getUserInfo(account) {
       username
     };
 
-    console.log('getUserInfo: ', userInfo);
+    // console.log('getUserInfo: ', userInfo);
     return userInfo;
   } catch (error) {
     console.log('error: ', error);

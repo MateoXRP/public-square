@@ -16,11 +16,12 @@ const router = express.Router();
 // @desc    tip post
 // @access  Public
 router.post('/', async (req, res) => {
-  const { account, amount, currency, postId } = req.body;
-  console.log('account: ', account);
-  console.log('amount: ', amount);
-  console.log('currency: ', currency);
-  console.log('postId: ', postId);
+  const { amount, currency, postId, recipientAccount, userToken } = req.body;
+  // console.log('amount: ', amount);
+  // console.log('currency: ', currency);
+  // console.log('postId: ', postId);
+  // console.log('recipientAccount: ', recipientAccount);
+  // console.log('userToken: ', userToken);
 
   try {
     const tipData = string2Hex(postId);
@@ -37,7 +38,7 @@ router.post('/', async (req, res) => {
     const payloadConfig = {
       txjson: {
         TransactionType: 'Payment',
-        Destination: account,
+        Destination: recipientAccount,
         Amount: getTxAmount(currency, amount),
         Memos: memosField
       },
@@ -50,11 +51,17 @@ router.post('/', async (req, res) => {
       }
     };
 
+    if (userToken) {
+      payloadConfig.user_token = userToken;
+    }
+
+    // console.log('payload config: ', payloadConfig);
+
     // submit transaction using xumm
-    // const data = await sendPayload(payloadConfig);
+    const data = await sendPayload(payloadConfig);
 
     // check result
-    // console.log('payload data: ', data);
+    console.log(`post ${postId} tip response: `, data);
 
     res.send(data);
   } catch (error) {

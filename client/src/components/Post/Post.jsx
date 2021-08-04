@@ -24,11 +24,6 @@ const Post = () => {
   return (
     <div className='container-sm content-wrapper'>
       <div className='row'>
-        {/* <i
-          className='bi bi-arrow-left-circle-fill btn-back text-primary'
-          onClick={() => history.goBack()}
-          title='Go Back'
-        ></i> */}
         <header className='App-header'>
           <h2 className='text-center display-6 text-light'>Post</h2>
         </header>
