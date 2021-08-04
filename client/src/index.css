@@ -90,11 +90,13 @@ body {
   color: #fff !important;
 }
 
-.confirm-modal {
+.confirm-modal,
+.tip-modal {
   top: 10%;
 }
 
-.confirm-modal-overlay {
+.confirm-modal-overlay,
+.tip-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -104,7 +106,8 @@ body {
   z-index: 1040;
 }
 
-.confirm-modal-content {
+.confirm-modal-content,
+.tip-modal-content {
   color: var(--text-color);
   background-color: var(--card-bg-color);
 }
@@ -243,6 +246,10 @@ body {
   width: fit-content;
   margin-right: auto;
   margin-left: auto;
+}
+
+.tip-amount-input {
+  width: 5rem;
 }
 
 .trans-number {

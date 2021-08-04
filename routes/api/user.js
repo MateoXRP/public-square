@@ -49,14 +49,14 @@ router.get('/data', async (req, res) => {
   try {
     // confirm transaction using xumm
     const data = await getPayload(id);
-    console.log('data: ', data);
+    // console.log('data: ', data);
 
     const userData = {
       application: data.application,
       response: data.response
     };
 
-    console.log('route/userData: ', userData);
+    // console.log('route/userData: ', userData);
 
     res.send(userData);
   } catch (error) {
@@ -77,7 +77,7 @@ router.get('/info', async (req, res) => {
     const userInfo = await getUserInfo(account);
 
     // check result
-    console.log('route/userInfo: ', userInfo);
+    // console.log('route/userInfo: ', userInfo);
 
     res.send(userInfo);
   } catch (error) {

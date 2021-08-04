@@ -5,6 +5,7 @@ import parseISO from 'date-fns/parseISO';
 
 import Comments from '../Comments';
 import Likes from '../Likes';
+import TipSection from '../TipSection';
 
 const PostContent = ({ data }) => {
   const { account, amount, date, gravatarURL, hash, memoData, username } =
@@ -22,6 +23,8 @@ const PostContent = ({ data }) => {
   ) : (
     <span className='fs-smaller'>{account}</span>
   );
+
+  const author = { account, username };
   // console.count('post content render');
   return (
     <div className='card my-3'>
@@ -74,6 +77,8 @@ const PostContent = ({ data }) => {
       </div>
 
       <Likes likes={data.likes} postId={hash} />
+
+      <TipSection recipient={author} postId={hash} />
 
       <Comments comments={data.comments} postId={hash} />
     </div>
