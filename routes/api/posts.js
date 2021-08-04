@@ -1,13 +1,10 @@
 const express = require('express');
 
 const appXrplAddress = require('../../config/keys').appXrplAddress;
+const appBaseUrl = require('../../config/app-base-url');
 
 const { getAccountTx } = require('../../services/xrpl-client');
-const {
-  appReturnURL,
-  getTxAmount,
-  sendPayload
-} = require('../../services/xumm');
+const { getTxAmount, sendPayload } = require('../../services/xumm');
 
 const { postTxOmitList } = require('../../util/special-tx-lists');
 const {
@@ -172,7 +169,7 @@ router.post('/', async (req, res) => {
         submit: true,
         expire: 1440,
         return_url: {
-          web: appReturnURL
+          web: appBaseUrl
         }
       }
     };

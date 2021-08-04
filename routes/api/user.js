@@ -1,10 +1,8 @@
 const express = require('express');
 
-const {
-  appReturnURL,
-  sendPayload,
-  getPayload
-} = require('../../services/xumm');
+const appBaseUrl = require('../../config/app-base-url');
+
+const { sendPayload, getPayload } = require('../../services/xumm');
 
 const { getUserInfo } = require('../../util/tx-data');
 
@@ -23,7 +21,7 @@ router.post('/signin', async (req, res) => {
         submit: false,
         expire: 1440,
         return_url: {
-          web: `${appReturnURL}/signing-in?id={id}`
+          web: `${appBaseUrl}/signing-in?id={id}`
         }
       }
     };

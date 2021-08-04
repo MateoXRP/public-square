@@ -1,12 +1,9 @@
 const express = require('express');
 
 const appXrplAddress = require('../../config/keys').appXrplAddress;
+const appBaseUrl = require('../../config/app-base-url');
 
-const {
-  appReturnURL,
-  getTxAmount,
-  sendPayload
-} = require('../../services/xumm');
+const { getTxAmount, sendPayload } = require('../../services/xumm');
 
 const { string2Hex } = require('../../util/tx-data');
 
@@ -43,7 +40,7 @@ router.post('/', async (req, res) => {
         submit: true,
         expire: 1440,
         return_url: {
-          web: `${appReturnURL}/p/${postId}`
+          web: `${appBaseUrl}/p/${postId}`
         }
       }
     };
