@@ -3,7 +3,7 @@ const axios = require('axios');
 const xummApiKey = require('../config/keys').xummApiKey;
 const xummApiSecret = require('../config/keys').xummApiSecret;
 
-const appReturnURL = 'https://pub-sq.herokuapp.com';
+const submitFees = require('../config/currency-submit-fees');
 
 const xummHeaders = {
   'content-type': 'application/json',
@@ -21,12 +21,12 @@ function getTxAmount(currency, amount = null) {
   return currency === 'MGS'
     ? {
         currency: 'MGS',
-        value: amount ? amount.toString() : '1',
+        value: amount ? amount.toString() : submitFees.MGS.amount,
         issuer: 'rHP4bHzghBdzskqcaPciL5WRGkHosB5zYx'
       }
     : amount
     ? (amount * 1000000).toString()
-    : '10000';
+    : submitFees.XRP.amount;
 }
 
 /**
@@ -94,4 +94,4 @@ async function getPayload(payloadUuid) {
   }
 }
 
-module.exports = { appReturnURL, getTxAmount, sendPayload, getPayload };
+module.exports = { getTxAmount, sendPayload, getPayload };
