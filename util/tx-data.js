@@ -4,7 +4,6 @@ const getXRPEmailHash = require('../services/xrpscan').getXRPEmailHash;
 
 const isBlacklisted = require('./is-blacklisted');
 const isWhitelisted = require('./is-whitelisted');
-const { postTxIncludeList, postTxOmitList } = require('./special-tx-lists');
 
 // Convert memo data hex to string
 function hex2String(hex) {
