@@ -6,7 +6,8 @@ const appBaseUrl = require('../../config/app-base-url');
 const { getAccountTx } = require('../../services/xrpl-client');
 const { getTxAmount, sendPayload } = require('../../services/xumm');
 
-const { postTxOmitList } = require('../../util/special-tx-lists');
+const isBlacklisted = require('../../util/is-blacklisted');
+
 const {
   getPost,
   getPostComments,
@@ -61,7 +62,7 @@ router.get('/:id', async (req, res) => {
   const { id } = req.params;
   // console.log('post ID: ', id);
   try {
-    if (postTxOmitList.has(id)) {
+    if (isBlacklisted(id)) {
       return res.status(404).json({
         error: {
           ref: id,
