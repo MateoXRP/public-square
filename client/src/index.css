@@ -232,6 +232,28 @@ body {
   background-color: var(--card-bg-color) !important;
 }
 
+.not-found-icon {
+  font-size: 6rem;
+  font-weight: lighter;
+}
+
+.not-found-header {
+  text-transform: uppercase;
+  color: var(--text-color) !important;
+  margin: 0.5rem auto 1.5rem;
+}
+
+.not-found-text {
+  font-size: 1.2rem;
+  font-weight: lighter;
+  text-align: center;
+}
+
+.home-button {
+  min-width: 10rem;
+  margin-top: 2.5rem;
+}
+
 .post-content {
   display: flex;
   flex-direction: column;
