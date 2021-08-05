@@ -7,6 +7,7 @@ import Spinner from '../Spinner';
 import ConfirmAction from '../ConfirmAction';
 import ContentEditor from '../ContentEditor';
 
+import submitFees from '../../config/currency-submit-fees';
 import { testContentLength } from '../../util/tx-data';
 import { getUserTokenFromLS } from '../../util/user';
 
@@ -125,7 +126,9 @@ const PostForm = () => {
               name='currency'
               render={({ field: { onChange, value } }) => (
                 <div className='d-flex align-items-baseline' role='radiogroup'>
-                  <div className='currency-label'>Posting fee currency:</div>
+                  <div className='currency-label text-uppercase'>
+                    Posting fee currency:
+                  </div>
                   <div className='ps-3'>
                     <div className='form-check form-check-inline'>
                       <input
@@ -140,7 +143,7 @@ const PostForm = () => {
                         }}
                       />
                       <label className='form-check-label' htmlFor='XRP'>
-                        0.01 XRP
+                        {submitFees.XRP.label}
                       </label>
                     </div>
 
@@ -157,7 +160,7 @@ const PostForm = () => {
                         }}
                       />
                       <label className='form-check-label' htmlFor='MGS'>
-                        1.0 MGS
+                        {submitFees.MGS.label}
                       </label>
                     </div>
                   </div>
