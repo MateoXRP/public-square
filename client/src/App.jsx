@@ -28,6 +28,7 @@ function App() {
           <Route exact path='/signing-in' component={SigningIn} />
           <Route exact path='/about' component={About} />
           <Route exact path='/faq' component={FAQ} />
+          <Route exact path='/404' component={NotFound} />
           <Route component={NotFound} />
         </Switch>
       </Router>
