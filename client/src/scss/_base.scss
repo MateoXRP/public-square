@@ -1,0 +1,28 @@
+/* Base styles*/
+
+:root {
+  --main-bg-color: #121212;
+  --card-bg-color: #1e1e1e;
+  --navbar-bg-color: #363636;
+  --text-muted-color: #9c9a98;
+  --text-color: #f8f9fa;
+}
+
+body {
+  margin: 0;
+  font-family: Segoe UI Historic, Segoe UI, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  font-size: 16px;
+  background-color: var(--main-bg-color);
+  /* font-family: 'PT Sans', sans-serif; */
+  width: 100%;
+  height: 100%;
+}
+
+@media screen and (max-width: 410px) {
+  body {
+    font-size: 14px;
+  }
+}
