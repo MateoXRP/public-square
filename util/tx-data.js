@@ -2,7 +2,8 @@ const md5 = require('@xn-02f/md5');
 const getBithompUsername = require('../services/bithomp').getBithompUsername;
 const getXRPEmailHash = require('../services/xrpscan').getXRPEmailHash;
 
-const { postTxIncludeList, postTxOmitList } = require('./special-tx-lists');
+const isBlacklisted = require('./is-blacklisted');
+const isWhitelisted = require('./is-whitelisted');
 
 // Convert memo data hex to string
 function hex2String(hex) {
@@ -121,11 +122,10 @@ function allPostsFilter(records) {
   const postTx = records.filter(
     record =>
       (record.tx.TransactionType === 'Payment') &
-      // (record.tx.DestinationTag === undefined) &
-      (record.tx.DestinationTag === 99 ||
-        postTxIncludeList.has(record.tx.hash)) &
+      // Posts have DestinationTag: 99
+      (record.tx.DestinationTag === 99 || isWhitelisted(record.tx.hash)) &
       (record.tx.Memos !== undefined) &
-      !postTxOmitList.has(record.tx.hash)
+      !isBlacklisted(record.tx.hash)
   );
 
   return postTx;
@@ -137,11 +137,10 @@ function postsByAccountFilter(records, account) {
     record =>
       (record.tx.Account === account) &
       (record.tx.TransactionType === 'Payment') &
-      // (record.tx.DestinationTag === undefined) &
-      (record.tx.DestinationTag === 99 ||
-        postTxIncludeList.has(record.tx.hash)) &
+      // Post tx have DestinationTag: 99
+      (record.tx.DestinationTag === 99 || isWhitelisted(record.tx.hash)) &
       (record.tx.Memos !== undefined) &
-      !postTxOmitList.has(record.tx.hash)
+      !isBlacklisted(record.tx.hash)
   );
 
   return postTx;
@@ -157,7 +156,13 @@ function postByIdFilter(records, id) {
 // find comments on post from account transactions
 function commentsByPostIdFilter(records, id) {
   const commentTx = records.filter(record => {
-    if (record.tx.DestinationTag !== 100 || !record.tx.Memos) return false;
+    // Comment tx have DestinationTag: 100
+    if (
+      isBlacklisted(record.tx.hash) ||
+      record.tx.DestinationTag !== 100 ||
+      !record.tx.Memos
+    )
+      return false;
 
     // Parse memo data
     const memoData = parseMemoData(record.tx.Memos);
@@ -178,6 +183,7 @@ function commentsByPostIdFilter(records, id) {
 // find likes on post from account transactions
 function likesByPostIdFilter(records, id) {
   const likeTx = records.filter(record => {
+    // Like tx have DestinationTag: 101
     if (record.tx.DestinationTag !== 101 || !record.tx.Memos) return false;
 
     // Parse memo data

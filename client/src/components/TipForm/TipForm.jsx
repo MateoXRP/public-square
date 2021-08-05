@@ -6,14 +6,14 @@ import { useMutation } from 'react-query';
 import Spinner from '../Spinner';
 import TipButton from '../TipButton';
 
-import { TIP_INPUT_AMOUNT } from '../../util/constants';
+import tipSettings from '../../config/currency-tip-settings';
 import { getUserTokenFromLS } from '../../util/user';
 
 const TipForm = ({ recipient, postId }) => {
   const { handleSubmit, control, register, reset, setValue, watch } = useForm({
     defaultValues: {
       currency: 'XRP',
-      amount: 0.1
+      amount: tipSettings.XRP.min
     }
   });
 
@@ -152,12 +152,12 @@ const TipForm = ({ recipient, postId }) => {
             type='number'
             className='form-control form-control-sm tip-amount-input'
             id='tipInputAmt'
-            min={TIP_INPUT_AMOUNT[currency].min}
-            max={TIP_INPUT_AMOUNT[currency].max}
-            step={TIP_INPUT_AMOUNT[currency].step}
+            min={tipSettings[currency].min}
+            max={tipSettings[currency].max}
+            step={tipSettings[currency].step}
             {...register('amount', {
-              min: TIP_INPUT_AMOUNT[currency].min,
-              max: TIP_INPUT_AMOUNT[currency].max,
+              min: tipSettings[currency].min,
+              max: tipSettings[currency].max,
               required: true,
               valueAsNumber: true
             })}

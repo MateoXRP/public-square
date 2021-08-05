@@ -1,22 +1,7 @@
-// Special Transactions Lists
-
-// Transaction Omit List(s)
-// Listed transaction hashes to be omitted from results
-
-// Tx to omit from all results
-const txToOmit = [''];
-const txOmitList = new Set(txToOmit);
-
-// Post tx to omit from post feed results
-const postTxToOmit = [
-  'C5BA9EE5A16D990E9A5FC7017267A19496C6605471B456AC1C67E1DE1BB26C3A'
-];
-const postTxOmitList = new Set(postTxToOmit);
-
-// Transaction Include List(s)
-// Listed transaction hashes are included in results
-// Post tx to include with post feed results
-const postTxToInclude = [
+// Transaction whitelist
+// tx hashes of tx explicitly included in results
+// Note: these are legacy transactions that do not pass current tx filters
+const whitelistedTransactions = [
   '6D8EE8D22D4EAD4C9B8EF73283FAFC52FBD208ECA16A50A351975714902C0C36',
   '24DAC1083D1F81E43B9E5B0667788F6C7EE8CB4906E84AB67046F6351E3A46C4',
   '7300363599BDCBCEB6537412608579F77C4D7B61514E50BEE1A78CF3D25DC6A0',
@@ -32,7 +17,10 @@ const postTxToInclude = [
   '031A908AB581AFF4894046775B67EAB4357A534A778DEF8CC41F8419747688BF',
   'FEACE830BABC27F3E8E20085E46A8032EB21EAF75A6874EB1CF029D01A83BAFD',
   '4AEF8FDB8556B18CD76D70321B5FACC0F467DA7DC179F1D8AE4A862CE2BE6770'
-];
-const postTxIncludeList = new Set(postTxToInclude);
 
-module.exports = { postTxIncludeList, postTxOmitList, txOmitList };
+  // To add a transaction to whitelist
+  // Add comma after last transaction hash
+  // Add transaction hash of tx to exclude (inside quotes)
+];
+
+module.exports = whitelistedTransactions;
