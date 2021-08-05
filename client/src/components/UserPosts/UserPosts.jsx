@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import axios from 'axios';
-import { useHistory, useParams } from 'react-router-dom';
+import { Redirect, useHistory, useParams } from 'react-router-dom';
 import { useInfiniteQuery } from 'react-query';
 
 import PostItem from '../PostItem';
@@ -8,11 +8,7 @@ import Spinner from '../Spinner';
 
 const UserPosts = () => {
   let history = useHistory();
-  const {
-    location: {
-      state: { user }
-    }
-  } = history;
+  const { location } = history;
 
   const { account } = useParams();
   const fetchPosts = async ({ pageParam = 0 }) => {
@@ -73,16 +69,7 @@ const UserPosts = () => {
 
   const isDataStale = account !== data?.pages[0].data[0].account;
 
-  const Username = user.username ? (
-    <div className='d-flex flex-column ms-3'>
-      <span className='fs-3'>{user.username}</span>
-      <span className='fs-6 text-muted'>{account}</span>
-    </div>
-  ) : (
-    <div className='fs-4 ms-3'>{account}</div>
-  );
-
-  return (
+  return location.state?.user ? (
     <div className='container'>
       <div className='row justify-content-center '>
         <div className='col-xs-11 col-sm-10 col-md-8'>
@@ -95,11 +82,18 @@ const UserPosts = () => {
             <div className='card mx-auto mt-2'>
               <div className='card-body d-flex align-items-center justify-content-center'>
                 <img
-                  src={user.gravatarURL}
+                  src={location.state.user.gravatarURL}
                   className='rounded-circle img-thumbnail'
                   alt=''
                 />
-                {Username}
+                {location.state.user.username ? (
+                  <div className='d-flex flex-column ms-3'>
+                    <span className='fs-3'>{location.state.user.username}</span>
+                    <span className='fs-6 text-muted'>{account}</span>
+                  </div>
+                ) : (
+                  <div className='fs-4 ms-3'>{account}</div>
+                )}
               </div>
             </div>
           </header>
@@ -154,6 +148,8 @@ const UserPosts = () => {
         </div>
       </div>
     </div>
+  ) : (
+    <Redirect to={'/404'} />
   );
 };
 
