@@ -87,6 +87,10 @@ router.get('/:id', async (req, res) => {
     // get post
     const post = await getPost(transactions, id);
 
+    if (!post) {
+      return res.send({});
+    }
+
     // get comments
     const comments = await getPostComments(transactions, id);
 
