@@ -256,7 +256,7 @@ async function getPostsByAccount(records, account, cursor) {
 async function getPost(records, id) {
   try {
     const postTx = await postByIdFilter(records, id);
-    console.log('postTx: ', postTx);
+    // console.log('postTx: ', postTx);
 
     if (!postTx) {
       return null;
