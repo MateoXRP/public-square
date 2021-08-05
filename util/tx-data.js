@@ -254,12 +254,22 @@ async function getPostsByAccount(records, account, cursor) {
 }
 
 async function getPost(records, id) {
-  const postTx = await postByIdFilter(records, id);
+  try {
+    const postTx = await postByIdFilter(records, id);
+    console.log('postTx: ', postTx);
 
-  // get post data
-  const post = await getPostData(postTx.tx);
+    if (!postTx) {
+      return null;
+    }
 
-  return post;
+    // get post data
+    const post = await getPostData(postTx.tx);
+
+    return post;
+  } catch (error) {
+    console.log('catch error: ', error);
+    return error;
+  }
 }
 
 async function getPostComments(records, id) {
