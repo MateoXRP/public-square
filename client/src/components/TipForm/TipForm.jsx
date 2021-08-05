@@ -135,17 +135,10 @@ const TipForm = ({ recipient, postId }) => {
             )}
           />
         </div>
-        <div className='col-auto'>
-          <TipButton
-            formRef={formRef}
-            recipient={recipient}
-            tip={`${amount} ${currency}`}
-          />
-        </div>
       </div>
 
-      <div className='row mt-2 mb-3 '>
-        <div className='col d-flex justify-content-start align-items-baseline'>
+      <div className='d-flex flex-column flex-md-row justify-content-md-between align-items-md-center mt-2 mb-3'>
+        <div className='d-flex justify-content-start align-items-baseline'>
           <div className='text-uppercase pe-3'>Tip amount:</div>
 
           <input
@@ -166,6 +159,14 @@ const TipForm = ({ recipient, postId }) => {
           <span className='text-uppercase ps-2 tip-amount-currency'>
             {currency}
           </span>
+        </div>
+
+        <div className='pt-3'>
+          <TipButton
+            formRef={formRef}
+            recipient={recipient}
+            tip={`${amount} ${currency}`}
+          />
         </div>
       </div>
     </form>
