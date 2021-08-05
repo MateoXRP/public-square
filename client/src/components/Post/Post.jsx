@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { Redirect, useHistory, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useQuery } from 'react-query';
 
@@ -18,6 +18,7 @@ const Post = () => {
   }
   // fetch post data
   const { status, data, error, isFetching } = usePost();
+
   // check if existing data belongs to target post
   const isDataStale = id !== data?.post?.hash;
 
@@ -33,6 +34,8 @@ const Post = () => {
             <Spinner />
           ) : status === 'error' ? (
             <span className='text-danger'>Error: {error.message}</span>
+          ) : status === 'success' && !data.post ? (
+            <Redirect to={'/404'} />
           ) : (
             <div className='position-relative'>
               <i
@@ -40,10 +43,8 @@ const Post = () => {
                 onClick={() => history.goBack()}
                 title='Go Back'
               ></i>
-              <PostContent
-                key={data.post.hash.substring(data.post.hash.length - 8)}
-                data={data}
-              />
+              {data?.post && <PostContent key={'post'} data={data} />}
+
               {isFetching ? <Spinner /> : ''}
             </div>
           )}
