@@ -18,7 +18,7 @@ const TipButton = ({ formRef, recipient, tip }) => {
     <>
       <button
         id={`toggleTipModal`}
-        className='btn btn-outline-primary btn-sm text-uppercase'
+        className='btn btn-outline-primary btn-sm text-uppercase w-100'
         onClick={e => showModal(e)}
       >
         <div className='px-1'>
