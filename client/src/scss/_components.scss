@@ -21,18 +21,6 @@
   }
 }
 
-.comment-form {
-  transform: translateY(100%);
-  height: 0;
-  transition: all 0.5s ease;
-
-  &.show {
-    transform: translateY(0);
-    height: auto;
-    transition: all 0.5s ease;
-  }
-}
-
 .confirm-modal,
 .tip-modal {
   top: 10%;
