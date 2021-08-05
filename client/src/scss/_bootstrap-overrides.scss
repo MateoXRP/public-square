@@ -1,0 +1,34 @@
+/* Bootstrap Overrides */
+
+.text-light {
+  color: var(--text-color) !important;
+}
+
+.text-muted {
+  color: var(--text-muted-color) !important;
+}
+
+.img-thumbnail {
+  background-color: unset;
+}
+
+.card {
+  color: var(--text-color);
+  background-color: var(--card-bg-color);
+}
+
+.accordion-button::after {
+  background-color: var(--navbar-bg-color) !important;
+  border-radius: 50%;
+}
+
+.list-group-item {
+  color: var(--text-color);
+  background-color: #212529 !important;
+  border-color: var(--main-bg-color);
+  padding: 1rem;
+}
+
+.navbar-dark {
+  background-color: var(--navbar-bg-color) !important;
+}
