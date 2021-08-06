@@ -7,21 +7,13 @@ const isWhitelisted = require('./is-whitelisted');
 
 // Convert memo data hex to string
 function hex2String(hex) {
-  // convert to string
-  const hexString = hex.toString();
-  // initialize result variable
-  var result = '';
+  // convert hex into buffer
+  const bufHex = Buffer.from(hex, 'hex');
 
-  // derive characters from hex string
-  for (
-    var i = 0;
-    i < hexString.length && hexString.substr(i, 2) !== '00';
-    i += 2
-  ) {
-    result += String.fromCharCode(parseInt(hexString.substr(i, 2), 16));
-  }
-  // console.log('result: ', result);
-  return result;
+  // convert buffer to utf8 string
+  const string = bufHex.toString();
+
+  return string;
 }
 
 function string2Hex(str) {
@@ -31,7 +23,6 @@ function string2Hex(str) {
   // convert buffer to hex string
   const hexString = bufStr.toString('hex');
 
-  // console.log('hexString: ', hexString);
   return hexString;
 }
 
