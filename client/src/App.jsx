@@ -14,23 +14,27 @@ import UserPosts from './components/UserPosts';
 
 function App() {
   return (
-    <div className='App'>
+    <div className='app'>
       <Helmet>
         <meta name='monetization' content='$ilp.uphold.com/FE6nKdXejmre' />
       </Helmet>
       <Router>
         <Topnav />
-        <Switch>
-          <Route exact path='/p/:id' component={Post} />
-          <Route exact path='/' component={PostFeed} />
-          <Route exact path='/u/:account' component={UserPosts} />
-          <Route exact path='/signin' component={Signin} />
-          <Route exact path='/signing-in' component={SigningIn} />
-          <Route exact path='/about' component={About} />
-          <Route exact path='/faq' component={FAQ} />
-          <Route exact path='/404' component={NotFound} />
-          <Route component={NotFound} />
-        </Switch>
+        <div className='scroll-wrapper'>
+          <div className='scroll-container'>
+            <Switch>
+              <Route exact path='/p/:id' component={Post} />
+              <Route exact path='/' component={PostFeed} />
+              <Route exact path='/u/:account' component={UserPosts} />
+              <Route exact path='/signin' component={Signin} />
+              <Route exact path='/signing-in' component={SigningIn} />
+              <Route exact path='/about' component={About} />
+              <Route exact path='/faq' component={FAQ} />
+              <Route exact path='/404' component={NotFound} />
+              <Route component={NotFound} />
+            </Switch>
+          </div>
+        </div>
       </Router>
     </div>
   );
