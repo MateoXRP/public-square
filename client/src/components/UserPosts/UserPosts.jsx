@@ -78,7 +78,7 @@ const UserPosts = () => {
             onClick={() => history.goBack()}
             title='Go Back'
           ></i>
-          <header className='App-header'>
+          <header className='mt-5 mb-3'>
             <div className='card mx-auto mt-2'>
               <div className='card-body d-flex align-items-center justify-content-center'>
                 <img

@@ -25,7 +25,7 @@ const Post = () => {
   return (
     <div className='container-sm content-wrapper'>
       <div className='row'>
-        <header className='App-header'>
+        <header className='mt-5 mb-3'>
           <h2 className='text-center display-6 text-light'>Post</h2>
         </header>
 

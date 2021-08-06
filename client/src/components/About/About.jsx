@@ -7,7 +7,7 @@ const About = () => {
   return (
     <div className='container-sm content-wrapper mt-3'>
       <div className='row'>
-        <h2 className='display-6 text-center text-uppercase text-monospace text-light'>
+        <h2 className='display-6 text-center text-uppercase text-monospace text-light mt-5 mb-3'>
           About Public Square
         </h2>
 

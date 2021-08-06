@@ -22,7 +22,7 @@ const Signin = () => {
       <div className='row justify-content-center '>
         <div className='col-xs-11 col-sm-10 col-md-8'>
           <section className='justify-content-center p-4'>
-            <h2 className='display-6 text-center text-uppercase text-monospace text-light'>
+            <h2 className='display-6 text-center text-uppercase text-monospace text-light mt-5 mb-3'>
               Sign in
             </h2>
             <div className='bg-dark p-4'>
