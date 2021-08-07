@@ -43,7 +43,10 @@ The following files are used by the app and are NOT included in repo because the
 
 #### env/config
 
-[Todo]
+Local development:
+
+- create .env file in root (do not commit to source control)
+  [Todo]
 
 ### Start development servers
 
