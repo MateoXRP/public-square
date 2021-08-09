@@ -10,6 +10,11 @@ const config = {
 
 const baseURL = `https://bithomp.com/api/v2/address/`;
 
+/**
+ * @desc get associated username for XRP account from Bithomp
+ * @param {string} account XRP account/address
+ * @return {promise} username associated with account or undefined
+ */
 async function getBithompUsername(address) {
   try {
     const result = await axios.get(
