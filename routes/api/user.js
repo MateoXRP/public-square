@@ -1,6 +1,6 @@
 const express = require('express');
 
-const appBaseUrl = require('../../config/app-base-url');
+const { appBaseUrl } = require('../../config/app-config');
 
 const { sendPayload, getPayload } = require('../../services/xumm');
 
@@ -28,7 +28,9 @@ router.post('/signin', async (req, res) => {
 
     // submit transaction using xumm
     const data = await sendPayload(payloadConfig);
-    // console.log('signin payload response: ', data);
+
+    // log activity
+    console.log('xumm signin submitted');
 
     res.send({ payload_uuid: data.uuid });
   } catch (error) {

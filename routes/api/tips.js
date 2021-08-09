@@ -1,6 +1,6 @@
 const express = require('express');
 
-const appBaseUrl = require('../../config/app-base-url');
+const { appBaseUrl } = require('../../config/app-config');
 
 const { getTxAmount, sendPayload } = require('../../services/xumm');
 
@@ -56,8 +56,8 @@ router.post('/', async (req, res) => {
     // submit transaction using xumm
     const data = await sendPayload(payloadConfig);
 
-    // check result
-    console.log(`post ${postId} tip response: `, data);
+    // log result
+    console.log(`tip for post ${postId} submitted`);
 
     res.send(data);
   } catch (error) {

@@ -1,7 +1,6 @@
 const express = require('express');
 
-const appXrplAddress = require('../../config/keys').appXrplAddress;
-const appBaseUrl = require('../../config/app-base-url');
+const { appBaseUrl, appWalletAddress } = require('../../config/keys');
 
 const { getTxAmount, sendPayload } = require('../../services/xumm');
 
@@ -31,7 +30,7 @@ router.post('/', async (req, res) => {
     const payloadConfig = {
       txjson: {
         TransactionType: 'Payment',
-        Destination: appXrplAddress,
+        Destination: appWalletAddress,
         DestinationTag: 101,
         Amount: getTxAmount(currency),
         Memos: memosField
@@ -54,9 +53,9 @@ router.post('/', async (req, res) => {
     // submit transaction using xumm
     const data = await sendPayload(payloadConfig);
 
-    // check result
+    // log activity
     // console.log('payload data: ', data);
-    console.log(`post ${postId} like tx response: `, data);
+    console.log(`like submitted on post ${postId}`);
 
     res.send(data);
   } catch (error) {
