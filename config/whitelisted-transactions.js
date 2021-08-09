@@ -1,6 +1,9 @@
 // Transaction whitelist
 // tx hashes of tx explicitly included in results
-// Note: these are legacy transactions that do not pass current tx filters
+// Note: these are legacy transactions for Mg.Social's Public Square that do not pass current tx filters
+// If cloning repo: delete these transactions and set to empty array
+// const whiteListedTransactions = [];
+
 const whitelistedTransactions = [
   '6D8EE8D22D4EAD4C9B8EF73283FAFC52FBD208ECA16A50A351975714902C0C36',
   '24DAC1083D1F81E43B9E5B0667788F6C7EE8CB4906E84AB67046F6351E3A46C4',
