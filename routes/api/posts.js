@@ -1,7 +1,6 @@
 const express = require('express');
 
-const appXrplAddress = require('../../config/keys').appXrplAddress;
-const appBaseUrl = require('../../config/app-base-url');
+const { appBaseUrl, appWalletAddress } = require('../../config/keys');
 
 const { getAccountTx } = require('../../services/xrpl-client');
 const { getTxAmount, sendPayload } = require('../../services/xumm');
@@ -165,7 +164,7 @@ router.post('/', async (req, res) => {
     const payloadConfig = {
       txjson: {
         TransactionType: 'Payment',
-        Destination: appXrplAddress,
+        Destination: appWalletAddress,
         DestinationTag: 99,
         Amount: getTxAmount(currency),
         Memos: memosField
@@ -188,8 +187,8 @@ router.post('/', async (req, res) => {
     // submit transaction using xumm
     const data = await sendPayload(payloadConfig);
 
-    // check result
-    console.log(`New post was created`);
+    // log activity
+    console.log(`new post submitted`);
 
     res.send(data);
   } catch (error) {

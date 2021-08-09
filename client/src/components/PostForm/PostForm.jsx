@@ -7,7 +7,8 @@ import Spinner from '../Spinner';
 import ConfirmAction from '../ConfirmAction';
 import ContentEditor from '../ContentEditor';
 
-import submitFees from '../../config/currency-submit-fees';
+import submitFeeSettings from '../../config/submit-fee-settings';
+
 import { testContentLength } from '../../util/tx-data';
 import { getUserTokenFromLS } from '../../util/user';
 
@@ -143,7 +144,7 @@ const PostForm = () => {
                         }}
                       />
                       <label className='form-check-label' htmlFor='XRP'>
-                        {submitFees.XRP.label}
+                        {submitFeeSettings.XRP.label}
                       </label>
                     </div>
 
@@ -160,7 +161,7 @@ const PostForm = () => {
                         }}
                       />
                       <label className='form-check-label' htmlFor='MGS'>
-                        {submitFees.MGS.label}
+                        {submitFeeSettings.MGS.label}
                       </label>
                     </div>
                   </div>
