@@ -1,4 +1,4 @@
-const currencySubmitFees = {
+const submitFeeSettings = {
   // currency
   XRP: {
     // amount: fee charged for submitting post/comment/like
@@ -13,4 +13,4 @@ const currencySubmitFees = {
   }
 };
 
-export default currencySubmitFees;
+export default submitFeeSettings;

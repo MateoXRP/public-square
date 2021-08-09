@@ -6,7 +6,8 @@ import { useMutation } from 'react-query';
 import Spinner from '../Spinner';
 import ConfirmAction from '../ConfirmAction';
 
-import submitFees from '../../config/currency-submit-fees';
+import submitFeeSettings from '../../config/submit-fee-settings';
+
 import { getUserTokenFromLS } from '../../util/user';
 
 const LikeForm = ({ postId }) => {
@@ -105,7 +106,7 @@ const LikeForm = ({ postId }) => {
                     }}
                   />
                   <label className='form-check-label' htmlFor='XRP'>
-                    {submitFees.XRP.label}
+                    {submitFeeSettings.XRP.label}
                   </label>
                 </div>
 
@@ -122,7 +123,7 @@ const LikeForm = ({ postId }) => {
                     }}
                   />
                   <label className='form-check-label' htmlFor='MGS'>
-                    {submitFees.MGS.label}
+                    {submitFeeSettings.MGS.label}
                   </label>
                 </div>
               </div>

@@ -1,4 +1,4 @@
-const currencyTipSettings = {
+const tipSettings = {
   // currency
   XRP: {
     min: 0.1, // minimum tip amount
@@ -12,4 +12,4 @@ const currencyTipSettings = {
   }
 };
 
-export default currencyTipSettings;
+export default tipSettings;

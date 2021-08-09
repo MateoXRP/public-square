@@ -1,6 +1,6 @@
 const { XrplClient } = require('xrpl-client');
 
-const appXrplAddress = require('../config/keys').appXrplAddress;
+const { appWalletAddress } = require('../config/keys');
 
 const client = new XrplClient('wss://fh.xrpl.ws');
 
@@ -8,7 +8,7 @@ async function getAccountTx() {
   try {
     const accountTx = await client.send({
       command: 'account_tx',
-      account: appXrplAddress
+      account: appWalletAddress
     });
 
     return accountTx;
