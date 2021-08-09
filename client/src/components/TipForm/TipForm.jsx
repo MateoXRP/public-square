@@ -6,7 +6,8 @@ import { useMutation } from 'react-query';
 import Spinner from '../Spinner';
 import TipButton from '../TipButton';
 
-import tipSettings from '../../config/currency-tip-settings';
+import tipSettings from '../../config/tip-settings';
+
 import { getUserTokenFromLS } from '../../util/user';
 
 const TipForm = ({ recipient, postId }) => {
