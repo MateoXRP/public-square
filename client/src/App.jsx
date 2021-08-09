@@ -12,11 +12,13 @@ import SigningIn from './components/SigningIn';
 import Topnav from './components/Topnav';
 import UserPosts from './components/UserPosts';
 
+import coilPaymentPointer from './config/coil-monetization';
+
 function App() {
   return (
     <div className='app'>
       <Helmet>
-        <meta name='monetization' content='$ilp.uphold.com/FE6nKdXejmre' />
+        <meta name='monetization' content={coilPaymentPointer} />
       </Helmet>
       <Router>
         <Topnav />
