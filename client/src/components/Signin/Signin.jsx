@@ -4,11 +4,9 @@ import SigninBtn from '../SigninBtn';
 
 const Signin = () => {
   const [payloadUuid, setPayloadUuid] = useState('');
-  console.log('payloadUuid: ', payloadUuid);
 
   // callback for signin btn to return payload uuid
   const onSubmitSuccess = uuid => {
-    console.log('submit success data.uuid: ', uuid);
     setPayloadUuid(uuid);
   };
 

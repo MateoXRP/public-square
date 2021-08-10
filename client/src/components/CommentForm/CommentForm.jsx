@@ -49,7 +49,6 @@ const CommentForm = ({ postId }) => {
 
     try {
       const result = await axios.post(`/api/comments`, body, config);
-      // console.log('add comment result:', result.data);
 
       return result.data;
     } catch (error) {
@@ -63,7 +62,6 @@ const CommentForm = ({ postId }) => {
       reset();
     },
     onSuccess: data => {
-      // console.log('mutate success data: ', data);
       if (data?.next) {
         setXummRedirectURL(data.next.always);
       }
@@ -72,7 +70,6 @@ const CommentForm = ({ postId }) => {
 
   const submitComment = async data => {
     const results = testContentLength(data.commentContent);
-    // console.log('test result: ', results);
 
     if (!results.isLengthValid) {
       errors.commentContent.message = `Exceeds maximum length by approximately ${results.overage}`;
@@ -81,13 +78,10 @@ const CommentForm = ({ postId }) => {
     data.postId = postId;
 
     const userToken = getUserTokenFromLS();
-    // console.log('CommentForm/userToken: ', userToken);
 
     if (userToken) {
       data.userToken = userToken;
     }
-
-    console.log('submit data:', data);
 
     addCommentMutation.mutate(data);
   };

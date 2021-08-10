@@ -13,9 +13,6 @@ const UserDisplay = () => {
   const [account, setAccount] = useState(getUserAccountFromLS());
   const [avatarUrl, setAvatarUrl] = useState(defaultAvatarUrl);
 
-  // console.log('account: ', account);
-  // console.log('location: ', location);
-
   useEffect(() => {
     if (location.state?.account) {
       setAccount(location.state.account);
@@ -36,8 +33,6 @@ const UserDisplay = () => {
           config
         );
 
-        // console.log('user info result: ', res.data);
-
         return res.data;
       } catch (error) {
         console.log('error: ', error);
@@ -49,8 +44,6 @@ const UserDisplay = () => {
 
       result
         .then(result => {
-          // console.log('user info recd');
-
           const { gravatarURL, username } = result;
 
           if (username) {

@@ -7,7 +7,7 @@ const PostItem = ({ data }) => {
   let location = useLocation();
 
   const { account, amount, date, gravatarURL, hash, memoData, username } = data;
-  // console.log('account: ', data.post.account);
+
   const parsedDate = parseISO(date);
   const timeToNow = formatDistanceToNow(parsedDate);
 

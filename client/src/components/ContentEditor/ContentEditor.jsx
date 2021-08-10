@@ -32,7 +32,6 @@ class ContentEditor extends Component {
 
     // remove \n (linebreaks)
     const htmlContent = html.replace(/(\n)/gm, '');
-    // console.log('htmlContent: ', htmlContent);
 
     // only update if html product changes
     if (this.state.htmlContent !== htmlContent) {

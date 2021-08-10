@@ -1,7 +1,11 @@
-// data for FAQ
-// array of objects
-// { displayOrder, question, answer }
-
+/* 
+Data for FAQ page
+faqData: array of FAQ items
+FAQ item properties: 
+displayOrder: controls position in list
+question: text string containing FAQ question
+answer: JSX containing FAQ answer
+*/
 const faqData = [
   {
     displayOrder: 1,

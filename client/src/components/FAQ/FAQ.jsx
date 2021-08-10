@@ -4,7 +4,6 @@ import { faqData } from './data-faq';
 
 const FAQ = () => {
   const items = faqData.sort((a, b) => a.displayOrder - b.displayOrder);
-  // console.log('items', items);
 
   return (
     <div className='container p-3'>
