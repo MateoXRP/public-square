@@ -13,11 +13,6 @@ const router = express.Router();
 // @access  Public
 router.post('/', async (req, res) => {
   const { amount, currency, postId, recipientAccount, userToken } = req.body;
-  // console.log('amount: ', amount);
-  // console.log('currency: ', currency);
-  // console.log('postId: ', postId);
-  // console.log('recipientAccount: ', recipientAccount);
-  // console.log('userToken: ', userToken);
 
   try {
     const tipData = string2Hex(postId);
@@ -50,8 +45,6 @@ router.post('/', async (req, res) => {
     if (userToken) {
       payloadConfig.user_token = userToken;
     }
-
-    // console.log('payload config: ', payloadConfig);
 
     // submit transaction using xumm
     const data = await sendPayload(payloadConfig);

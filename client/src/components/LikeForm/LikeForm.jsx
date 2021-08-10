@@ -40,7 +40,6 @@ const LikeForm = ({ postId }) => {
 
     try {
       const result = await axios.post(`/api/likes`, body, config);
-      console.log('like form result', result.data);
 
       return result.data;
     } catch (error) {
@@ -54,7 +53,6 @@ const LikeForm = ({ postId }) => {
       reset();
     },
     onSuccess: data => {
-      console.log('mutate success data: ', data);
       if (data?.next) {
         setXummRedirectURL(data.next.always);
       }
@@ -71,12 +69,8 @@ const LikeForm = ({ postId }) => {
       data.userToken = userToken;
     }
 
-    console.log('submit data:', data);
-
     addLikeMutation.mutate(data);
   };
-
-  // console.count('Like form render');
 
   return (
     <form className='p-3' ref={formRef} onSubmit={handleSubmit(submitLike)}>

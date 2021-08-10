@@ -49,7 +49,6 @@ const PostForm = () => {
 
     try {
       const result = await axios.post(`/api/posts`, body, config);
-      // console.log('post form result', result.data);
 
       return result.data;
     } catch (error) {
@@ -63,7 +62,6 @@ const PostForm = () => {
       reset();
     },
     onSuccess: data => {
-      // console.log('mutate success data: ', data);
       if (data?.next) {
         setXummRedirectURL(data.next.always);
       }

@@ -10,7 +10,6 @@ import TipSection from '../TipSection';
 const PostContent = ({ data }) => {
   const { account, amount, date, gravatarURL, hash, memoData, username } =
     data.post;
-  // console.log('account: ', data.post.account);
 
   const parsedDate = parseISO(date);
   const timeToNow = formatDistanceToNow(parsedDate);
@@ -25,7 +24,7 @@ const PostContent = ({ data }) => {
   );
 
   const author = { account, username };
-  // console.count('post content render');
+
   return (
     <div className='card my-3'>
       <div className='card-body'>

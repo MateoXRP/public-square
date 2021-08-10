@@ -13,7 +13,6 @@ const router = express.Router();
 // @access  Public
 router.post('/', async (req, res) => {
   const { currency, postId, userToken } = req.body;
-  // console.log('userToken: ', userToken);
 
   try {
     const likeData = string2Hex(postId);
@@ -48,13 +47,10 @@ router.post('/', async (req, res) => {
       payloadConfig.user_token = userToken;
     }
 
-    // console.log('payload config: ', payloadConfig);
-
     // submit transaction using xumm
     const data = await sendPayload(payloadConfig);
 
     // log activity
-    // console.log('payload data: ', data);
     console.log(`like submitted on post ${postId}`);
 
     res.send(data);

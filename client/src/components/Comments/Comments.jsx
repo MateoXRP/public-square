@@ -8,10 +8,6 @@ const Comments = ({ comments, postId }) => {
   const [showForm, setShowForm] = useState(false);
   const toggleShowForm = () => setShowForm(!showForm);
 
-  // console.log('comments: ', comments);
-  // console.log('postId:', postId);
-  // console.count('Comments render');
-
   return (
     <div className='card-footer'>
       <p className='fs-6'>

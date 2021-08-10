@@ -87,6 +87,9 @@ cd ..
 - `/client/src/config/whitelisted-transactions.js` (required)
   1. Set `whiteListedTransactions` to empty array []
   2. see below for more info
+- `/client/src/components/FAQ/data-faq.js`
+  1. contains data for FAQ items
+  2. FAQ data item properties: {displayOrder, question, answer}
 
 ### Transaction blacklist
 
@@ -119,10 +122,32 @@ To change the client server port from the default `3000`, set an environmental v
 PORT=1234
 ```
 
+### Deployment to Heroku
+
+This repo is set-up for deployment to [Heroku](https://devcenter.heroku.com/). For example, `package.json` includes Heroku-specific script `heroku-postbuild`. Details on how to deploy the app to other platforms are outside the scope of this documentation and are not included.
+
+The following must be completed after creating your Heroku app, but BEFORE deploying it:
+
+- Set API keys as Config Vars. Go to your app dashboard > Settings > Config Vars
+  - BITHOMP_API_KEY
+  - XUMM_API_KEY
+  - XUMM_API_SECRET
+- Set the app buildpack. Go to Settings > Buildpacks
+  - Click `Add buildpack`
+  - Select `nodejs` and click `Save changes`
+
+Deployment to Heroku requires a Heroku account, Node.js, npm and the Heroku CLI installed locally.
+
+- [Free Heroku account](https://signup.heroku.com/dc)
+- [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
+- [How to deploy to Heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs#deploy-the-app)
+- [Heroku Documentation](https://devcenter.heroku.com/categories/reference)
+
 ### Asset location
 
 - logo image: `./client/src/assets/logo.png`
 - favicon: `./client/public/favicon.png`
+- other icon image files: `./client/public/`
 
 ### Resources
 

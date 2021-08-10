@@ -48,7 +48,6 @@ const TipForm = ({ recipient, postId }) => {
 
     try {
       const result = await axios.post(`/api/tips`, body, config);
-      // console.log('tip form result', result.data);
 
       return result.data;
     } catch (error) {
@@ -62,7 +61,6 @@ const TipForm = ({ recipient, postId }) => {
       reset();
     },
     onSuccess: data => {
-      // console.log('mutate success data: ', data);
       if (data?.next) {
         setXummRedirectURL(data.next.always);
       }
@@ -74,13 +72,10 @@ const TipForm = ({ recipient, postId }) => {
     data.recipientAccount = recipient.account;
 
     const userToken = getUserTokenFromLS();
-    // console.log('TipForm/userToken: ', userToken);
 
     if (userToken) {
       data.userToken = userToken;
     }
-
-    console.log('submit data:', data);
 
     addTipMutation.mutate(data);
   };
