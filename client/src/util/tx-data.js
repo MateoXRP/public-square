@@ -1,4 +1,8 @@
-// Convert memo data hex to string
+/**
+ * @desc convert hex to string
+ * @param {hex} hex
+ * @return {string} result
+ */
 function hex2String(hex) {
   // convert to string
   const hexString = hex.toString();
@@ -17,6 +21,11 @@ function hex2String(hex) {
   return result;
 }
 
+/**
+ * @desc convert string to hex using Buffer
+ * @param {string} str
+ * @return {hex string} hexString
+ */
 function string2Hex(str) {
   // convert string into buffer
   let bufStr = Buffer.from(str, 'utf8');
@@ -28,6 +37,11 @@ function string2Hex(str) {
   return hexString;
 }
 
+/**
+ * @desc test if content/memoData exceeds 1kb limit
+ * @param {string} content
+ * @return {object} {isLengthValid: bool, overage: number}
+ */
 function testContentLength(content) {
   // Convert content to hex
   const data = string2Hex(content);

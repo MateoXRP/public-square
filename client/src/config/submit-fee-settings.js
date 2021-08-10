@@ -1,3 +1,4 @@
+// Fees charged for submitting tx
 const submitFeeSettings = {
   // currency
   XRP: {

@@ -1,3 +1,6 @@
+// Tip settings
+// Sets min/max tip amounts used by tip form
+// Also sets increment amount for tip input
 const tipSettings = {
   // currency
   XRP: {
