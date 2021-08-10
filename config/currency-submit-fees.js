@@ -1,3 +1,4 @@
+// Fees charged by app for submitting post, comment or like
 const currencySubmitFees = {
   // currency
   XRP: {

@@ -22,14 +22,11 @@ const SigninBtn = ({ onSubmitSuccess }) => {
   };
 
   const startSignin = () => {
-    console.log('starting sign in...');
     setIsProcessing(true);
     const submitResponse = submitSigninTx();
 
     submitResponse
       .then(response => {
-        console.log('submitResponse received: ', response);
-        // console.log('payload_uiid: ', response.data.payload_uuid);
         setIsProcessing(false);
         // cb to parent w/response
         onSubmitSuccess(response.data.payload_uuid);

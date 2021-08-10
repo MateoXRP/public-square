@@ -19,7 +19,6 @@ async function getXRPEmailHash(account) {
 
     if (data.error) return '';
     const { emailHash } = data.settings;
-    // console.log('email hash: ', emailHash);
 
     return emailHash;
   } catch (error) {

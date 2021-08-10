@@ -18,17 +18,10 @@ const UserPosts = () => {
     return res.data;
   };
 
-  const {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    // isFetchingNextPage,
-    status
-  } = useInfiniteQuery('userPosts', fetchPosts, {
-    getNextPageParam: (lastPage, pages) => lastPage.nextCursor
-  });
+  const { data, error, fetchNextPage, hasNextPage, isFetching, status } =
+    useInfiniteQuery('userPosts', fetchPosts, {
+      getNextPageParam: (lastPage, pages) => lastPage.nextCursor
+    });
 
   if (error) {
     console.log('error: ', error);

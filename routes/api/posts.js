@@ -24,7 +24,6 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   const cursor = Number.parseInt(req.query.cursor);
 
-  // console.log('cursor: ', cursor);
   try {
     const { transactions } = await getAccountTx();
     if (!transactions) {
@@ -38,8 +37,6 @@ router.get('/', async (req, res) => {
     }
 
     const result = await getPosts(transactions, cursor);
-    // console.log('posts: ', result.posts.length);
-    // console.log('nextCursor: ', result.nextCursor);
 
     const response = { data: result.posts };
 
@@ -59,7 +56,7 @@ router.get('/', async (req, res) => {
 // @access  Public
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
-  // console.log('post ID: ', id);
+
   try {
     if (isBlacklisted(id)) {
       return res.status(404).json({
@@ -110,7 +107,6 @@ router.get('/account/:account', async (req, res) => {
   const { account } = req.params;
   const cursor = Number.parseInt(req.query.cursor);
 
-  // console.log('cursor: ', cursor);
   try {
     const { transactions } = await getAccountTx();
     if (!transactions) {
@@ -124,8 +120,6 @@ router.get('/account/:account', async (req, res) => {
     }
 
     const result = await getPostsByAccount(transactions, account, cursor);
-    // console.log('posts: ', result.posts.length);
-    // console.log('nextCursor: ', result.nextCursor);
 
     const response = { data: result.posts };
 
@@ -145,12 +139,10 @@ router.get('/account/:account', async (req, res) => {
 // @access  Public
 router.post('/', async (req, res) => {
   const { postContent, currency, userToken } = req.body;
-  console.log('userToken: ', userToken);
 
   try {
     // convert text to hex
     const postData = string2Hex(postContent).toUpperCase();
-    // console.log('postData: ', postData);
 
     // create payload
     const memosField = [
@@ -181,8 +173,6 @@ router.post('/', async (req, res) => {
     if (userToken) {
       payloadConfig.user_token = userToken;
     }
-
-    // console.log('payload config: ', payloadConfig);
 
     // submit transaction using xumm
     const data = await sendPayload(payloadConfig);

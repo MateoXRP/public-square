@@ -11,7 +11,6 @@ const SigningIn = () => {
   const paramsString = useLocation().search;
   const query = new URLSearchParams(paramsString);
   const resultId = query.get('id');
-  // console.log('resultId: ', resultId);
 
   useEffect(() => {
     async function getUserData(payloadId) {
@@ -24,8 +23,6 @@ const SigningIn = () => {
       try {
         const res = await axios.get(`/api/user/data?id=${payloadId}`, config);
 
-        // console.log('user data result: ', res.data);
-
         return res.data;
       } catch (error) {
         console.log('error: ', error);
@@ -37,7 +34,6 @@ const SigningIn = () => {
 
       result
         .then(result => {
-          // console.log('user data recd');
           // get user account and token
           const {
             application: { issued_user_token },

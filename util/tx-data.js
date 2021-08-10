@@ -5,7 +5,11 @@ const getXRPEmailHash = require('../services/xrpscan').getXRPEmailHash;
 const isBlacklisted = require('./is-blacklisted');
 const isWhitelisted = require('./is-whitelisted');
 
-// Convert memo data hex to string
+/**
+ * @desc convert hex to string
+ * @param {hex} hex
+ * @return {string} result
+ */
 function hex2String(hex) {
   // convert hex into buffer
   const bufHex = Buffer.from(hex, 'hex');
@@ -16,6 +20,11 @@ function hex2String(hex) {
   return string;
 }
 
+/**
+ * @desc convert string to hex using Buffer
+ * @param {string} str
+ * @return {hex string} hexString
+ */
 function string2Hex(str) {
   // convert string into buffer
   let bufStr = Buffer.from(str, 'utf8');
@@ -26,7 +35,11 @@ function string2Hex(str) {
   return hexString;
 }
 
-// parse memos field and get memo data
+/**
+ * @desc parse memos field and get memo data
+ * @param {hex} txMemos
+ * @return {string} parsedMemo
+ */
 function parseMemoData(txMemos) {
   const memoData = txMemos[0].Memo.MemoData;
 
@@ -35,17 +48,28 @@ function parseMemoData(txMemos) {
   return parsedMemo;
 }
 
-// convert date field
+/**
+ * @desc convert date field to timestamp
+ * @param {UNIX date} date
+ * @return {Date} timestamp
+ */
 function getTimestamp(date) {
   const unixDate = date + 946684800;
   const timestamp = new Date(unixDate * 1000);
-  // console.log('timestamp: ', timestamp);
+
   return timestamp;
 }
 
-// derive post data from transaction
+/**
+ * @desc derive post data from transaction
+ * @param {string} Account XRP account/address
+ * @param {string} Amount tx amount
+ * @param {string} date tx date
+ * @param {string} hash tx hash
+ * @param {string} Memos tx Memos field
+ * @return {object} data: {account, amount, date, gravatarURL, hash, memoData, username}
+ */
 async function getPostData({ Account, Amount, date, hash, Memos }) {
-  // console.log('hash: ', hash);
   try {
     // get username
     const username = await getBithompUsername(Account);
@@ -56,7 +80,6 @@ async function getPostData({ Account, Amount, date, hash, Memos }) {
     const emailHash = xrpEmailHash ? xrpEmailHash.toLowerCase() : md5(Account);
 
     const gravatarURL = `https://www.gravatar.com/avatar/${emailHash}?s=40&d=retro`;
-    // console.log('gravatar: ', gravatarURL);
 
     // determine display amount
     const amount = Amount.currency
@@ -74,14 +97,17 @@ async function getPostData({ Account, Amount, date, hash, Memos }) {
       username
     };
 
-    // console.log('post data: ', data);
     return data;
   } catch (error) {
     console.log('error: ', error);
   }
 }
 
-// get user info from account/address
+/**
+ * @desc get user info from account/address
+ * @param {string} account
+ * @return {object} userInfo: {account, gravatarURL, username}
+ */
 async function getUserInfo(account) {
   try {
     // get username
@@ -101,14 +127,17 @@ async function getUserInfo(account) {
       username
     };
 
-    // console.log('getUserInfo: ', userInfo);
     return userInfo;
   } catch (error) {
     console.log('error: ', error);
   }
 }
 
-// get post transactions from account transactions
+/**
+ * @desc get all post transactions from account transactions
+ * @param {array} records (tx)
+ * @return {array} postTx (tx)
+ */
 function allPostsFilter(records) {
   const postTx = records.filter(
     record =>
@@ -122,7 +151,12 @@ function allPostsFilter(records) {
   return postTx;
 }
 
-// get post transactions by account from account transactions
+/**
+ * @desc get post transactions by account from account transactions
+ * @param {array} records (tx)
+ * @param {string} account
+ * @return {array} postTx (tx)
+ */
 function postsByAccountFilter(records, account) {
   const postTx = records.filter(
     record =>
@@ -137,14 +171,24 @@ function postsByAccountFilter(records, account) {
   return postTx;
 }
 
-// find post tx by id from account transactions
+/**
+ * @desc find post tx by id from account transactions
+ * @param {array} records (tx)
+ * @param {string} id (tx.hash)
+ * @return {object} postTx (tx)
+ */
 function postByIdFilter(records, id) {
   const postTx = records.filter(record => record.tx.hash === id);
 
   return postTx[0];
 }
 
-// find comments on post from account transactions
+/**
+ * @desc find comments on post from account transactions
+ * @param {array} records (tx)
+ * @param {string} id (post tx.hash)
+ * @return {array} commentTx (tx)
+ */
 function commentsByPostIdFilter(records, id) {
   const commentTx = records.filter(record => {
     // Comment tx have DestinationTag: 100
@@ -163,7 +207,6 @@ function commentsByPostIdFilter(records, id) {
 
     // Get post ID
     const postId = memoData.substring(0, 64);
-    // console.log('postId: ', postId);
     // Compare
     return postId === id;
   });
@@ -171,7 +214,12 @@ function commentsByPostIdFilter(records, id) {
   return commentTx;
 }
 
-// find likes on post from account transactions
+/**
+ * @desc find likes on post from account transactions
+ * @param {array} records (tx)
+ * @param {string} id (post tx.hash)
+ * @return {array} likeTx (tx)
+ */
 function likesByPostIdFilter(records, id) {
   const likeTx = records.filter(record => {
     // Like tx have DestinationTag: 101
@@ -190,12 +238,18 @@ function likesByPostIdFilter(records, id) {
   return likeTx;
 }
 
+/**
+ * @desc get posts from account transactions
+ * @param {array} records (tx)
+ * @param {number} cursor (for paginated results)
+ * @return {array} posts
+ */
 async function getPosts(records, cursor) {
   const postTx = allPostsFilter(records);
 
   const lastPostIdx = postTx.length - 1;
   const nextCursorIdx = cursor + 4;
-  // console.log('nextCursorIdx: ', nextCursorIdx);
+
   const result = {
     nextCursor: lastPostIdx >= nextCursorIdx ? nextCursorIdx : null
   };
@@ -206,23 +260,29 @@ async function getPosts(records, cursor) {
   // get posts data
   const postsData = await postsBatch.map(async record => {
     const data = await getPostData(record.tx);
-    // console.log('data: ', data);
+
     return data;
   });
 
   return Promise.all(postsData).then(posts => {
     result.posts = posts;
-    // console.log('posts: ', posts);
+
     return result;
   });
 }
 
+/**
+ * @desc get posts by account from account transactions
+ * @param {array} records (tx)
+ * @param {string} account
+ * @param {number} cursor (for paginated results)
+ * @return {array} posts
+ */
 async function getPostsByAccount(records, account, cursor) {
   const postTx = postsByAccountFilter(records, account);
 
   const lastPostIdx = postTx.length - 1;
   const nextCursorIdx = cursor + 4;
-  // console.log('nextCursorIdx: ', nextCursorIdx);
   const result = {
     nextCursor: lastPostIdx >= nextCursorIdx ? nextCursorIdx : null
   };
@@ -233,21 +293,26 @@ async function getPostsByAccount(records, account, cursor) {
   // get posts data
   const postsData = await postsBatch.map(async record => {
     const data = await getPostData(record.tx);
-    // console.log('data: ', data);
+
     return data;
   });
 
   return Promise.all(postsData).then(posts => {
     result.posts = posts;
-    // console.log('posts: ', posts);
+
     return result;
   });
 }
 
+/**
+ * @desc get post by id/tx from account transactions
+ * @param {array} records (tx)
+ * @param {string} id
+ * @return {object} post
+ */
 async function getPost(records, id) {
   try {
     const postTx = await postByIdFilter(records, id);
-    // console.log('postTx: ', postTx);
 
     if (!postTx) {
       return null;
@@ -263,6 +328,12 @@ async function getPost(records, id) {
   }
 }
 
+/**
+ * @desc get post comments by id/tx from account transactions
+ * @param {array} records (tx)
+ * @param {string} id
+ * @return {array} comments
+ */
 async function getPostComments(records, id) {
   const commentTx = await commentsByPostIdFilter(records, id);
   const commentsData = await commentTx.map(async record => {
@@ -275,11 +346,16 @@ async function getPostComments(records, id) {
   });
 
   return Promise.all(commentsData).then(comments => {
-    // console.log('comments: ', comments);
     return comments;
   });
 }
 
+/**
+ * @desc get post likes by id/tx from account transactions
+ * @param {array} records (tx)
+ * @param {string} id
+ * @return {array} likes
+ */
 async function getPostLikes(records, id) {
   const likeTx = await likesByPostIdFilter(records, id);
   const likesData = await likeTx.map(async record => {
@@ -289,7 +365,6 @@ async function getPostLikes(records, id) {
   });
 
   return Promise.all(likesData).then(likes => {
-    // console.log('likes: ', likes);
     return likes;
   });
 }
