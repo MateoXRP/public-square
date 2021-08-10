@@ -22,7 +22,6 @@ async function getBithompUsername(address) {
       config
     );
 
-    // console.log('bithomp result: ', result.data);
     const { username } = result.data;
 
     return username;
