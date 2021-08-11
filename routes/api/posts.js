@@ -26,6 +26,7 @@ router.get('/', async (req, res) => {
 
   try {
     const { transactions } = await getAccountTx();
+    console.log('tx fetched');
     if (!transactions) {
       return res.status(404).json({
         error: {
@@ -37,7 +38,7 @@ router.get('/', async (req, res) => {
     }
 
     const result = await getPosts(transactions, cursor);
-
+    console.log('getPosts result');
     const response = { data: result.posts };
 
     if (result.nextCursor) {
