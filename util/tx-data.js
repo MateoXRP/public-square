@@ -75,16 +75,19 @@ async function getPostData({ Account, Amount, date, hash, Memos }) {
     const username = await getBithompUsername(Account);
 
     // generate Gravatar URL
+    console.log('getting email hash');
     const xrpEmailHash = await getXRPEmailHash(Account);
 
     const emailHash = xrpEmailHash ? xrpEmailHash.toLowerCase() : md5(Account);
-
+    console.log('generating gravatarURL');
     const gravatarURL = `https://www.gravatar.com/avatar/${emailHash}?s=40&d=retro`;
 
     // determine display amount
     const amount = Amount.currency
       ? `${Amount.value} ${Amount.currency}`
       : `${parseInt(Amount) / 1000000} XRP`;
+
+    console.log('creating data object');
 
     // post data object
     const data = {
@@ -96,6 +99,8 @@ async function getPostData({ Account, Amount, date, hash, Memos }) {
       memoData: parseMemoData(Memos),
       username
     };
+
+    console.log('returning data object');
 
     return data;
   } catch (error) {
