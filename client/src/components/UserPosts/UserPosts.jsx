@@ -66,21 +66,16 @@ const UserPosts = () => {
     <div className='container'>
       <div className='row justify-content-center '>
         <div className='col-xs-11 col-sm-10 col-md-8'>
-          <i
-            className='bi bi-arrow-left-circle-fill btn-back text-primary'
-            onClick={() => history.goBack()}
-            title='Go Back'
-          ></i>
-          <header className='mt-5 mb-3'>
-            <div className='card mx-auto mt-2'>
-              <div className='card-body d-flex align-items-center justify-content-center'>
+          <header className='mt-6 mb-3'>
+            <div className='card user-posts-header'>
+              <div className='card-body mb-3 d-flex flex-column flex-md-row align-items-center justify-content-center'>
                 <img
                   src={location.state.user.gravatarURL}
                   className='rounded-circle img-thumbnail'
                   alt=''
                 />
                 {location.state.user.username ? (
-                  <div className='d-flex flex-column ms-3'>
+                  <div className='d-flex flex-column align-items-center align-items-md-start ms-3'>
                     <span className='fs-3'>{location.state.user.username}</span>
                     <span className='fs-6 text-muted'>{account}</span>
                   </div>
@@ -97,7 +92,12 @@ const UserPosts = () => {
             ) : status === 'error' ? (
               <span className='text-danger'>Error: {error.message}</span>
             ) : (
-              <>
+              <div className='position-relative'>
+                <i
+                  className='bi bi-arrow-left-circle-fill btn-back text-primary'
+                  onClick={() => history.goBack()}
+                  title='Go Back'
+                ></i>
                 {data.pages.map((group, idx) => (
                   <React.Fragment key={idx}>
                     {group.data.map(post => {
@@ -135,7 +135,7 @@ const UserPosts = () => {
                     </button>
                   </div>
                 </div>
-              </>
+              </div>
             )}
           </div>
         </div>

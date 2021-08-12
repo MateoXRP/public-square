@@ -58,7 +58,7 @@ const PostFeed = () => {
   return (
     <div className='container-sm content-wrapper'>
       <div className='row'>
-        <header className='mt-5 mb-3'>
+        <header className='mt-6'>
           <h2 className='display-6 text-center text-uppercase text-monospace text-light'>
             Public Square
           </h2>
