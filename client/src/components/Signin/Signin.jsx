@@ -19,11 +19,11 @@ const Signin = () => {
     <div className='container p-3'>
       <div className='row justify-content-center '>
         <div className='col-xs-11 col-sm-10 col-md-8'>
-          <section className='justify-content-center p-4'>
+          <section className='justify-content-center'>
             <h2 className='display-6 text-center text-uppercase text-monospace text-light mt-5 mb-3'>
               Sign in
             </h2>
-            <div className='bg-dark p-4'>
+            <div className='bg-dark p-5'>
               <p>
                 Sign in with XUMM and the XUMM app. This will enable push
                 notifications to your device with the XUMM app.

@@ -17,14 +17,14 @@ const baseURL = `https://bithomp.com/api/v2/address/`;
  */
 async function getBithompUsername(address) {
   try {
-    console.log('bithomp request');
+    console.log('2.1 bithomp request');
     const result = await axios.get(
       `${baseURL}${address}?username=true`,
       config
     );
 
     const { username } = result.data;
-    console.log('bithomp response');
+    console.log('2.2 bithomp response');
     return username;
   } catch (error) {
     console.log('bithomp error: ', error.data);
