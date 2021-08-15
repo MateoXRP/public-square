@@ -18,7 +18,8 @@ async function getAccountTx() {
 
     return accountTx;
   } catch (error) {
-    console.log(error);
+    console.log('xrpl-client error: ', error.message);
+
     return error;
   }
 }
