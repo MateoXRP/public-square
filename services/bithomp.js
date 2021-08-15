@@ -5,7 +5,8 @@ const config = {
   headers: {
     'content-type': 'application/json',
     'x-bithomp-token': bithompApiKey
-  }
+  },
+  timeout: 1000
 };
 
 const baseURL = `https://bithomp.com/api/v2/address/`;
@@ -17,17 +18,17 @@ const baseURL = `https://bithomp.com/api/v2/address/`;
  */
 async function getBithompUsername(address) {
   try {
-    console.log('2.1 bithomp request');
     const result = await axios.get(
       `${baseURL}${address}?username=true`,
       config
     );
 
     const { username } = result.data;
-    console.log('2.2 bithomp response');
+
     return username;
   } catch (error) {
-    console.log('bithomp error: ', error.data);
+    console.log('bithomp error: ', error.message);
+
     return null;
   }
 }

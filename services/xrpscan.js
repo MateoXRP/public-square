@@ -14,16 +14,16 @@ const baseURL = `https://api.xrpscan.com/api/v1/account/`;
  * @return {promise} email hash associated with account or ''
  */
 async function getXRPEmailHash(account) {
-  console.log('getting email hash');
   try {
     const { data } = await axios.get(`${baseURL}${account}`, config);
 
     if (data.error) return '';
     const { emailHash } = data.settings;
-    console.log('returning email hash');
+
     return emailHash;
   } catch (error) {
-    console.error(error);
+    console.log('xrpscpan error: ', error.message);
+
     return '';
   }
 }
