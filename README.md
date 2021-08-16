@@ -18,7 +18,7 @@ git clone https://github.com/MateoXRP/public-square.git
 Move into repo root folder and install dependencies using npm or yarn
 
 ```
-cd gfam-web
+cd public-square
 npm install
 ```
 
