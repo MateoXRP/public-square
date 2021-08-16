@@ -5,14 +5,14 @@
 Clone repo with SSH
 
 ```
-git clone git@github.com:rayGreycloud/public-square.git
+git clone git@github.com:MateoXRP/public-square.git
 
 ```
 
 Or clone with http
 
 ```
-git clone https://github.com/rayGreycloud/public-square.git
+git clone https://github.com/MateoXRP/public-square.git
 ```
 
 Move into repo root folder and install dependencies using npm or yarn
