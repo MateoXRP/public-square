@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 import { getUserAccountFromLS, clearUserInfoFromLS } from '../../util/user';
@@ -86,7 +86,21 @@ const UserDisplay = () => {
       <ul className='userDropdownMenu dropdown-menu dropdown-menu-dark text-center'>
         <li className='dropdown-item fs-6'>
           <div>Account:</div>
-          <div>{account}</div>
+          <Link
+            className='nav-link'
+            to={{
+              pathname: `/u/${account}`,
+              state: {
+                user: {
+                  account,
+                  gravatarURL: avatarUrl,
+                  username
+                }
+              }
+            }}
+          >
+            {account}
+          </Link>
         </li>
         <li>
           <button
