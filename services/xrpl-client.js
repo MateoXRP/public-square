@@ -13,7 +13,8 @@ async function getAccountTx() {
   try {
     const accountTx = await client.send({
       command: 'account_tx',
-      account: appWalletAddress
+      account: appWalletAddress,
+      limit: 5000
     });
 
     return accountTx;
