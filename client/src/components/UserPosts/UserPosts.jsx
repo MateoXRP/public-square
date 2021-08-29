@@ -1,16 +1,16 @@
 import React, { useEffect, useRef } from 'react';
 import axios from 'axios';
-import { Redirect, useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useInfiniteQuery } from 'react-query';
 
 import PostItem from '../PostItem';
 import Spinner from '../Spinner';
+import UserPostsHeader from '../UserPostsHeader';
 
 const UserPosts = () => {
   let history = useHistory();
-  const { location } = history;
-
   const { account } = useParams();
+
   const fetchPosts = async ({ pageParam = 0 }) => {
     const res = await axios.get(
       `/api/posts/account/${account}?cursor=${pageParam}`
@@ -60,37 +60,26 @@ const UserPosts = () => {
     };
   }, [isFetching, hasNextPage, fetchNextPage, target]);
 
-  const isDataStale = account !== data?.pages[0].data[0].account;
+  const isDataStale =
+    data &&
+    data.pages[0].data.length > 0 &&
+    account !== data.pages[0].data[0].account;
 
-  return location.state?.user ? (
+  // console.log('isDataStale: ', isDataStale);
+
+  return (
     <div className='container'>
       <div className='row justify-content-center '>
         <div className='col-xs-11 col-sm-10 col-md-8'>
-          <header className='mt-6 mb-3'>
-            <div className='card user-posts-header'>
-              <div className='card-body mb-3 d-flex flex-column flex-md-row align-items-center justify-content-center'>
-                <img
-                  src={location.state.user.gravatarURL}
-                  className='rounded-circle img-thumbnail'
-                  alt=''
-                />
-                {location.state.user.username ? (
-                  <div className='d-flex flex-column align-items-center align-items-md-start ms-3'>
-                    <span className='fs-3'>{location.state.user.username}</span>
-                    <span className='fs-6 text-muted'>{account}</span>
-                  </div>
-                ) : (
-                  <div className='fs-4 ms-3'>{account}</div>
-                )}
-              </div>
-            </div>
-          </header>
+          <UserPostsHeader account={account} />
 
           <div>
             {status === 'loading' || (isFetching && isDataStale) ? (
               <Spinner />
             ) : status === 'error' ? (
               <span className='text-danger'>Error: {error.message}</span>
+            ) : status === 'success' && data.pages[0].data.length < 1 ? (
+              <h3 className='text-center'>No posts with that address found</h3>
             ) : (
               <div className='position-relative'>
                 <i
@@ -141,8 +130,6 @@ const UserPosts = () => {
         </div>
       </div>
     </div>
-  ) : (
-    <Redirect to={'/404'} />
   );
 };
 
