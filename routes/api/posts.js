@@ -2,17 +2,21 @@ const express = require('express');
 
 const { appBaseUrl, appWalletAddress } = require('../../config/keys');
 
-const { getAccountTx } = require('../../services/xrpl-client');
+const {
+  getAccountTxByLimit,
+  getAccountTxByMarker
+} = require('../../services/xrpl-client');
 const { getTxAmount, sendPayload } = require('../../services/xumm');
 
 const isBlacklisted = require('../../util/is-blacklisted');
 
 const {
-  getPost,
   getPostComments,
+  getPostData,
   getPostLikes,
   getPosts,
   getPostsByAccount,
+  postByIdFilter,
   string2Hex
 } = require('../../util/tx-data');
 
@@ -25,7 +29,7 @@ router.get('/', async (req, res) => {
   const cursor = Number.parseInt(req.query.cursor);
 
   try {
-    const { transactions } = await getAccountTx();
+    const { transactions } = await getAccountTxByLimit(5000);
 
     if (!transactions) {
       return res.status(404).json({
@@ -57,6 +61,9 @@ router.get('/', async (req, res) => {
 // @access  Public
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
+  const records = [];
+  let targetTx = null;
+  let marker = null;
 
   try {
     if (isBlacklisted(id)) {
@@ -69,30 +76,37 @@ router.get('/:id', async (req, res) => {
       });
     }
 
-    const { transactions } = await getAccountTx();
+    while (!targetTx) {
+      const response = await getAccountTxByMarker(1000, marker);
 
-    if (!transactions) {
-      return res.status(404).json({
-        error: {
-          ref: id,
-          code: 404,
-          message: 'Error retrieving transaction'
-        }
-      });
+      if (!response.transactions) {
+        return res.send({});
+      }
+
+      records.push(...response.transactions);
+
+      // look for post
+      const target = postByIdFilter(response.transactions, id);
+      // if found end loop
+      if (target) {
+        targetTx = target;
+      }
+
+      marker = response.marker;
     }
 
-    // get post
-    const post = await getPost(transactions, id);
+    // get post data
+    const post = await getPostData(targetTx.tx);
 
     if (!post) {
       return res.send({});
     }
 
     // get comments
-    const comments = await getPostComments(transactions, id);
+    const comments = await getPostComments(records, id);
 
     // get likes
-    const likes = await getPostLikes(transactions, id);
+    const likes = await getPostLikes(records, id);
 
     res.send({ post, comments, likes });
   } catch (error) {
@@ -109,7 +123,7 @@ router.get('/account/:account', async (req, res) => {
   const cursor = Number.parseInt(req.query.cursor);
 
   try {
-    const { transactions } = await getAccountTx();
+    const { transactions } = await getAccountTxByLimit(15000);
     if (!transactions) {
       return res.status(404).json({
         error: {
