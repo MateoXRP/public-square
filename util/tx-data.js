@@ -43,6 +43,10 @@ function string2Hex(str) {
 function parseMemoData(txMemos) {
   const memoData = txMemos[0].Memo.MemoData;
 
+  if (!memoData) {
+    return '';
+  }
+
   const parsedMemo = hex2String(memoData);
 
   return parsedMemo;
