@@ -10,7 +10,7 @@ import submitFeeSettings from '../../config/submit-fee-settings';
 
 import { getUserTokenFromLS } from '../../util/user';
 
-const LikeForm = ({ postId }) => {
+const LikeForm = ({ postHash }) => {
   const { handleSubmit, control, reset, setValue } = useForm();
 
   const formRef = useRef(null);
@@ -39,7 +39,7 @@ const LikeForm = ({ postId }) => {
     const body = JSON.stringify(likeData);
 
     try {
-      const result = await axios.post(`/api/likes`, body, config);
+      const result = await axios.post(`/api/likes/tx`, body, config);
 
       return result.data;
     } catch (error) {
@@ -60,7 +60,7 @@ const LikeForm = ({ postId }) => {
   });
 
   const submitLike = async data => {
-    data.postId = postId;
+    data.postHash = postHash;
 
     const userToken = getUserTokenFromLS();
     console.log('LikeForm/userToken: ', userToken);

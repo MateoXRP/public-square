@@ -48,7 +48,7 @@ const PostForm = () => {
     const body = JSON.stringify(postData);
 
     try {
-      const result = await axios.post(`/api/posts`, body, config);
+      const result = await axios.post(`/api/posts/tx`, body, config);
 
       return result.data;
     } catch (error) {
