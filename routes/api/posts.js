@@ -7,6 +7,7 @@ const {
   getAccountTxByMarker
 } = require('../../services/xrpl-client');
 const { getTxAmount, sendPayload } = require('../../services/xumm');
+const { getTransaction } = require('../../services/bithomp');
 
 const isBlacklisted = require('../../util/is-blacklisted');
 
@@ -19,6 +20,8 @@ const {
   postByIdFilter,
   string2Hex
 } = require('../../util/tx-data');
+
+const { getPostTransaction, savePostToDB } = require('../../controllers/posts');
 
 const router = express.Router();
 
@@ -149,10 +152,10 @@ router.get('/account/:account', async (req, res) => {
   }
 });
 
-// @route   POST api/posts
-// @desc    Create post
+// @route   POST api/posts/tx
+// @desc    Submit post tx
 // @access  Public
-router.post('/', async (req, res) => {
+router.post('/tx', async (req, res) => {
   const { postContent, currency, userToken } = req.body;
 
   try {
@@ -176,11 +179,14 @@ router.post('/', async (req, res) => {
         Amount: getTxAmount(currency),
         Memos: memosField
       },
+      custom_meta: {
+        identifier: `posts`
+      },
       options: {
         submit: true,
         expire: 1440,
         return_url: {
-          web: appBaseUrl
+          web: `${appBaseUrl}/processing?identifier={cid}&hash={txid}`
         }
       }
     };
@@ -199,6 +205,26 @@ router.post('/', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.send({ error });
+  }
+});
+
+// @route   POST api/posts
+// @desc    Create post record
+// @access  Public
+router.post('/', async (req, res) => {
+  const { txHash } = req.body;
+  try {
+    // get post data
+    const post = await getPostTransaction(txHash);
+
+    // create/save post
+    const { postHash } = await savePostToDB(post.tx);
+
+    // return post hash for redirect
+    res.json({ postHash });
+  } catch (error) {
+    console.error(error);
+    res.json({});
   }
 });
 
