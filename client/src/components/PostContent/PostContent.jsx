@@ -75,11 +75,11 @@ const PostContent = ({ data }) => {
         <div>Amount: {amount}</div>
       </div>
 
-      <Likes likes={data.likes} postId={hash} />
+      <Likes likes={data.likes} postHash={hash} />
 
-      <TipSection recipient={author} postId={hash} />
+      <TipSection recipient={author} postHash={hash} />
 
-      <Comments comments={data.comments} postId={hash} />
+      <Comments comments={data.comments} postHash={hash} />
     </div>
   );
 };
