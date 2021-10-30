@@ -9,6 +9,10 @@ const PostSchema = new Schema({
     ref: 'User',
     required: true
   },
+  userAccount: {
+    type: String,
+    required: true
+  },
   amount: AmountSchema,
   date: {
     type: Date,
@@ -22,33 +26,24 @@ const PostSchema = new Schema({
     type: String,
     default: ''
   },
-  comments: {
-    type: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Comment'
-      }
-    ],
-    default: undefined
-  },
-  likes: {
-    type: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Like'
-      }
-    ],
-    default: undefined
-  },
-  tips: {
-    type: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Tip'
-      }
-    ],
-    default: undefined
-  }
+  comments: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Comment'
+    }
+  ],
+  likes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Like'
+    }
+  ],
+  tips: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Tip'
+    }
+  ]
 });
 
 const Post = mongoose.model('Post', PostSchema);

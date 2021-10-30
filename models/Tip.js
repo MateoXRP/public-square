@@ -17,9 +17,17 @@ const TipSchema = new Schema({
     ref: 'User',
     required: true
   },
+  donorAccount: {
+    type: String,
+    required: true
+  },
   recipient: {
     type: Schema.Types.ObjectId,
     ref: 'User',
+    required: true
+  },
+  recipientAccount: {
+    type: String,
     required: true
   },
   amount: AmountSchema,

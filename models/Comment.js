@@ -17,6 +17,10 @@ const CommentSchema = new Schema({
     ref: 'User',
     required: true
   },
+  userAccount: {
+    type: String,
+    required: true
+  },
   amount: AmountSchema,
   date: {
     type: Date,
