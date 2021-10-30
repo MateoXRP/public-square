@@ -132,7 +132,7 @@ const getPosts = async cursor => {
         }
       });
 
-    console.log('posts: ', posts);
+    //console.log('posts: ', posts);
 
     return posts;
   } catch (error) {
@@ -198,7 +198,7 @@ const getPostById = async postId => {
         }
       });
 
-    console.log('post: ', post);
+    // console.log('post: ', post);
 
     return post;
   } catch (error) {
@@ -210,7 +210,7 @@ const getPostById = async postId => {
 // fetch post by hash
 const getPostByHash = async txHash => {
   try {
-    const post = await Post.findOne(txHash)
+    const post = await Post.findOne({ hash: txHash })
       .populate({
         path: 'author'
       })
@@ -291,6 +291,7 @@ const getPostsByAccount = async (account, cursor) => {
           'postId',
           'postHash',
           'user',
+          'userAccount',
           'amount',
           'date',
           'hash',
@@ -298,6 +299,9 @@ const getPostsByAccount = async (account, cursor) => {
         ],
         populate: {
           path: 'comments.user'
+        },
+        populate: {
+          path: 'comments.userAccount'
         }
       })
       .populate({
@@ -307,6 +311,9 @@ const getPostsByAccount = async (account, cursor) => {
         },
         populate: {
           path: 'likes.user'
+        },
+        populate: {
+          path: 'likes.userAccount'
         }
       })
       .populate({
@@ -318,11 +325,17 @@ const getPostsByAccount = async (account, cursor) => {
           path: 'tips.donor'
         },
         populate: {
+          path: 'tips.donorAccount'
+        },
+        populate: {
           path: 'tips.recipient'
+        },
+        populate: {
+          path: 'tips.recipientAccount'
         }
       });
 
-    console.log('posts: ', posts);
+    // console.log('posts: ', posts);
 
     return posts;
   } catch (error) {
@@ -345,10 +358,9 @@ const getNextCursor = async cursor => {
   }
 };
 
-const getAccountNextCursor = async (cursor, account) => {
+const getAccountNextCursor = async (account, cursor) => {
   try {
     const user = await User.findOne({ account });
-
     const postsLeft = await Post.find({ author: user._id })
       .sort({ date: -1 })
       .skip(cursor)
