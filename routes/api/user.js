@@ -44,7 +44,7 @@ router.post('/signin', async (req, res) => {
 // @access  Public
 router.get('/data', async (req, res) => {
   const { id } = req.query;
-
+  console.log(`user/data route: ${id}`);
   try {
     // confirm transaction using xumm
     const data = await getPayload(id);
@@ -67,7 +67,7 @@ router.get('/data', async (req, res) => {
 // @access  Public
 router.get('/info', async (req, res) => {
   const { account } = req.query;
-
+  console.log('user/info route: ', account);
   try {
     const userInfo = await getUserInfo(account);
 
