@@ -13,7 +13,8 @@ const {
   getPostById,
   getPostByHash,
   getPostsByAccount,
-  getNextCursor
+  getNextCursor,
+  getAccountNextCursor
 } = require('../../controllers/posts');
 
 const router = express.Router();
@@ -23,14 +24,11 @@ const router = express.Router();
 // @access  Public
 router.get('/', async (req, res) => {
   const cursor = Number.parseInt(req.query.cursor);
-
+  console.log('cursor', cursor);
   try {
     const result = await getPosts(cursor);
-
-    const response = { data: result.posts };
-
-    const nextCursor = getNextCursor(cursor);
-
+    const response = { data: result };
+    const nextCursor = await getNextCursor(cursor);
     if (nextCursor) {
       response.nextCursor = nextCursor;
     }
@@ -47,13 +45,11 @@ router.get('/', async (req, res) => {
 // @access  Public
 router.get('/tx/:txHash', async (req, res) => {
   const { txHash } = req.params;
-
   try {
     // get post data
     const result = await getPostByHash(txHash);
-    console.log('result: ', result);
 
-    const response = { data: result.post };
+    const response = { post: result };
 
     res.send(response);
   } catch (error) {
@@ -92,10 +88,9 @@ router.get('/account/:account', async (req, res) => {
   try {
     const result = await getPostsByAccount(account, cursor);
 
-    const response = { data: result.posts };
+    const response = { data: result };
 
-    const nextCursor = getAccountNextCursor(account, cursor);
-
+    const nextCursor = await getAccountNextCursor(account, cursor);
     if (nextCursor) {
       response.nextCursor = nextCursor;
     }
