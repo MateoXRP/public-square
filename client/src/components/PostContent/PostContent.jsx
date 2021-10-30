@@ -3,42 +3,43 @@ import { Link } from 'react-router-dom';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import parseISO from 'date-fns/parseISO';
 
+import { getTxDisplayAmount } from '../../util/tx-data';
+
 import Comments from '../Comments';
 import Likes from '../Likes';
 import TipSection from '../TipSection';
 
 const PostContent = ({ data }) => {
-  const { account, amount, date, gravatarURL, hash, memoData, username } =
-    data.post;
+  const { author, amount, content, date, hash } = data;
 
   const parsedDate = parseISO(date);
   const timeToNow = formatDistanceToNow(parsedDate);
+  const parsedAmount = getTxDisplayAmount(amount);
 
-  const Username = username ? (
+  const Username = author.username ? (
     <div className='d-flex flex-column flex-sm-row align-items-baseline'>
-      <span className='me-3'>{username}</span>
-      <span className='fs-smaller'>{account}</span>
+      <span className='me-3'>{author.username}</span>
+      <span className='fs-smaller'>{author.account}</span>
     </div>
   ) : (
-    <span className='fs-smaller'>{account}</span>
+    <span className='fs-smaller'>{author.account}</span>
   );
-
-  const author = { account, username };
 
   return (
     <div className='card my-3'>
       <div className='card-body'>
         <div className='d-flex align-items-center mb-2'>
-          <img src={gravatarURL} className='rounded-circle' alt='' />
+          <img src={author.gravatarURL} className='rounded-circle' alt='' />
 
           <div className='ms-3'>
             <Link
               to={{
-                pathname: `/u/${account}`,
+                pathname: `/u/${author.account}`,
                 state: {
                   user: {
-                    gravatarURL,
-                    username
+                    account: author.account,
+                    gravatarURL: author.gravatarURL,
+                    username: author.username
                   }
                 }
               }}
@@ -56,7 +57,7 @@ const PostContent = ({ data }) => {
         </div>
         <div
           className='post-content my-3'
-          dangerouslySetInnerHTML={{ __html: memoData }}
+          dangerouslySetInnerHTML={{ __html: content }}
         />
       </div>
 
@@ -72,7 +73,7 @@ const PostContent = ({ data }) => {
             <span>{hash}</span>
           </a>
         </div>
-        <div>Amount: {amount}</div>
+        <div>Amount: {parsedAmount}</div>
       </div>
 
       <Likes likes={data.likes} postHash={hash} />
