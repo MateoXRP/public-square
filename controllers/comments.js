@@ -46,16 +46,22 @@ const saveCommentToDB = async data => {
     const memoData = parseMemoData(Memos);
     const commentContent = memoData.substring(65);
     const postHash = memoData.substring(0, 64);
-
+    console.log('postHash', postHash);
     const amountData = getTxAmountData(Amount);
 
     // content has post hash
-    const post = await Post.find({ hash: postHash });
+    const post = await Post.findOne({ hash: postHash });
+
+    if (!post) {
+      const res = `Post not found, skipping...`;
+      return res;
+    }
 
     const commentData = {
       postId: post._id,
-      postHash: post.hash,
+      postHash: postHash,
       user,
+      userAccount: Account,
       amount: amountData,
       date: getTimestamp(date),
       hash,
@@ -68,8 +74,8 @@ const saveCommentToDB = async data => {
     //  save comment to DB
     const comment = await newComment.save();
 
-    // save comment to post record
-    post.comments.push(comment._id);
+    post.comments.unshift(comment._id);
+
     await post.save();
 
     // return post hash for response and client redirect

@@ -43,16 +43,22 @@ const saveLikeToDB = async data => {
 
   // parse post hash from memos field
   const postHash = parseMemoData(Memos);
-
+  console.log('postHash', postHash);
   const amountData = getTxAmountData(Amount);
 
   // content has post hash
-  const post = await Post.find({ hash: postHash });
+  const post = await Post.findOne({ hash: postHash });
+
+  if (!post) {
+    const res = `Post not found, skipping...`;
+    return res;
+  }
 
   const likeData = {
     postId: post._id,
     postHash: post.hash,
     user,
+    userAccount: Account,
     amount: amountData,
     date: getTimestamp(date),
     hash
@@ -65,7 +71,8 @@ const saveLikeToDB = async data => {
   const like = await newLike.save();
 
   // save like to post record
-  post.likes.push(like._id);
+  post.likes.unshift(like._id);
+
   await post.save();
 
   // return post hash for response and client redirect

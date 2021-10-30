@@ -46,7 +46,9 @@ const saveTipToDB = async data => {
     postId: post._id,
     postHash: post.hash,
     donor,
+    donorAccount: Account,
     recipient,
+    recipientAccount: Destination,
     amount: amountData,
     date: getTimestamp(date),
     hash

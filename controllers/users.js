@@ -3,71 +3,78 @@ const { User } = require('../models/User');
 const getBithompUsername = require('../services/bithomp').getBithompUsername;
 const { getUserGravatar } = require('../util/user');
 
-const getUserId = async account => {
-  let user;
+const getUserId = async account =>
+  new Promise(async function (resolve, reject) {
+    // console.log('account: ', account);
+    try {
+      // look for exising User with account
+      const existingUser = await User.findOne({ account });
+      // return if found
+      if (existingUser) {
+        resolve(existingUser._id);
+      } else {
+        // generate Gravatar URL
+        const gravatarURL = await getUserGravatar(account);
+        //console.log('gravatarURL: ', gravatarURL);
 
-  // look for exising User with account
-  const existingUser = await User.find({ account });
+        const userData = {
+          account,
+          gravatarURL
+        };
 
-  // return if found
-  if (existingUser) return existingUser._id;
+        // get username registered with bithomp
+        //console.log('get username');
+        // const username = await getBithompUsername(account);
+        // console.log('username: ', username);
+        // if (username) {
+        //   userData.username = username;
+        // }
 
-  // else create new user
-  // generate Gravatar URL
-  const gravatarURL = await getUserGravatar(account);
+        const newUser = new User(userData);
+        const user = await newUser.save();
 
-  const userData = {
-    account,
-    gravatarURL
-  };
-
-  // get username registered with bithomp
-  const username = await getBithompUsername(account);
-
-  if (username) {
-    userData.username = username;
-  }
-
-  const newUser = new User(userData);
-  user = await newUser.save();
-
-  return user._id;
-};
-
-const getUserInfo = async account => {
-  try {
-    let user;
-
-    // look for exising User with account
-    const existingUser = await User.find({ account });
-
-    // return if found
-    if (existingUser) return existingUser._id;
-
-    // else create new user
-    // generate Gravatar URL
-    const gravatarURL = await getUserGravatar(account);
-
-    const userData = {
-      account,
-      gravatarURL
-    };
-
-    // get username registered with bithomp
-    const username = await getBithompUsername(account);
-
-    if (username) {
-      userData.username = username;
+        //console.log('returning id');
+        resolve(user._id);
+      }
+    } catch (error) {
+      reject(error);
     }
+  });
 
-    const newUser = new User(userData);
-    user = await newUser.save();
+const getUserInfo = async account =>
+  new Promise(async function (resolve, reject) {
+    try {
+      // look for exising User with account
+      const existingUser = await User.find({ account });
 
-    return userInfo;
-  } catch (error) {
-    console.log('error: ', error);
-  }
-};
+      // return if found
+      if (existingUser) resolve(existingUser);
+
+      // else create new user
+      // generate Gravatar URL
+      const gravatarURL = await getUserGravatar(account);
+
+      const userData = {
+        account,
+        gravatarURL
+      };
+
+      // get username registered with bithomp
+      const username = await getBithompUsername(account);
+
+      if (username) {
+        userData.username = username;
+      }
+
+      const newUser = new User(userData);
+      const user = await newUser.save();
+
+      resolve(userInfo);
+    } catch (error) {
+      console.log('error: ', error);
+      reject(error);
+    }
+  });
 
 module.exports = {
   getUserId,
