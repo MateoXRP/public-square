@@ -7,8 +7,8 @@ function commentTransactionsFilter(records) {
   const commentTransactions = records.filter(
     record =>
       (record.tx.TransactionType === 'Payment') &
-      // Comment tx have DestinationTag: 101
-      (record.tx.DestinationTag === 101)
+      // Comment tx have DestinationTag: 100
+      (record.tx.DestinationTag === 100)
   );
 
   return commentTransactions.length > 0 ? commentTransactions : undefined;

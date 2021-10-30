@@ -7,8 +7,8 @@ function likeTransactionsFilter(records) {
   const likeTransactions = records.filter(
     record =>
       (record.tx.TransactionType === 'Payment') &
-      // like tx have DestinationTag: 100
-      (record.tx.DestinationTag === 100)
+      // like tx have DestinationTag: 101
+      (record.tx.DestinationTag === 101)
   );
 
   return likeTransactions.length > 0 ? likeTransactions : undefined;
