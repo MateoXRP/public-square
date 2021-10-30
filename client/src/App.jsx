@@ -27,7 +27,7 @@ function App() {
         <div className='scroll-wrapper'>
           <div className='scroll-container'>
             <Switch>
-              <Route exact path='/p/:id' component={Post} />
+              <Route exact path='/p/:hash' component={Post} />
               <Route exact path='/' component={PostFeed} />
               <Route exact path='/processing' component={Processing} />
               <Route exact path='/pending' component={Pending} />
