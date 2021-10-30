@@ -72,7 +72,7 @@ router.get('/info', async (req, res) => {
     const userInfo = await getUserInfo(account);
 
     // check result
-    // console.log('route/userInfo: ', userInfo);
+    console.log('route/userInfo: ', userInfo);
 
     res.send(userInfo);
   } catch (error) {
