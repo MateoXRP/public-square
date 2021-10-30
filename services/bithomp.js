@@ -16,29 +16,31 @@ const baseURL = `https://bithomp.com/api/v2`;
  * @param {string} account XRP account/address
  * @return {promise} username associated with account or undefined
  */
-async function getBithompUsername(address) {
-  try {
-    const result = await axios.get(
-      `${baseURL}/address/${address}?username=true`,
-      config
-    );
+const getBithompUsername = async account =>
+  new Promise(async function (resolve, reject) {
+    console.log('getting username...');
+    try {
+      const result = await axios.get(
+        `${baseURL}/address/${account}?username=true`,
+        config
+      );
 
-    if (result.data.username) {
-      console.log(`username found: ${result.data.username}`);
+      if (result.data.username) {
+        console.log(`username found: ${result.data.username}`);
+      }
+      // if (!result.data.username) {
+      //   console.log(`No username found for: ${address}`);
+      // }
+
+      const { username } = result.data;
+
+      resolve(username);
+    } catch (error) {
+      console.log('bithomp error: ', error.message);
+
+      reject(null);
     }
-    // if (!result.data.username) {
-    //   console.log(`No username found for: ${address}`);
-    // }
-
-    const { username } = result.data;
-
-    return username;
-  } catch (error) {
-    console.log('bithomp error: ', error.message);
-
-    return null;
-  }
-}
+  });
 
 /**
  * @desc get transaction from Bithomp
