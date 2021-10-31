@@ -4,22 +4,16 @@ const { Tip } = require('../models/Tip');
 const { getUserId } = require('../controllers/users');
 const { getPayload } = require('../services/xumm');
 const { getTipDataFromPayload } = require('../util/tip');
-const {
-  getTimestamp,
-  getTxAmountData,
-  parseMemoData
-} = require('../util/tx-data');
+const { getTxAmountData, parseMemoData } = require('../util/tx-data');
 
 const getTipTransaction = async payloadId => {
   try {
     const tipPayload = await getPayload(payloadId);
-    console.log('get tip by payload: ', tipPayload);
     if (tipPayload.response.dispatched_result !== 'tesSUCCESS') {
       return { tipFailed: true };
     }
 
     const tipData = getTipDataFromPayload(tipPayload);
-    console.log('tipData: ', tipData);
     return tipData;
   } catch (error) {
     console.log(error);
@@ -29,7 +23,6 @@ const getTipTransaction = async payloadId => {
 
 const saveTipToDB = async data => {
   const { Account, Amount, Destination, date, hash, Memos } = data;
-  console.log('save tip data: ', data);
   try {
     const tipExists = await checkIfTipTxExistsInDB(hash);
     if (tipExists) {
@@ -42,21 +35,21 @@ const saveTipToDB = async data => {
 
     // parse post hash from memos field
     const postHash = parseMemoData(Memos);
-
     const amountData = getTxAmountData(Amount);
 
     // content has post hash
-    const post = await Post.find({ hash: postHash });
+    const post = await Post.findOne({ hash: postHash });
+    console.log('post: ', post);
 
     const tipData = {
       postId: post._id,
-      postHash: post.hash,
+      postHash,
       donor,
       donorAccount: Account,
       recipient,
       recipientAccount: Destination,
       amount: amountData,
-      date: getTimestamp(date),
+      date,
       hash
     };
 
@@ -72,7 +65,6 @@ const saveTipToDB = async data => {
     await post.save();
 
     // return post or just postHash for response and client redirect?
-    console.log('tip post hash:', post.hash);
     return { postHash: post.hash };
   } catch (error) {
     console.log(error);

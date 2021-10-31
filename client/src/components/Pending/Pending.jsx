@@ -9,6 +9,7 @@ const Pending = () => {
   console.log('paramsString: ', paramsString);
   const query = new URLSearchParams(paramsString);
   const payloadId = query.get('payload');
+  console.log('payloadId: ', payloadId);
 
   // add axios
   const getDataAndSaveTx = async payloadId => {
