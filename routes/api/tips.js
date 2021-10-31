@@ -38,7 +38,7 @@ router.post('/tx', async (req, res) => {
         submit: true,
         expire: 1440,
         return_url: {
-          web: `https://pub-sq-test.herokuapp.com/pending?payload={id}`
+          web: `${appBaseUrl}/pending?payload={id}`
         }
       }
     };
@@ -70,7 +70,7 @@ router.post('/', async (req, res) => {
   try {
     // get tip data
     const tipData = await getTipTransaction(payloadId);
-    console.log('tipData: ', tipData);
+
     if (tipData.tipFailed) {
       res.json({});
     }
