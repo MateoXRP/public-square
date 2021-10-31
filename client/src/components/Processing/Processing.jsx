@@ -9,7 +9,8 @@ const Processing = () => {
   console.log('paramsString: ', paramsString);
   const query = new URLSearchParams(paramsString);
   const txHash = query.get('hash');
-  const txType = query.get('identifier');
+  const identifier = query.get('identifier').split('-');
+  const txType = identifier[0];
 
   // add axios
   const getDataAndSaveTx = async (txHash, txType) => {
@@ -19,7 +20,7 @@ const Processing = () => {
       }
     };
 
-    const body = JSON.stringify(txHash);
+    const body = JSON.stringify({ txHash });
 
     try {
       const result = await axios.post(`/api/${txType}`, body, config);
@@ -31,24 +32,21 @@ const Processing = () => {
   };
 
   useEffect(() => {
-    async function completeTxProcessing(txHash) {
-      console.log('txHash: ', txHash);
-      const result = await getDataAndSaveTx(txHash);
+    async function completeTxProcessing(txHash, txType) {
+      const result = await getDataAndSaveTx(txHash, txType);
 
+      if (result.postHash) {
+        history.push(`/p/${result.postHash}`);
+      } else {
+        history.push('/');
+      }
       return result;
     }
 
     if (!txHash) {
-      console.log('transaction hash not available');
       history.push('/');
     } else {
-      const { postHash } = completeTxProcessing(txHash);
-
-      if (postHash) {
-        history.push(`/p/${postHash}`);
-      } else {
-        history.push('/');
-      }
+      completeTxProcessing(txHash, txType);
     }
   }, [txHash, txType, history]);
 
