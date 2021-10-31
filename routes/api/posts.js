@@ -1,4 +1,5 @@
 const express = require('express');
+const { v4: uuidv4 } = require('uuid');
 
 const { appBaseUrl, appWalletAddress } = require('../../config/keys');
 
@@ -24,7 +25,7 @@ const router = express.Router();
 // @access  Public
 router.get('/', async (req, res) => {
   const cursor = Number.parseInt(req.query.cursor);
-  console.log('cursor', cursor);
+
   try {
     const result = await getPosts(cursor);
     const response = { data: result };
@@ -67,7 +68,6 @@ router.get('/id/:id', async (req, res) => {
   try {
     // get post data
     const result = await getPostById(id);
-    console.log('result: ', result);
 
     const response = { data: result.post };
 
@@ -107,10 +107,11 @@ router.get('/account/:account', async (req, res) => {
 // @access  Public
 router.post('/tx', async (req, res) => {
   const { postContent, currency, userToken } = req.body;
-
   try {
     // convert text to hex
     const postData = string2Hex(postContent).toUpperCase();
+    // generate cid
+    const identifierStr = uuidv4().slice(9);
 
     // create payload
     const memosField = [
@@ -130,7 +131,7 @@ router.post('/tx', async (req, res) => {
         Memos: memosField
       },
       custom_meta: {
-        identifier: `posts`
+        identifier: `posts-${identifierStr}`
       },
       options: {
         submit: true,
@@ -148,13 +149,11 @@ router.post('/tx', async (req, res) => {
     // submit transaction using xumm
     const data = await sendPayload(payloadConfig);
 
-    // log activity
-    console.log(`new post submitted`);
-
+    console.log(`new post tx submitted`);
     res.send(data);
   } catch (error) {
     console.error(error);
-    res.send({ error });
+    res.send({ error: error.response.data });
   }
 });
 
@@ -163,6 +162,7 @@ router.post('/tx', async (req, res) => {
 // @access  Public
 router.post('/', async (req, res) => {
   const { txHash } = req.body;
+
   try {
     // get post data
     const post = await getPostTransaction(txHash);

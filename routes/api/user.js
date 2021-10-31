@@ -67,12 +67,12 @@ router.get('/data', async (req, res) => {
 // @access  Public
 router.get('/info', async (req, res) => {
   const { account } = req.query;
-  console.log('user/info route: ', account);
+  // console.log('user/info route: ', account);
   try {
     const userInfo = await getUserInfo(account);
 
     // check result
-    console.log('route/userInfo: ', userInfo);
+    // console.log('route/userInfo: ', userInfo);
 
     res.send(userInfo);
   } catch (error) {

@@ -1,14 +1,12 @@
 const express = require('express');
+const { v4: uuidv4 } = require('uuid');
 
 const { appBaseUrl, appWalletAddress } = require('../../config/keys');
 
 const { getTxAmount, sendPayload } = require('../../services/xumm');
 
 const { string2Hex } = require('../../util/tx-data');
-const {
-  getLikeTransaction,
-  saveLikeToDB
-} = require('../../controllers/comments');
+const { getLikeTransaction, saveLikeToDB } = require('../../controllers/likes');
 
 const router = express.Router();
 
@@ -20,6 +18,9 @@ router.post('/tx', async (req, res) => {
 
   try {
     const likeData = string2Hex(postHash);
+
+    // generate cid
+    const identifierStr = uuidv4().slice(9);
 
     // create payload
     const memosField = [
@@ -39,7 +40,7 @@ router.post('/tx', async (req, res) => {
         Memos: memosField
       },
       custom_meta: {
-        identifier: `likes`
+        identifier: `likes-${identifierStr}`
       },
       options: {
         submit: true,
@@ -58,7 +59,7 @@ router.post('/tx', async (req, res) => {
     const data = await sendPayload(payloadConfig);
 
     // log activity
-    console.log(`like submitted on post ${postHash}`);
+    console.log(`like tx submitted on post ${postHash}`);
 
     res.send(data);
   } catch (error) {

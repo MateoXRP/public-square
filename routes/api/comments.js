@@ -1,10 +1,10 @@
 const express = require('express');
+const { v4: uuidv4 } = require('uuid');
 
 const { appBaseUrl, appWalletAddress } = require('../../config/keys');
 
 const { getTxAmount, sendPayload } = require('../../services/xumm');
 
-const { getTransaction } = require('../../services/bithomp');
 const { string2Hex } = require('../../util/tx-data');
 const {
   getCommentTransaction,
@@ -23,6 +23,8 @@ router.post('/tx', async (req, res) => {
     const commentData = string2Hex(
       `${postHash} ${commentContent}`
     ).toUpperCase();
+    // generate cid
+    const identifierStr = uuidv4().slice(9);
 
     // create payload
     const memosField = [
@@ -42,7 +44,7 @@ router.post('/tx', async (req, res) => {
         Memos: memosField
       },
       custom_meta: {
-        identifier: `comments`
+        identifier: `comments-${identifierStr}`
       },
       options: {
         submit: true,
@@ -61,8 +63,7 @@ router.post('/tx', async (req, res) => {
     const data = await sendPayload(payloadConfig);
 
     // log activity
-    console.log(`comment submitted on post ${postHash}`);
-
+    console.log(`comment tx submitted on post ${postHash}`);
     res.send(data);
   } catch (error) {
     console.error(error);
