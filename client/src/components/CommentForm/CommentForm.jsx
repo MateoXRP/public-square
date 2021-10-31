@@ -12,7 +12,7 @@ import submitFeeSettings from '../../config/submit-fee-settings';
 import { testContentLength } from '../../util/tx-data';
 import { getUserTokenFromLS } from '../../util/user';
 
-const CommentForm = ({ postId }) => {
+const CommentForm = ({ postHash }) => {
   const {
     handleSubmit,
     watch,
@@ -48,7 +48,7 @@ const CommentForm = ({ postId }) => {
     const body = JSON.stringify(commentData);
 
     try {
-      const result = await axios.post(`/api/comments`, body, config);
+      const result = await axios.post(`/api/comments/tx`, body, config);
 
       return result.data;
     } catch (error) {
@@ -75,7 +75,7 @@ const CommentForm = ({ postId }) => {
       errors.commentContent.message = `Exceeds maximum length by approximately ${results.overage}`;
       return;
     }
-    data.postId = postId;
+    data.postHash = postHash;
 
     const userToken = getUserTokenFromLS();
 

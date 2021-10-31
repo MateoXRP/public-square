@@ -73,7 +73,7 @@ const PostFeed = () => {
             <span className='text-danger'>Error: {error.message}</span>
           ) : (
             <>
-              {data.pages.map((group, idx) => (
+              {data.pages?.map((group, idx) => (
                 <React.Fragment key={idx}>
                   {group.data.map(post => {
                     return (

@@ -41,6 +41,10 @@ function string2Hex(str) {
  * @return {string} parsedMemo
  */
 function parseMemoData(txMemos) {
+  if (!txMemos) {
+    return '';
+  }
+
   const memoData = txMemos[0].Memo.MemoData;
 
   if (!memoData) {
@@ -65,6 +69,36 @@ function getTimestamp(date) {
 }
 
 /**
+ * @desc get tx amount data
+ * @param {object || string}
+ * @return {object} amount: {currency, value}
+ */
+function getTxAmountData(amount) {
+  if (amount.currency) return amount;
+
+  return {
+    currency: 'XRP',
+    value: parseInt(amount) / 1000000
+  };
+}
+
+/**
+ * @desc get tx amount formatted for display
+ * @param {object || string}
+ * @return {string} amount
+ */
+function getTxDisplayAmount(amount) {
+  const displayAmount = amount.currency
+    ? `${amount.value} ${amount.currency}`
+    : `${parseInt(amount) / 1000000} XRP`;
+
+  return displayAmount;
+}
+
+///////////////////////////////////////////////////////
+////////////////// TO BE DELETED //////////////////////
+///////////////////////////////////////////////////////
+/**
  * @desc derive post data from transaction
  * @param {string} Account XRP account/address
  * @param {string} Amount tx amount
@@ -80,7 +114,6 @@ async function getPostData({ Account, Amount, date, hash, Memos }) {
 
     // generate Gravatar URL
     const xrpEmailHash = await getXRPEmailHash(Account);
-
     const emailHash = xrpEmailHash ? xrpEmailHash.toLowerCase() : md5(Account);
     const gravatarURL = `https://www.gravatar.com/avatar/${emailHash}?s=40&d=retro`;
 
@@ -377,6 +410,8 @@ module.exports = {
   string2Hex,
   parseMemoData,
   getTimestamp,
+  getTxAmountData,
+  getTxDisplayAmount,
   getPostData,
   getUserInfo,
   allPostsFilter,

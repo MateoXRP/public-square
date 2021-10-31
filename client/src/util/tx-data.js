@@ -69,4 +69,17 @@ function testContentLength(content) {
   return { isLengthValid, overage: isLengthValid ? 0 : fieldLength - 1001 };
 }
 
-export { hex2String, string2Hex, testContentLength };
+/**
+ * @desc get tx amount formatted for display
+ * @param {object || string}
+ * @return {string} amount
+ */
+function getTxDisplayAmount(amount) {
+  const displayAmount = amount.currency
+    ? `${amount.value} ${amount.currency}`
+    : `${parseInt(amount) / 1000000} XRP`;
+
+  return displayAmount;
+}
+
+export { hex2String, string2Hex, testContentLength, getTxDisplayAmount };

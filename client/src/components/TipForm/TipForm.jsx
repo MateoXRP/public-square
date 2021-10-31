@@ -10,7 +10,7 @@ import tipSettings from '../../config/tip-settings';
 
 import { getUserTokenFromLS } from '../../util/user';
 
-const TipForm = ({ recipient, postId }) => {
+const TipForm = ({ recipient, postHash }) => {
   const { handleSubmit, control, register, reset, setValue, watch } = useForm({
     defaultValues: {
       currency: 'XRP',
@@ -47,7 +47,7 @@ const TipForm = ({ recipient, postId }) => {
     const body = JSON.stringify(tipData);
 
     try {
-      const result = await axios.post(`/api/tips`, body, config);
+      const result = await axios.post(`/api/tips/tx`, body, config);
 
       return result.data;
     } catch (error) {
@@ -68,7 +68,7 @@ const TipForm = ({ recipient, postId }) => {
   });
 
   const submitTip = async data => {
-    data.postId = postId;
+    data.postHash = postHash;
     data.recipientAccount = recipient.account;
 
     const userToken = getUserTokenFromLS();

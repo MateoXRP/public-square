@@ -4,7 +4,7 @@ import parseISO from 'date-fns/parseISO';
 
 import LikeForm from '../LikeForm';
 
-const Likes = ({ likes, postId }) => {
+const Likes = ({ likes, postHash }) => {
   return (
     <div className='card fs-6'>
       <div className='card-body d-flex align-items-center'>
@@ -40,7 +40,9 @@ const Likes = ({ likes, postId }) => {
         <ul className='list-group list-group-flush'>
           {likes.length > 0 &&
             likes.map(like => {
-              const { account, date, gravatarURL, hash, username } = like;
+              const { date, hash, user, userAccount } = like;
+              const { gravatarURL, username } = user;
+
               const parsedDate = parseISO(date);
               const timeToNow = formatDistanceToNow(parsedDate);
 
@@ -56,11 +58,11 @@ const Likes = ({ likes, postId }) => {
                         <div className='d-flex flex-column flex-sm-row align-items-baseline'>
                           <span className='me-3'>{username}</span>
                           <span className='fs-smaller text-muted'>
-                            {account}
+                            {userAccount}
                           </span>
                         </div>
                       ) : (
-                        <span className='fs-smaller'>{account}</span>
+                        <span className='fs-smaller'>{userAccount}</span>
                       )}
                       <div
                         className='text-muted fs-smaller'
@@ -73,7 +75,7 @@ const Likes = ({ likes, postId }) => {
             })}
         </ul>
       </div>
-      <LikeForm className='align-self-end' postId={postId} />
+      <LikeForm className='align-self-end' postHash={postHash} />
     </div>
   );
 };

@@ -8,11 +8,11 @@ import Spinner from '../Spinner';
 
 const Post = () => {
   let history = useHistory();
-  const { id } = useParams();
+  const { hash } = useParams();
 
   function usePost() {
     return useQuery('post', async () => {
-      const { data } = await axios.get(`/api/posts/${id}`);
+      const { data } = await axios.get(`/api/posts/tx/${hash}`);
       return data;
     });
   }
@@ -20,7 +20,7 @@ const Post = () => {
   const { status, data, error, isFetching } = usePost();
 
   // check if existing data belongs to target post
-  const isDataStale = id !== data?.post?.hash;
+  const isDataStale = hash !== data?.post?.hash;
 
   return (
     <div className='container-sm content-wrapper'>
@@ -34,7 +34,7 @@ const Post = () => {
             <Spinner />
           ) : status === 'error' ? (
             <span className='text-danger'>Error: {error.message}</span>
-          ) : status === 'success' && !data.post ? (
+          ) : status === 'success' && !data ? (
             <Redirect to={'/404'} />
           ) : (
             <div className='position-relative'>
@@ -43,7 +43,7 @@ const Post = () => {
                 onClick={() => history.goBack()}
                 title='Go Back'
               ></i>
-              {data?.post && <PostContent key={'post'} data={data} />}
+              {data && <PostContent key={'post'} data={data.post} />}
 
               {isFetching ? <Spinner /> : ''}
             </div>
