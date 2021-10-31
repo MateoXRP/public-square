@@ -5,7 +5,6 @@ import parseISO from 'date-fns/parseISO';
 import LikeForm from '../LikeForm';
 
 const Likes = ({ likes, postHash }) => {
-  console.log('likes: ', likes);
   return (
     <div className='card fs-6'>
       <div className='card-body d-flex align-items-center'>
