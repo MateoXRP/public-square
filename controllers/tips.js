@@ -39,7 +39,6 @@ const saveTipToDB = async data => {
 
     // content has post hash
     const post = await Post.findOne({ hash: postHash });
-    console.log('post: ', post);
 
     const tipData = {
       postId: post._id,

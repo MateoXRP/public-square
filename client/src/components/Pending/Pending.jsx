@@ -6,10 +6,8 @@ const Pending = () => {
   const history = useHistory();
 
   const paramsString = useLocation().search;
-  console.log('paramsString: ', paramsString);
   const query = new URLSearchParams(paramsString);
   const payloadId = query.get('payload');
-  console.log('payloadId: ', payloadId);
 
   // add axios
   const getDataAndSaveTx = async payloadId => {
@@ -32,7 +30,6 @@ const Pending = () => {
 
   useEffect(() => {
     async function completeTxProcessing(payloadId) {
-      console.log('payloadId: ', payloadId);
       const result = await getDataAndSaveTx(payloadId);
 
       if (result.postHash) {
