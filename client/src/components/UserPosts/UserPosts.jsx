@@ -23,6 +23,7 @@ const UserPosts = () => {
       getNextPageParam: (lastPage, pages) => lastPage.nextCursor
     });
 
+  // console.log('data: ', data);
   if (error) {
     console.log('error: ', error);
   }
