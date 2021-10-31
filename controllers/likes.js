@@ -39,45 +39,64 @@ const getLikeTransaction = async txHash => {
 const saveLikeToDB = async data => {
   const { Account, Amount, date, hash, Memos } = data;
 
-  const user = await getUserId(Account);
+  try {
+    const likeExists = await checkIfLikeTxExistsInDB(hash);
+    if (likeExists) {
+      return 'like exists, skipping...';
+    }
+    const user = await getUserId(Account);
 
-  // parse post hash from memos field
-  const postHash = parseMemoData(Memos);
-  console.log('postHash', postHash);
-  const amountData = getTxAmountData(Amount);
+    // parse post hash from memos field
+    const postHash = parseMemoData(Memos);
+    console.log('postHash', postHash);
+    const amountData = getTxAmountData(Amount);
 
-  // content has post hash
-  const post = await Post.findOne({ hash: postHash });
+    // content has post hash
+    const post = await Post.findOne({ hash: postHash });
 
-  if (!post) {
-    const res = `Post not found, skipping...`;
-    return res;
+    if (!post) {
+      const res = `Post not found, skipping...`;
+      return res;
+    }
+
+    const likeData = {
+      postId: post._id,
+      postHash: post.hash,
+      user,
+      userAccount: Account,
+      amount: amountData,
+      date: getTimestamp(date),
+      hash
+    };
+
+    // create new comment doc
+    const newLike = new Like(likeData);
+
+    //  save like to DB
+    const like = await newLike.save();
+
+    // save like to post record
+    post.likes.unshift(like._id);
+
+    await post.save();
+
+    // return post hash for response and client redirect
+    return { postHash: post.hash };
+  } catch (error) {
+    console.log(error);
+    return error;
   }
-
-  const likeData = {
-    postId: post._id,
-    postHash: post.hash,
-    user,
-    userAccount: Account,
-    amount: amountData,
-    date: getTimestamp(date),
-    hash
-  };
-
-  // create new comment doc
-  const newLike = new Like(likeData);
-
-  //  save like to DB
-  const like = await newLike.save();
-
-  // save like to post record
-  post.likes.unshift(like._id);
-
-  await post.save();
-
-  // return post hash for response and client redirect
-  return { postHash: post.hash };
 };
+
+const checkIfLikeTxExistsInDB = async hash =>
+  new Promise(async function (resolve, reject) {
+    try {
+      const result = await Like.findOne({ hash });
+      resolve(!!result);
+    } catch (error) {
+      reject(error);
+    }
+  });
 
 module.exports = {
   getLikeTransaction,

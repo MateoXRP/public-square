@@ -40,6 +40,11 @@ const saveCommentToDB = async data => {
   const { Account, Amount, date, hash, Memos } = data;
 
   try {
+    const commentExists = await checkIfCommentTxExistsInDB(hash);
+    if (commentExists) {
+      return {};
+    }
+
     const user = await getUserId(Account);
 
     // parse post hash and comment content from memos field
@@ -85,6 +90,16 @@ const saveCommentToDB = async data => {
     return error;
   }
 };
+
+const checkIfCommentTxExistsInDB = async hash =>
+  new Promise(async function (resolve, reject) {
+    try {
+      const result = await Comment.findOne({ hash });
+      resolve(!!result);
+    } catch (error) {
+      reject(error);
+    }
+  });
 
 module.exports = {
   getCommentTransaction,

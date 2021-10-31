@@ -43,6 +43,10 @@ const savePostToDB = async data => {
   const { Account, Amount, date, hash, Memos } = data;
 
   try {
+    const postExists = await checkIfPostTxExistsInDB(hash);
+    if (postExists) {
+      return {};
+    }
     const user = await getUserId(Account);
 
     const postContent = parseMemoData(Memos);
@@ -87,48 +91,38 @@ const getPosts = async cursor => {
         select: [
           'postId',
           'postHash',
-          'user',
           'userAccount',
-          'amount',
           'date',
           'hash',
           'content'
         ],
         populate: {
-          path: 'comments.user'
-        },
-        populate: {
-          path: 'comments.userAccount'
+          path: 'user'
         }
       })
       .populate({
         path: 'likes',
+        select: ['postId', 'postHash', 'userAccount', 'date', 'hash'],
         populate: {
-          path: 'likes.postId'
-        },
-        populate: {
-          path: 'likes.user'
-        },
-        populate: {
-          path: 'likes.userAccount'
+          path: 'user'
         }
       })
       .populate({
         path: 'tips',
+        select: [
+          'postId',
+          'postHash',
+          'donorAccount',
+          'recipientAccount',
+          'amount',
+          'date',
+          'hash'
+        ],
         populate: {
-          path: 'tips.postId'
+          path: 'donor'
         },
         populate: {
-          path: 'tips.donor'
-        },
-        populate: {
-          path: 'tips.donorAccount'
-        },
-        populate: {
-          path: 'tips.recipient'
-        },
-        populate: {
-          path: 'tips.recipientAccount'
+          path: 'recipient'
         }
       });
 
@@ -153,48 +147,38 @@ const getPostById = async postId => {
         select: [
           'postId',
           'postHash',
-          'user',
           'userAccount',
-          'amount',
           'date',
           'hash',
           'content'
         ],
         populate: {
-          path: 'comments.user'
-        },
-        populate: {
-          path: 'comments.userAccount'
+          path: 'user'
         }
       })
       .populate({
         path: 'likes',
+        select: ['postId', 'postHash', 'userAccount', 'date', 'hash'],
         populate: {
-          path: 'likes.postId'
-        },
-        populate: {
-          path: 'likes.user'
-        },
-        populate: {
-          path: 'likes.userAccount'
+          path: 'user'
         }
       })
       .populate({
         path: 'tips',
+        select: [
+          'postId',
+          'postHash',
+          'donorAccount',
+          'recipientAccount',
+          'amount',
+          'date',
+          'hash'
+        ],
         populate: {
-          path: 'tips.postId'
+          path: 'donor'
         },
         populate: {
-          path: 'tips.donor'
-        },
-        populate: {
-          path: 'tips.donorAccount'
-        },
-        populate: {
-          path: 'tips.recipient'
-        },
-        populate: {
-          path: 'tips.recipientAccount'
+          path: 'recipient'
         }
       });
 
@@ -219,48 +203,38 @@ const getPostByHash = async txHash => {
         select: [
           'postId',
           'postHash',
-          'user',
           'userAccount',
-          'amount',
           'date',
           'hash',
           'content'
         ],
         populate: {
-          path: 'comments.user'
-        },
-        populate: {
-          path: 'comments.userAccount'
+          path: 'user'
         }
       })
       .populate({
         path: 'likes',
+        select: ['postId', 'postHash', 'userAccount', 'date', 'hash'],
         populate: {
-          path: 'likes.postId'
-        },
-        populate: {
-          path: 'likes.user'
-        },
-        populate: {
-          path: 'likes.userAccount'
+          path: 'user'
         }
       })
       .populate({
         path: 'tips',
+        select: [
+          'postId',
+          'postHash',
+          'donorAccount',
+          'recipientAccount',
+          'amount',
+          'date',
+          'hash'
+        ],
         populate: {
-          path: 'tips.postId'
+          path: 'donor'
         },
         populate: {
-          path: 'tips.donor'
-        },
-        populate: {
-          path: 'tips.donorAccount'
-        },
-        populate: {
-          path: 'tips.recipient'
-        },
-        populate: {
-          path: 'tips.recipientAccount'
+          path: 'recipient'
         }
       });
 
@@ -290,48 +264,38 @@ const getPostsByAccount = async (account, cursor) => {
         select: [
           'postId',
           'postHash',
-          'user',
           'userAccount',
-          'amount',
           'date',
           'hash',
           'content'
         ],
         populate: {
-          path: 'comments.user'
-        },
-        populate: {
-          path: 'comments.userAccount'
+          path: 'user'
         }
       })
       .populate({
         path: 'likes',
+        select: ['postId', 'postHash', 'userAccount', 'date', 'hash'],
         populate: {
-          path: 'likes.postId'
-        },
-        populate: {
-          path: 'likes.user'
-        },
-        populate: {
-          path: 'likes.userAccount'
+          path: 'user'
         }
       })
       .populate({
         path: 'tips',
+        select: [
+          'postId',
+          'postHash',
+          'donorAccount',
+          'recipientAccount',
+          'amount',
+          'date',
+          'hash'
+        ],
         populate: {
-          path: 'tips.postId'
+          path: 'donor'
         },
         populate: {
-          path: 'tips.donor'
-        },
-        populate: {
-          path: 'tips.donorAccount'
-        },
-        populate: {
-          path: 'tips.recipient'
-        },
-        populate: {
-          path: 'tips.recipientAccount'
+          path: 'recipient'
         }
       });
 
@@ -373,6 +337,16 @@ const getAccountNextCursor = async (account, cursor) => {
   }
 };
 
+const checkIfPostTxExistsInDB = async hash =>
+  new Promise(async function (resolve, reject) {
+    try {
+      const result = await Post.findOne({ hash });
+      resolve(!!result);
+    } catch (error) {
+      reject(error);
+    }
+  });
+
 module.exports = {
   getPostTransaction,
   savePostToDB,
@@ -381,5 +355,6 @@ module.exports = {
   getPostByHash,
   getPostsByAccount,
   getNextCursor,
-  getAccountNextCursor
+  getAccountNextCursor,
+  checkIfPostTxExistsInDB
 };
