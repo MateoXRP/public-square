@@ -13,6 +13,7 @@ const router = express.Router();
 // @access  Public
 router.post('/tx', async (req, res) => {
   const { amount, currency, postHash, recipientAccount, userToken } = req.body;
+  console.log('tip data: ', req.body);
 
   try {
     const tipData = string2Hex(postHash);
@@ -33,14 +34,11 @@ router.post('/tx', async (req, res) => {
         Amount: getTxAmount(currency, amount),
         Memos: memosField
       },
-      custom_meta: {
-        identifier: `tips`
-      },
       options: {
         submit: true,
         expire: 1440,
         return_url: {
-          web: `${appBaseUrl}/tip?identifier={cid}&payload={id}`
+          web: `https://pub-sq-test.herokuapp.com/pending?payload={id}`
         }
       }
     };
@@ -49,11 +47,13 @@ router.post('/tx', async (req, res) => {
       payloadConfig.user_token = userToken;
     }
 
+    console.log(payloadConfig);
+
     // submit transaction using xumm
     const data = await sendPayload(payloadConfig);
 
     // log result
-    console.log(`tip for post ${postHash} submitted`);
+    console.log(`tip tx for post ${postHash} submitted`);
 
     res.send(data);
   } catch (error) {
@@ -70,7 +70,7 @@ router.post('/', async (req, res) => {
   try {
     // get tip data
     const tipData = await getTipTransaction(payloadId);
-
+    console.log('tipData: ', tipData);
     if (tipData.tipFailed) {
       res.json({});
     }

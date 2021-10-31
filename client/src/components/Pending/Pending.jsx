@@ -18,7 +18,7 @@ const Pending = () => {
       }
     };
 
-    const body = JSON.stringify(payloadId);
+    const body = JSON.stringify({ payloadId });
 
     try {
       const result = await axios.post(`/api/tips`, body, config);
@@ -34,6 +34,11 @@ const Pending = () => {
       console.log('payloadId: ', payloadId);
       const result = await getDataAndSaveTx(payloadId);
 
+      if (result.postHash) {
+        history.push(`/p/${result.postHash}`);
+      } else {
+        history.push('/');
+      }
       return result;
     }
 
@@ -41,13 +46,7 @@ const Pending = () => {
       console.log('payload id not available');
       history.push('/');
     } else {
-      const { postHash } = completeTxProcessing(payloadId);
-
-      if (postHash) {
-        history.push(`/p/${postHash}`);
-      } else {
-        history.push('/');
-      }
+      completeTxProcessing(payloadId);
     }
   }, [payloadId, history]);
 
