@@ -5,8 +5,7 @@ const config = {
   headers: {
     'content-type': 'application/json',
     'x-bithomp-token': bithompApiKey
-  },
-  timeout: 1000
+  }
 };
 
 const baseURL = `https://bithomp.com/api/v2`;
@@ -18,27 +17,25 @@ const baseURL = `https://bithomp.com/api/v2`;
  */
 const getBithompUsername = async account =>
   new Promise(async function (resolve, reject) {
-    console.log('getting username...');
+    // console.log('getting username...');
     try {
       const result = await axios.get(
         `${baseURL}/address/${account}?username=true`,
         config
       );
 
+      // console.log('result.data: ', result.data);
       if (result.data.username) {
         console.log(`username found: ${result.data.username}`);
       }
-      // if (!result.data.username) {
-      //   console.log(`No username found for: ${address}`);
-      // }
 
       const { username } = result.data;
 
-      resolve(username);
+      return resolve(username);
     } catch (error) {
       console.log('bithomp error: ', error.message);
 
-      reject(null);
+      return reject(null);
     }
   });
 
@@ -53,8 +50,6 @@ async function getTransaction(transaction) {
       `${baseURL}/transaction/${transaction}`,
       config
     );
-
-    // TODO: determine if result contains tx metadata
 
     return result;
   } catch (error) {
