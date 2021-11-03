@@ -71,11 +71,11 @@ const getUserInfo = async account =>
         const newUser = new User(userData);
         await newUser.save();
 
-        resolve(userInfo);
+        return resolve(userInfo);
       }
     } catch (error) {
       console.log('error: ', error);
-      reject(error);
+      return reject(error);
     }
   });
 

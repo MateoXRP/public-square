@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
   account: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   gravatarURL: {
     type: String,
