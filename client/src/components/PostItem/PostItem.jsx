@@ -3,21 +3,24 @@ import { Link, useLocation } from 'react-router-dom';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import parseISO from 'date-fns/parseISO';
 
-const PostItem = ({ data }) => {
+import { getTxDisplayAmount } from '../../util/tx-data';
+
+const PostItem = props => {
   let location = useLocation();
 
-  const { account, amount, date, gravatarURL, hash, memoData, username } = data;
+  const { author, amount, content, date, hash } = props.data;
 
   const parsedDate = parseISO(date);
   const timeToNow = formatDistanceToNow(parsedDate);
+  const parsedAmount = getTxDisplayAmount(amount);
 
-  const Username = username ? (
+  const Username = author.username ? (
     <div className='d-flex flex-column flex-sm-row align-items-baseline'>
-      <span className='me-3'>{username}</span>
-      <span className='fs-smaller'>{account}</span>
+      <span className='me-3'>{author.username}</span>
+      <span className='fs-smaller'>{author.account}</span>
     </div>
   ) : (
-    <span className='fs-smaller'>{account}</span>
+    <span className='fs-smaller'>{author.account}</span>
   );
 
   return (
@@ -25,7 +28,7 @@ const PostItem = ({ data }) => {
       <div className='card-body'>
         <div className='d-flex align-items-center mb-2'>
           <img
-            src={gravatarURL}
+            src={author.gravatarURL}
             className='rounded-circle img-thumbnail'
             alt=''
           />
@@ -33,12 +36,12 @@ const PostItem = ({ data }) => {
             {location.pathname === '/' ? (
               <Link
                 to={{
-                  pathname: `/u/${account}`,
+                  pathname: `/u/${author.account}`,
                   state: {
                     user: {
-                      account,
-                      gravatarURL,
-                      username
+                      account: author.account,
+                      gravatarURL: author.gravatarURL,
+                      username: author.username
                     }
                   }
                 }}
@@ -59,7 +62,7 @@ const PostItem = ({ data }) => {
 
         <div
           className='post-content my-3'
-          dangerouslySetInnerHTML={{ __html: memoData }}
+          dangerouslySetInnerHTML={{ __html: content }}
         />
       </div>
 
@@ -75,7 +78,7 @@ const PostItem = ({ data }) => {
             {hash}
           </a>
         </div>
-        <div>Amount: {amount}</div>
+        <div>Amount: {parsedAmount}</div>
       </div>
       <div className='card-footer text-muted'>
         <Link

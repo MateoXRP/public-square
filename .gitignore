@@ -21,6 +21,7 @@ node_modules/
 
 # dev
 secret.*
+*.dev.js
 /util/dev
 /dev
 

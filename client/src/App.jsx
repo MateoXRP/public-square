@@ -7,6 +7,8 @@ import FAQ from './components/FAQ';
 import NotFound from './components/NotFound';
 import Post from './components/Post';
 import PostFeed from './components/PostFeed';
+import Processing from './components/Processing';
+import Pending from './components/Pending';
 import Signin from './components/Signin';
 import SigningIn from './components/SigningIn';
 import Topnav from './components/Topnav';
@@ -25,8 +27,10 @@ function App() {
         <div className='scroll-wrapper'>
           <div className='scroll-container'>
             <Switch>
-              <Route exact path='/p/:id' component={Post} />
+              <Route exact path='/p/:hash' component={Post} />
               <Route exact path='/' component={PostFeed} />
+              <Route exact path='/processing' component={Processing} />
+              <Route exact path='/pending' component={Pending} />
               <Route exact path='/u/:account' component={UserPosts} />
               <Route exact path='/signin' component={Signin} />
               <Route exact path='/signing-in' component={SigningIn} />

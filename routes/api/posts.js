@@ -1,24 +1,22 @@
 const express = require('express');
+const { v4: uuidv4 } = require('uuid');
 
 const { appBaseUrl, appWalletAddress } = require('../../config/keys');
 
-const {
-  getAccountTxByLimit,
-  getAccountTxByMarker
-} = require('../../services/xrpl-client');
 const { getTxAmount, sendPayload } = require('../../services/xumm');
 
-const isBlacklisted = require('../../util/is-blacklisted');
+const { string2Hex } = require('../../util/tx-data');
 
 const {
-  getPostComments,
-  getPostData,
-  getPostLikes,
+  getPostTransaction,
+  savePostToDB,
   getPosts,
+  getPostById,
+  getPostByHash,
   getPostsByAccount,
-  postByIdFilter,
-  string2Hex
-} = require('../../util/tx-data');
+  getNextCursor,
+  getAccountNextCursor
+} = require('../../controllers/posts');
 
 const router = express.Router();
 
@@ -29,24 +27,11 @@ router.get('/', async (req, res) => {
   const cursor = Number.parseInt(req.query.cursor);
 
   try {
-    const { transactions } = await getAccountTxByLimit(5000);
-
-    if (!transactions) {
-      return res.status(404).json({
-        error: {
-          ref: id,
-          code: 404,
-          message: 'Error retrieving transactions'
-        }
-      });
-    }
-
-    const result = await getPosts(transactions, cursor);
-
-    const response = { data: result.posts };
-
-    if (result.nextCursor) {
-      response.nextCursor = result.nextCursor;
+    const result = await getPosts(cursor);
+    const response = { data: result };
+    const nextCursor = await getNextCursor(cursor);
+    if (nextCursor) {
+      response.nextCursor = nextCursor;
     }
 
     res.send(response);
@@ -56,59 +41,37 @@ router.get('/', async (req, res) => {
   }
 });
 
-// @route   GET api/posts/:id
+// @route   GET api/posts/tx/:txHash
 // @desc    Fetch post data
 // @access  Public
-router.get('/:id', async (req, res) => {
+router.get('/tx/:txHash', async (req, res) => {
+  const { txHash } = req.params;
+  try {
+    // get post data
+    const result = await getPostByHash(txHash);
+
+    const response = { post: result };
+
+    res.send(response);
+  } catch (error) {
+    console.error(error);
+    res.send({ error });
+  }
+});
+
+// @route   GET api/posts/id/:id
+// @desc    Fetch post data
+// @access  Public
+router.get('/id/:id', async (req, res) => {
   const { id } = req.params;
-  const records = [];
-  let targetTx = null;
-  let marker = null;
 
   try {
-    if (isBlacklisted(id)) {
-      return res.status(404).json({
-        error: {
-          ref: id,
-          code: 404,
-          message: 'Post not found'
-        }
-      });
-    }
-
-    while (!targetTx) {
-      const response = await getAccountTxByMarker(1000, marker);
-
-      if (!response.transactions) {
-        return res.send({});
-      }
-
-      records.push(...response.transactions);
-
-      // look for post
-      const target = postByIdFilter(response.transactions, id);
-      // if found end loop
-      if (target) {
-        targetTx = target;
-      }
-
-      marker = response.marker;
-    }
-
     // get post data
-    const post = await getPostData(targetTx.tx);
+    const result = await getPostById(id);
 
-    if (!post) {
-      return res.send({});
-    }
+    const response = { data: result.post };
 
-    // get comments
-    const comments = await getPostComments(records, id);
-
-    // get likes
-    const likes = await getPostLikes(records, id);
-
-    res.send({ post, comments, likes });
+    res.send(response);
   } catch (error) {
     console.error(error);
     res.send({ error });
@@ -123,23 +86,13 @@ router.get('/account/:account', async (req, res) => {
   const cursor = Number.parseInt(req.query.cursor);
 
   try {
-    const { transactions } = await getAccountTxByLimit(15000);
-    if (!transactions) {
-      return res.status(404).json({
-        error: {
-          ref: id,
-          code: 404,
-          message: 'Error retrieving transactions'
-        }
-      });
-    }
+    const result = await getPostsByAccount(account, cursor);
 
-    const result = await getPostsByAccount(transactions, account, cursor);
+    const response = { data: result };
 
-    const response = { data: result.posts };
-
-    if (result.nextCursor) {
-      response.nextCursor = result.nextCursor;
+    const nextCursor = await getAccountNextCursor(account, cursor);
+    if (nextCursor) {
+      response.nextCursor = nextCursor;
     }
 
     res.send(response);
@@ -149,15 +102,16 @@ router.get('/account/:account', async (req, res) => {
   }
 });
 
-// @route   POST api/posts
-// @desc    Create post
+// @route   POST api/posts/tx
+// @desc    Submit post tx
 // @access  Public
-router.post('/', async (req, res) => {
+router.post('/tx', async (req, res) => {
   const { postContent, currency, userToken } = req.body;
-
   try {
     // convert text to hex
     const postData = string2Hex(postContent).toUpperCase();
+    // generate cid
+    const identifierStr = uuidv4().slice(9);
 
     // create payload
     const memosField = [
@@ -176,11 +130,14 @@ router.post('/', async (req, res) => {
         Amount: getTxAmount(currency),
         Memos: memosField
       },
+      custom_meta: {
+        identifier: `posts-${identifierStr}`
+      },
       options: {
         submit: true,
         expire: 1440,
         return_url: {
-          web: appBaseUrl
+          web: `${appBaseUrl}/processing?identifier={cid}&hash={txid}`
         }
       }
     };
@@ -192,13 +149,32 @@ router.post('/', async (req, res) => {
     // submit transaction using xumm
     const data = await sendPayload(payloadConfig);
 
-    // log activity
-    console.log(`new post submitted`);
-
+    console.log(`new post tx submitted`);
     res.send(data);
   } catch (error) {
     console.error(error);
-    res.send({ error });
+    res.send({ error: error.response.data });
+  }
+});
+
+// @route   POST api/posts
+// @desc    Create post record
+// @access  Public
+router.post('/', async (req, res) => {
+  const { txHash } = req.body;
+
+  try {
+    // get post data
+    const post = await getPostTransaction(txHash);
+
+    // create/save post
+    const { postHash } = await savePostToDB(post.tx);
+
+    // return post hash for redirect
+    res.json({ postHash });
+  } catch (error) {
+    console.error(error);
+    res.json({});
   }
 });
 

@@ -1,7 +1,10 @@
 const express = require('express');
 const path = require('path');
+const connectDB = require('./services/mongodb');
 
 const app = express();
+
+connectDB();
 
 // Initialize middleware
 app.use(express.json({ extended: false }));

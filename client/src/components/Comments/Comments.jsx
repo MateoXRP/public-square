@@ -4,7 +4,7 @@ import parseISO from 'date-fns/parseISO';
 
 import CommentForm from '../CommentForm';
 
-const Comments = ({ comments, postId }) => {
+const Comments = ({ comments, postHash }) => {
   const [showForm, setShowForm] = useState(false);
   const toggleShowForm = () => setShowForm(!showForm);
 
@@ -36,12 +36,13 @@ const Comments = ({ comments, postId }) => {
         </button>
       </p>
 
-      <div>{showForm && <CommentForm postId={postId} />}</div>
+      <div>{showForm && <CommentForm postHash={postHash} />}</div>
 
       <ul className='list-group list-group-flush'>
         {comments.map(comment => {
-          const { account, date, gravatarURL, hash, memoData, username } =
-            comment;
+          const { content, date, hash, user, userAccount } = comment;
+          const { gravatarURL, username } = user;
+
           const parsedDate = parseISO(date);
           const timeToNow = formatDistanceToNow(parsedDate);
 
@@ -56,10 +57,12 @@ const Comments = ({ comments, postId }) => {
                   {username ? (
                     <div className='d-flex flex-column flex-sm-row align-items-baseline'>
                       <span className='me-3'>{username}</span>
-                      <span className='fs-smaller text-muted'>{account}</span>
+                      <span className='fs-smaller text-muted'>
+                        {userAccount}
+                      </span>
                     </div>
                   ) : (
-                    <span className='fs-smaller'>{account}</span>
+                    <span className='fs-smaller'>{userAccount}</span>
                   )}
 
                   <div
@@ -70,7 +73,7 @@ const Comments = ({ comments, postId }) => {
               </div>
               <div
                 className='my-3'
-                dangerouslySetInnerHTML={{ __html: memoData }}
+                dangerouslySetInnerHTML={{ __html: content }}
               />
             </li>
           );

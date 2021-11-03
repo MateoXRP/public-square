@@ -1,21 +1,30 @@
 const express = require('express');
+const { v4: uuidv4 } = require('uuid');
 
 const { appBaseUrl, appWalletAddress } = require('../../config/keys');
 
 const { getTxAmount, sendPayload } = require('../../services/xumm');
 
 const { string2Hex } = require('../../util/tx-data');
+const {
+  getCommentTransaction,
+  saveCommentToDB
+} = require('../../controllers/comments');
 
 const router = express.Router();
 
-// @route   POST api/comments
+// @route   POST api/comments/tx
 // @desc    Create comment to post
 // @access  Public
-router.post('/', async (req, res) => {
-  const { commentContent, currency, postId, userToken } = req.body;
+router.post('/tx', async (req, res) => {
+  const { commentContent, currency, postHash, userToken } = req.body;
 
   try {
-    const commentData = string2Hex(`${postId} ${commentContent}`).toUpperCase();
+    const commentData = string2Hex(
+      `${postHash} ${commentContent}`
+    ).toUpperCase();
+    // generate cid
+    const identifierStr = uuidv4().slice(9);
 
     // create payload
     const memosField = [
@@ -34,11 +43,14 @@ router.post('/', async (req, res) => {
         Amount: getTxAmount(currency),
         Memos: memosField
       },
+      custom_meta: {
+        identifier: `comments-${identifierStr}`
+      },
       options: {
         submit: true,
         expire: 1440,
         return_url: {
-          web: `${appBaseUrl}/p/${postId}`
+          web: `${appBaseUrl}/processing?identifier={cid}&hash={txid}`
         }
       }
     };
@@ -51,12 +63,31 @@ router.post('/', async (req, res) => {
     const data = await sendPayload(payloadConfig);
 
     // log activity
-    console.log(`comment submitted on post ${postId}`);
-
+    console.log(`comment tx submitted on post ${postHash}`);
     res.send(data);
   } catch (error) {
     console.error(error);
     res.send({ error });
+  }
+});
+
+// @route   POST api/comments
+// @desc    Create comment record
+// @access  Public
+router.post('/', async (req, res) => {
+  const { txHash } = req.body;
+  try {
+    // get comment data
+    const comment = await getCommentTransaction(txHash);
+
+    // create/save comment
+    const { postHash } = await saveCommentToDB(comment.tx);
+
+    // return target post hash for redirect
+    res.json({ postHash });
+  } catch (error) {
+    console.error(error);
+    res.json({});
   }
 });
 

@@ -3,8 +3,7 @@ const express = require('express');
 const { appBaseUrl } = require('../../config/app-config');
 
 const { sendPayload, getPayload } = require('../../services/xumm');
-
-const { getUserInfo } = require('../../util/tx-data');
+const { getUserInfo } = require('../../controllers/users');
 
 const router = express.Router();
 
@@ -45,7 +44,7 @@ router.post('/signin', async (req, res) => {
 // @access  Public
 router.get('/data', async (req, res) => {
   const { id } = req.query;
-
+  console.log(`user/data route: ${id}`);
   try {
     // confirm transaction using xumm
     const data = await getPayload(id);
@@ -68,9 +67,8 @@ router.get('/data', async (req, res) => {
 // @access  Public
 router.get('/info', async (req, res) => {
   const { account } = req.query;
-
+  // console.log('user/info route: ', account);
   try {
-    // confirm transaction using xumm
     const userInfo = await getUserInfo(account);
 
     // check result

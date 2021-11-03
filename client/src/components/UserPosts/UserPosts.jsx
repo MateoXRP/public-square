@@ -23,6 +23,7 @@ const UserPosts = () => {
       getNextPageParam: (lastPage, pages) => lastPage.nextCursor
     });
 
+  // console.log('data: ', data);
   if (error) {
     console.log('error: ', error);
   }
@@ -63,9 +64,7 @@ const UserPosts = () => {
   const isDataStale =
     data &&
     data.pages[0].data.length > 0 &&
-    account !== data.pages[0].data[0].account;
-
-  // console.log('isDataStale: ', isDataStale);
+    account !== data.pages[0].data[0].userAccount;
 
   return (
     <div className='container'>
