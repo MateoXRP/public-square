@@ -1,6 +1,6 @@
 // App base URL
 // used by xumm service for redirect back to app after payload/tx approval
-const appBaseUrl = 'https://pub-sq.herokuapp.com';
+const appBaseUrl = 'https://ps.mg.social';
 
 // App wallet address
 // Receives all fees (but not tips)
