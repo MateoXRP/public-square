@@ -6,7 +6,7 @@ const submitFeeSettings = {
     amount: 0.01,
 
     // label: text shown on currency selector
-    label: '0.01 XRP'
+    label: '1.0 XRP'
   },
   MGS: {
     amount: 1.0,
