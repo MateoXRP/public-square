@@ -4,7 +4,7 @@ const currencySubmitFees = {
   XRP: {
     // amount: fee charged for submitting post/comment/like
     // in drops: 0.01 XRP = 10,000
-    amount: '10000'
+    amount: '1000000'
   },
   MGS: {
     amount: 1.0
